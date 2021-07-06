@@ -34,25 +34,4 @@ public class TrivialTest {
         assertEquals(world.getHeight(), 2);
 
     }
-    @Test
-    public void test_enemies(){
-        List<Pair<Integer, Integer>> path = new ArrayList<>();
-        Pair <Integer, Integer> path_tile = new Pair<Integer,Integer>(0, 0);
-        Pair<Integer, Integer> path_tile1 = new Pair<Integer, Integer>(1, 0);
-        Pair<Integer, Integer> path_tile2 = new Pair<Integer, Integer>(1, 1);
-        Pair<Integer, Integer> path_tile3 = new Pair<Integer, Integer>(1, 0);
-        // Pair<Integer, Integer> path_tile = new Pair<Integer, Integer>(1, 1);
-        // Pair<Integer, Integer> path_tile1 = new Pair<Integer, Integer>(2, 1);
-        // Pair<Integer, Integer> path_tile2 = new Pair<Integer, Integer>(2, 2);
-        // Pair<Integer, Integer> path_tile3 = new Pair<Integer, Integer>(2, 1);
-        path.add(path_tile);
-        path.add(path_tile1);
-        path.add(path_tile2);
-        path.add(path_tile3);
-
-        LoopManiaWorld world = new LoopManiaWorld(5, 5, path);
-        System.out.println(world.possiblySpawnEnemies());
-
-
-    }
 }
