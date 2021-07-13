@@ -25,10 +25,10 @@ public class Character extends MovingEntity {
 
     public void regen(int health) {
         if (health + hp > maxHp) {
-            health = maxHp;
+            hp = maxHp;
         }
         else {
-            hp = maxHp;
+            hp += health;
         }
     }
 
