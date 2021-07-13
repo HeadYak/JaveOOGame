@@ -8,4 +8,7 @@ public class Trap extends Building{
         super(x, y);
     }
     
+    public void trap(BasicEnemy enemy) {
+        enemy.damage(60);
+    }
 }
