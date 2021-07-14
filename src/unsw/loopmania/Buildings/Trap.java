@@ -1,6 +1,8 @@
-package unsw.loopmania;
+package unsw.loopmania.Buildings;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.BasicEnemy;
+import unsw.loopmania.Building;
 
 public class Trap extends Building{
 

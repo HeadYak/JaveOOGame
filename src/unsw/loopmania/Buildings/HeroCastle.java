@@ -1,8 +1,9 @@
-package unsw.loopmania;
+package unsw.loopmania.Buildings;
 
 import java.util.ArrayList;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.Building;
 
 public class HeroCastle extends Building{
     private ArrayList<Item> shop;

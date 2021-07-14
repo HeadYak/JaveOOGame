@@ -1,6 +1,7 @@
-package unsw.loopmania;
+package unsw.loopmania.Buildings;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.Building;
 
 public class Tower extends Building{
     private Tower tower;

@@ -1,8 +1,10 @@
-package unsw.loopmania;
+package unsw.loopmania.Buildings;
 
 import javax.swing.text.Position;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.Building;
+import unsw.loopmania.LoopManiaWorld;
 
 /**
  * a basic form of building in the world
