@@ -1,11 +1,13 @@
 package unsw.loopmania;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.movement.MoveBehaviour;
 
 /**
  * The moving entity
  */
 public abstract class MovingEntity extends Entity {
+    private MoveBehaviour moveBehaviour;
 
     /**
      * object holding position in the path
@@ -20,6 +22,16 @@ public abstract class MovingEntity extends Entity {
         super();
         this.position = position;
     }
+
+    /**
+     * Setter for move behaviour
+     * @param moveBehaviour move behaviour we want to implement
+     */
+    public void setMoveBehaviour(MoveBehaviour moveBehaviour) {
+        this.moveBehaviour = moveBehaviour;
+    }
+
+    public void 
 
     /**
      * move clockwise through the path
