@@ -6,7 +6,7 @@ import unsw.loopmania.Character;
 import unsw.loopmania.BasicEnemy;
 
 public class Barracks extends Building{
-    public Building(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+    public Barracks(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
     }
 

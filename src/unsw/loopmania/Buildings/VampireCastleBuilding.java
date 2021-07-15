@@ -42,23 +42,24 @@ public class VampireCastleBuilding extends Building implements Spawn{
 
     @Override
     public void interact(Character character) {
+        character.activateMobSupport();
     }
 
     @Override
     public Boolean canInteract(Character character) {
+        if (range > Math.sqrt((character.getX() - getX())^2 + (character.getY() - getY())^2)) {
+            return true;
+        }
+        character.deactivateMobSupport();
         return false;
     }
 
     @Override
     public void interactMob(BasicEnemy enemy) {
-        enemy.activateSupport();
     }
 
     @Override
     public Boolean canInteractMob(BasicEnemy enemy) {
-        if (range > Math.sqrt((enemy.getX() - getX())^2 + (enemy.getY() - getY())^2)) {
-            return true;
-        }
-        enemy.deactivateSupport();
         return false;
+    }
 }
