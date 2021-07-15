@@ -3,10 +3,15 @@ package unsw.loopmania;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.lang.Math; 
 
+import javax.swing.text.Position;
+
+import org.graalvm.compiler.core.common.type.ArithmeticOpTable.UnaryOp.Sqrt;
 import org.javatuples.Pair;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.Buildings.VampireCastleBuilding;
 
 /**
  * A backend world.
@@ -347,5 +352,23 @@ public class LoopManiaWorld {
         shiftCardsDownFromXCoordinate(cardNodeX);
 
         return newBuilding;
+    }
+
+    public PathPosition findClosestPathTile(int x, int y) {
+        double smallestDistance = 999;
+        int indexInPath = 0;
+        for (Pair<Integer, Integer> p : orderedPath) {
+            double distance = Math.sqrt((p.getValue0() - x)^2 + (p.getValue1() - y)^2);
+            if (distance < smallestDistance) {
+                indexInPath = orderedPath.indexOf(p);
+                smallestDistance = distance;
+            }
+        }
+        PathPosition closest = new PathPosition(indexInPath, orderedPath);
+        return closest;
+    }
+
+    public void addEnemy(BasicEnemy enemy) {
+        enemies.add(enemy);
     }
 }

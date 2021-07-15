@@ -1,5 +1,7 @@
 package unsw.loopmania;
 
+import java.util.ArrayList;
+
 /**
  * represents the main character in the backend of the game world
  */
@@ -8,11 +10,15 @@ public class Character extends MovingEntity {
     private int maxHp;
     private boolean buffed;
     private int gold;
+    private ArrayList<Ally> allyList;
+    private Boolean isSupported;
+    private Boolean mobSupport;
     // TODO = potentially implement relationships between this class and other classes
     public Character(PathPosition position) {
         super(position);
         hp = 100;
         maxHp = 100;
+        allyList = new ArrayList<Ally>();
     }
 
     public int getHp() {
@@ -50,5 +56,37 @@ public class Character extends MovingEntity {
 
     public int getGold() {
         return gold;
+    }
+    public ArrayList<Ally> getAllyList() {
+        return allyList;
+    }
+    public void recruitAlly(Ally ally) {
+        if (allyList.size() < 3) {
+            allyList.add(ally);
+        }
+    }
+
+    public void activateSupport() {
+        isSupported = true;
+    }
+
+    public void deactivateSupport() {
+        isSupported = false;
+    }
+
+    public Boolean getIsSupported() {
+        return isSupported;
+    }
+
+    public void activateMobSupport() {
+        mobSupport = true;
+    }
+
+    public void deactivateMobSupport() {
+        mobSupport = false;
+    }
+
+    public Boolean getMobSupported() {
+        return mobSupport;
     }
 }
