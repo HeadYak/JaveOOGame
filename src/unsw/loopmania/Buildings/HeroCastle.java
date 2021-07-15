@@ -43,9 +43,9 @@ public class HeroCastle extends Building{
     }
 
     public void purchaseItem(Character character, Item item) {
-        if (character.getGold() > item.getValue()) {
+        if (character.getGold() > item.getGoldValue()) {
             shop.remove(item);
-            character.spend(item.getValue());
+            character.spend(item.getGoldValue());
         }
     }
 
