@@ -17,5 +17,6 @@ public class ZombiePit extends Building implements Spawn{
     @Override
     public void spawn(int loops, LoopManiaWorld world) {
         Zombie newZombie = new Zombie(world.findClosestPathTile(getX(), getY()));
+        world.addEnemy(newZombie);
     }
 }

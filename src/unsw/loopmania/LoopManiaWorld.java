@@ -356,17 +356,19 @@ public class LoopManiaWorld {
 
     public PathPosition findClosestPathTile(int x, int y) {
         double smallestDistance = 999;
-        int positionX = 0;
-        int positionY = 0;
+        int indexInPath = 0;
         for (Pair<Integer, Integer> p : orderedPath) {
             double distance = Math.sqrt((p.getValue0() - x)^2 + (p.getValue1() - y)^2);
             if (distance < smallestDistance) {
-                positionX = p.getValue0();
-                positionY = p.getValue1();
+                indexInPath = orderedPath.indexOf(p);
                 smallestDistance = distance;
             }
         }
-        PathPosition closest = new 
+        PathPosition closest = new PathPosition(indexInPath, orderedPath);
         return closest;
+    }
+
+    public void addEnemy(BasicEnemy enemy) {
+        enemies.add(enemy);
     }
 }

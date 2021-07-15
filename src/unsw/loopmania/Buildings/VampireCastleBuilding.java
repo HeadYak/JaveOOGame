@@ -30,6 +30,7 @@ public class VampireCastleBuilding extends Building implements Spawn{
     public void spawn(int loops, LoopManiaWorld world) {
         if (loops % loopReq == 0) {
             Vampire newVampire = new Vampire(world.findClosestPathTile(getX(), getY()));
+            world.addEnemy(newVampire);
         }
     }
 }
