@@ -14,6 +14,15 @@ public class HeroCastle extends Building{
         generateNewShop();
     }
 
+    @Override
+    public int getRange() {
+        return 0;
+    }
+
+    @Override
+    public Boolean getIsSpawner() {
+        return false;
+    }
     public void generateNewShop() {
         ArrayList<Item> newShop = new ArrayList<Item>();
         for (int i = 0; i < 3; i++) {

@@ -10,20 +10,24 @@ import unsw.loopmania.LoopManiaWorld;
  * a basic form of building in the world
  */
 public class VampireCastleBuilding extends Building implements Spawn{
-    private Vampire vampire;
-    private int range;
     private int loopReq;
+    private int range;
     // TODO = add more types of building, and make sure buildings have effects on entities as required by the spec
+    
     public VampireCastleBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
-        vampire = new Vampire();
         range = 1;
         loopReq = 5;
-        isSpawner = true;
     }
 
+    @Override
     public int getRange() {
         return range;
+    }
+
+    @Override
+    public Boolean getIsSpawner() {
+        return false;
     }
 
     @Override

@@ -11,8 +11,14 @@ public class Campfire extends Building{
         range = 1;
     }
 
+    @Override
     public int getRange() {
         return range;
+    }
+
+    @Override
+    public Boolean getIsSpawner() {
+        return false;
     }
 
     public void buff(Character character) {

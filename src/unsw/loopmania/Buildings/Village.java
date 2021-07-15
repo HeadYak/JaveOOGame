@@ -12,4 +12,14 @@ public class Village extends Building{
     public void heal(Character character) {
         character.regen(20);
     }
+
+    @Override
+    public int getRange() {
+        return 0;
+    }
+
+    @Override
+    public Boolean getIsSpawner() {
+        return false;
+    }
 }

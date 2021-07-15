@@ -13,4 +13,14 @@ public class Barracks extends Building{
         Ally newAlly = new Ally();
         character.recruitAlly(newAlly);
     }
+
+    @Override
+    public int getRange() {
+        return 0;
+    }
+
+    @Override
+    public Boolean getIsSpawner() {
+        return false;
+    }
 }
