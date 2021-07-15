@@ -27,10 +27,15 @@ public class Campfire extends Building{
 
     @Override
     public void interact(Character character) {
+        character.activateBuff();
     }
 
     @Override
-    public Boolean canInteract() {
+    public Boolean canInteract(Character character) {
+        if (range > Math.sqrt((character.getX() - getX())^2 + (character.getY() - getY())^2)) {
+            return true;
+        }
+        character.deactivateBuff();
         return false;
     }
 }

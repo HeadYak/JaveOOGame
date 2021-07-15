@@ -30,7 +30,7 @@ public class Trap extends Building{
     }
 
     @Override
-    public Boolean canInteract() {
+    public Boolean canInteract(Character character) {
         return false;
     }
 }

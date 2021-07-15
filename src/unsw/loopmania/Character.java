@@ -11,6 +11,7 @@ public class Character extends MovingEntity {
     private boolean buffed;
     private int gold;
     private ArrayList<Ally> allyList;
+    private Boolean isSupported;
     // TODO = potentially implement relationships between this class and other classes
     public Character(PathPosition position) {
         super(position);
@@ -62,5 +63,17 @@ public class Character extends MovingEntity {
         if (allyList.size() < 3) {
             allyList.add(ally);
         }
+    }
+
+    public void activateSupport() {
+        isSupported = true;
+    }
+
+    public void deactivateSupport() {
+        isSupported = false;
+    }
+
+    public Boolean getIsSupported() {
+        return isSupported;
     }
 }

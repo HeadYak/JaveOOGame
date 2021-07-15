@@ -32,7 +32,7 @@ public class Barracks extends Building{
     }
 
     @Override
-    public Boolean canInteract() {
+    public Boolean canInteract(Character character) {
         return true;
     }
 }

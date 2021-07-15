@@ -31,7 +31,7 @@ public class Village extends Building{
     }
 
     @Override
-    public Boolean canInteract() {
+    public Boolean canInteract(Character character) {
         return true;
     }
 }

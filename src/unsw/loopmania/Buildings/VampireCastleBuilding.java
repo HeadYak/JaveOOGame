@@ -44,7 +44,7 @@ public class VampireCastleBuilding extends Building implements Spawn{
     }
 
     @Override
-    public Boolean canInteract() {
+    public Boolean canInteract(Character character) {
         return false;
     }
 }
