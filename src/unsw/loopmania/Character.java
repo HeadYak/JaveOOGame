@@ -1,6 +1,7 @@
 package unsw.loopmania;
 
 import java.util.ArrayList;
+import unsw.loopmania.Items.Weapon;
 
 /**
  * represents the main character in the backend of the game world
@@ -13,12 +14,20 @@ public class Character extends MovingEntity {
     private ArrayList<Ally> allyList;
     private Boolean isSupported;
     private Boolean mobSupport;
+    private Weapon equippedWeapon;
     // TODO = potentially implement relationships between this class and other classes
     public Character(PathPosition position) {
         super(position);
         hp = 100;
         maxHp = 100;
         allyList = new ArrayList<Ally>();
+    }
+    public Weapon getWeapon(){
+        return equippedWeapon;
+    }
+
+    public void setWeapon(Weapon newWeapon){
+        this.equippedWeapon = newWeapon;
     }
 
     public int getHp() {

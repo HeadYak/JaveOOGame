@@ -12,7 +12,7 @@ public class ZombiePit extends Building implements Spawn{
 
     public ZombiePit(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
-        zombie = new ZombiePit();
+        zombie = new ZombiePit(x, y);
     }
 
     @Override
