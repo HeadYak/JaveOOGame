@@ -27,7 +27,7 @@ public class VampireCastleBuilding extends Building implements Spawn{
 
     @Override
     public Boolean getIsSpawner() {
-        return false;
+        return true;
     }
 
     @Override

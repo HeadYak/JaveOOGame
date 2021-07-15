@@ -19,4 +19,14 @@ public class ZombiePit extends Building implements Spawn{
         Zombie newZombie = new Zombie(world.findClosestPathTile(getX(), getY()));
         world.addEnemy(newZombie);
     }
+
+    @Override
+    public int getRange() {
+        return 0;
+    }
+
+    @Override
+    public Boolean getIsSpawner() {
+        return true;
+    }
 }
