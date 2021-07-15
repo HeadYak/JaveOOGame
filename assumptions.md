@@ -15,3 +15,11 @@
     - Vampires initially move in the opposite direction of the character at double the rate. If it encounters a campfire, it reverse direction
 
 * Equipments character has equipped: The character can only equip one of each item type (weapon, armour, shields and helmets)
+
+* The shop only contains three items
+
+* Buffs from campfires do not stack, as does support from support buildings
+
+* Buildings that can spawn enemies spawn them on the closest path tile
+
+* Ally units do not appear on paths etc but appear like items and will only be used in conflict
