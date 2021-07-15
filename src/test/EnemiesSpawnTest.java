@@ -17,42 +17,46 @@ public class EnemiesSpawnTest {
     @Test
     public void testSlugSpawn() {
         PathPosition slugP = new PathPosition(0, path);
-        Slug slug1 = new Slug(slugP);
+        Slug slug = new Slug(slugP);
 
         // Test that slug is on the correct position
-        assertEquals(slug1.getX(), 0);
-        assertEquals(slug1.getY(), 1);
+        assertEquals(slug.getX(), 0);
+        assertEquals(slug.getY(), 1);
 
         // Test that slug has correct properties
-        assertEquals(slug1.getSpeed(), 1);
-        assertEquals(slug1.getCritChance(), 10);
+        assertEquals(slug.getMoveSpeed(), 1);
+        assertEquals(slug.getCritChance(), 10);
     }
 
     @Test
     public void testZombieSpawn() {
         PathPosition zombieP = new PathPosition(0, path);
-        Zombie zombie1 = new Zombie(zombieP);
+        Zombie zombie = new Zombie(zombieP);
 
         // Test that zombie is on the correct position
-        assertEquals(zombie1.getX(), 0);
-        assertEquals(zombie1.getY(), 1);
+        assertEquals(zombie.getX(), 0);
+        assertEquals(zombie.getY(), 1);
 
         // Test that zombie has correct properties
-        assertEquals(zombie1.getSpeed(), 0.5);
-        assertEquals(zombie1.getCritChance(), 10);
+        assertEquals(zombie.getMoveSpeed(), 1);
+        assertEquals(zombie.getCritChance(), 10);
+        assertFalse(zombie.isMoving());
+        assertEquals(zombie.getMoveCountdown(), 1);
     }
 
     @Test
     public void testVampireSpawn() {
         PathPosition vampireP = new PathPosition(0, path);
-        Vampire vampire1 = new Vampire(vampireP);
+        Vampire vampire = new Vampire(vampireP);
 
         // Test that zombie is on the correct position
-        assertEquals(vampire1.getX(), 0);
-        assertEquals(vampire1.getY(), 1);
+        assertEquals(vampire.getX(), 0);
+        assertEquals(vampire.getY(), 1);
 
         // Test that zombie has correct properties
-        assertEquals(vampire1.getSpeed(), 2);
-        assertEquals(vampire1.getCritChance(), 10);
+        assertEquals(vampire.getMoveSpeed(), 2);
+        assertEquals(vampire.getCritChance(), 10);
+        assertFalse(vampire.isBuffed());
+        assertEquals(vampire.getBuffDuration(), 0);
     }
 }
