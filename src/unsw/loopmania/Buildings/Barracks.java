@@ -9,7 +9,7 @@ public class Barracks extends Building{
         super(x, y);
     }
 
-    public addAlly(Character character) {
+    public void addAlly(Character character) {
         Ally newAlly = new Ally();
         character.recruitAlly(newAlly);
     }
@@ -22,5 +22,17 @@ public class Barracks extends Building{
     @Override
     public Boolean getIsSpawner() {
         return false;
+    }
+
+    @Override
+    public void interact(Character character) {
+        if (character.getX() == getX() && character.getY() == getY()) {
+            addAlly(character);
+        }
+    }
+
+    @Override
+    public Boolean canInteract() {
+        return true;
     }
 }

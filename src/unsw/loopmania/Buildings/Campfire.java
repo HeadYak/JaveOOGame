@@ -24,5 +24,14 @@ public class Campfire extends Building{
     public void buff(Character character) {
         character.activateBuff();
     }
+
+    @Override
+    public void interact(Character character) {
+    }
+
+    @Override
+    public Boolean canInteract() {
+        return false;
+    }
 }
 

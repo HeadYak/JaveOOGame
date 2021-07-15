@@ -22,4 +22,16 @@ public class Village extends Building{
     public Boolean getIsSpawner() {
         return false;
     }
+
+    @Override
+    public void interact(Character character) {
+        if (character.getX() == getX() && character.getY() == getY()) {
+            heal(character);
+        }
+    }
+
+    @Override
+    public Boolean canInteract() {
+        return true;
+    }
 }

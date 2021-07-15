@@ -2,6 +2,7 @@ package unsw.loopmania.Buildings;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.Building;
+import unsw.loopmania.Character;
 
 public class Tower extends Building{
     private int range;
@@ -17,6 +18,15 @@ public class Tower extends Building{
 
     @Override
     public Boolean getIsSpawner() {
+        return false;
+    }
+
+    @Override
+    public void interact(Character character) {
+    }
+
+    @Override
+    public Boolean canInteract() {
         return false;
     }
 }

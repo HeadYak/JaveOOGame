@@ -5,6 +5,7 @@ import javax.swing.text.Position;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.Building;
 import unsw.loopmania.LoopManiaWorld;
+import unsw.loopmania.Character;
 
 /**
  * a basic form of building in the world
@@ -36,5 +37,14 @@ public class VampireCastleBuilding extends Building implements Spawn{
             Vampire newVampire = new Vampire(world.findClosestPathTile(getX(), getY()));
             world.addEnemy(newVampire);
         }
+    }
+
+    @Override
+    public void interact(Character character) {
+    }
+
+    @Override
+    public Boolean canInteract() {
+        return false;
     }
 }

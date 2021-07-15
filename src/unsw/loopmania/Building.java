@@ -9,5 +9,6 @@ public abstract class Building extends StaticEntity{
 
     abstract public Boolean getIsSpawner();
     abstract public int getRange();
-
+    abstract public Boolean canInteract();
+    abstract public void interact(Character character);
 }
