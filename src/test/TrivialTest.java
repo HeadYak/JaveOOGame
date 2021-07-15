@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import unsw.loopmania.*;
 import unsw.loopmania.Character;
+import unsw.loopmania.Items.Item;
 import unsw.loopmania.Items.Sword;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -83,7 +84,5 @@ public class TrivialTest {
 
         assertEquals(newsword.getGoldValue(), 5);
 
-        // System.out.println(newsword.getGoldValue());
     }
-
 }
