@@ -11,4 +11,6 @@ public abstract class Building extends StaticEntity{
     abstract public int getRange();
     abstract public Boolean canInteract(Character character);
     abstract public void interact(Character character);
+    abstract public Boolean canInteractMob(BasicEnemy enemy);
+    abstract public void interactMob(BasicEnemy enemy);
 }

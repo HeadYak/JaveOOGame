@@ -3,6 +3,7 @@ package unsw.loopmania.Buildings;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.Building;
 import unsw.loopmania.Character;
+import unsw.loopmania.BasicEnemy;
 
 public class Campfire extends Building{
     private int range;
@@ -36,6 +37,15 @@ public class Campfire extends Building{
             return true;
         }
         character.deactivateBuff();
+        return false;
+    }
+
+    @Override
+    public void interactMob(BasicEnemy enemy) {
+    }
+
+    @Override
+    public Boolean canInteractMob(BasicEnemy enemy) {
         return false;
     }
 }

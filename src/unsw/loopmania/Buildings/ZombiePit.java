@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.Building;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.Character;
+import unsw.loopmania.BasicEnemy;
 
 public class ZombiePit extends Building implements Spawn{
     private Zombie zombie;
@@ -35,7 +36,16 @@ public class ZombiePit extends Building implements Spawn{
     }
 
     @Override
-    public Boolean canInteract() {
+    public Boolean canInteract(Character character) {
+        return false;
+    }
+
+    @Override
+    public void interactMob(BasicEnemy enemy) {
+    }
+
+    @Override
+    public Boolean canInteractMob(BasicEnemy enemy) {
         return false;
     }
 }

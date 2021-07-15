@@ -23,6 +23,7 @@ public class Trap extends Building{
     
     public void trap(BasicEnemy enemy) {
         enemy.damage(60);
+        destroy();
     }
 
     @Override
@@ -32,5 +33,15 @@ public class Trap extends Building{
     @Override
     public Boolean canInteract(Character character) {
         return false;
+    }
+
+    @Override
+    public void interactMob(BasicEnemy enemy) {
+        trap(enemy);
+    }
+
+    @Override
+    public Boolean canInteractMob(BasicEnemy enemy) {
+        return true;
     }
 }

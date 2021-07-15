@@ -6,6 +6,7 @@ import java.util.Random;
  * a basic form of enemy in the world
  */
 public class BasicEnemy extends MovingEntity {
+    private Boolean isSupported;
     // TODO = modify this, and add additional forms of enemy
     public BasicEnemy(PathPosition position) {
         super(position);
@@ -24,5 +25,17 @@ public class BasicEnemy extends MovingEntity {
         else if (directionChoice == 1){
             moveDownPath();
         }
+    }
+
+    public void activateSupport() {
+        isSupported = true;
+    }
+
+    public void deactivateSupport() {
+        isSupported = false;
+    }
+
+    public Boolean getIsSupported() {
+        return isSupported;
     }
 }

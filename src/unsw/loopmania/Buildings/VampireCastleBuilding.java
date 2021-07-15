@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.Building;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.Character;
+import unsw.loopmania.BasicEnemy;
 
 /**
  * a basic form of building in the world
@@ -47,4 +48,17 @@ public class VampireCastleBuilding extends Building implements Spawn{
     public Boolean canInteract(Character character) {
         return false;
     }
+
+    @Override
+    public void interactMob(BasicEnemy enemy) {
+        enemy.activateSupport();
+    }
+
+    @Override
+    public Boolean canInteractMob(BasicEnemy enemy) {
+        if (range > Math.sqrt((enemy.getX() - getX())^2 + (enemy.getY() - getY())^2)) {
+            return true;
+        }
+        enemy.deactivateSupport();
+        return false;
 }

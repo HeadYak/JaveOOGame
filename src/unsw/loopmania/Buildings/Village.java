@@ -3,6 +3,7 @@ package unsw.loopmania.Buildings;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.Building;
 import unsw.loopmania.Character;
+import unsw.loopmania.BasicEnemy;
 
 public class Village extends Building{
     public Village(SimpleIntegerProperty x, SimpleIntegerProperty y) {
@@ -33,5 +34,14 @@ public class Village extends Building{
     @Override
     public Boolean canInteract(Character character) {
         return true;
+    }
+
+    @Override
+    public void interactMob(BasicEnemy enemy) {
+    }
+
+    @Override
+    public Boolean canInteractMob(BasicEnemy enemy) {
+        return false;
     }
 }

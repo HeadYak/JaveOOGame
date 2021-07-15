@@ -3,6 +3,7 @@ package unsw.loopmania.Buildings;
 import java.util.ArrayList;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.BasicEnemy;
 import unsw.loopmania.Building;
 import unsw.loopmania.Character;
 
@@ -55,6 +56,15 @@ public class HeroCastle extends Building{
     @Override
     public Boolean canInteract(Character character) {
         return true;
+    }
+
+    @Override
+    public void interactMob(BasicEnemy enemy) {
+    }
+
+    @Override
+    public Boolean canInteractMob(BasicEnemy enemy) {
+        return false;
     }
     
 }
