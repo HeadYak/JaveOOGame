@@ -27,8 +27,9 @@ public class HeroCastle extends Building{
     }
     public void generateNewShop() {
         ArrayList<Item> newShop = new ArrayList<Item>();
+        Item placeHolderItem = new Item(getX(), getY())
         for (int i = 0; i < 3; i++) {
-            newShop.add(makerandomitem());
+            newShop.add(placeHolderItem.generateRandomItem());
         }
         shop = newShop;
     }
@@ -41,7 +42,6 @@ public class HeroCastle extends Building{
         if (character.getGold() > item.getValue()) {
             shop.remove(item);
             character.spend(item.getValue());
-            
         }
     }
 
