@@ -18,6 +18,7 @@ public class Character extends MovingEntity {
     private Boolean mobSupport;
     private Weapon equippedWeapon;
     private ArrayList<Item> inventory;
+    private int xp;
     // TODO = potentially implement relationships between this class and other classes
     public Character(PathPosition position) {
         super(position);
@@ -65,7 +66,20 @@ public class Character extends MovingEntity {
 
     public void buy(Item item) {
         gold -= item.getGoldValue();
+        addToInventory(item);
+    }
+
+    public void addToInventory(Item item) {
         inventory.add(item);
+        if (inventory.size() > 8) {
+            inventory.remove(0);
+            gold += 5;
+            xp += 5;
+        }
+    }
+
+    public int getXp() {
+        return xp;
     }
 
     public int getGold() {
