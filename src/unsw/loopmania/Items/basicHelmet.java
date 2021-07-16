@@ -9,5 +9,9 @@ public class basicHelmet extends Helmet {
         blockBehaviourType = new HelmetDamageBlock();
         //TODO Auto-generated constructor stub
     }
+
+    public Double getDamageTakenModifier() {
+        return blockBehaviourType.getDamageTakenModifier();
+    }
     
 }

@@ -3,6 +3,8 @@ package unsw.loopmania;
 import java.util.ArrayList;
 
 import unsw.loopmania.Items.Armor;
+import unsw.loopmania.Items.ChestArmor;
+import unsw.loopmania.Items.Helmet;
 import unsw.loopmania.Items.Item;
 import unsw.loopmania.Items.Weapon;
 
@@ -19,8 +21,8 @@ public class Character extends MovingEntity {
     private Boolean isSupported;
     private Boolean mobSupport;
     private Weapon equippedWeapon;
-    private Armor equippedHelmet;
-    private Armor equippedArmor;
+    private Helmet equippedHelmet;
+    private ChestArmor equippedChestArmor;
     private ArrayList<Item> inventory;
     // TODO = potentially implement relationships between this class and other classes
     public Character(PathPosition position) {
@@ -31,12 +33,18 @@ public class Character extends MovingEntity {
         allyList = new ArrayList<Ally>();
         inventory = new ArrayList<Item>();
     }
-    public Armor getArmor(){
-        return equippedArmor;
+    public Helmet getHelmet(){
+        return equippedHelmet;
+    }
+    public void setHelmet(Helmet newHelmet){
+        equippedHelmet = newHelmet;
     }
 
-    public Armor setArmor(){
-        return equippedArmor;
+    public ChestArmor equippedChestArmor(){
+        return equippedChestArmor;
+    }
+    public void setChestArmor(ChestArmor newChestArmor){
+        equippedChestArmor = newChestArmor;
     }
 
     public ArrayList<Item> getInventory(){

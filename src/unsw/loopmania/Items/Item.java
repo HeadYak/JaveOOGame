@@ -25,4 +25,8 @@ public abstract class Item extends StaticEntity {
 
         return randomSword; 
     }
+
+    public void setItemValue(int itemValue){
+        goldValue = itemValue;
+    }
 }
