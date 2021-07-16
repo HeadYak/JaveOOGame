@@ -1,12 +1,17 @@
 package unsw.loopmania;
-
+import unsw.loopmania.Items.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.lang.Math; 
+
+import javax.swing.text.Position;
 
 import org.javatuples.Pair;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.Buildings.Trap;
+import unsw.loopmania.Buildings.VampireCastleBuilding;
 
 /**
  * A backend world.
@@ -46,10 +51,10 @@ public class LoopManiaWorld {
     private List<Card> cardEntities;
 
     // TODO = expand the range of items
-    private List<Entity> unequippedInventoryItems;
+    private List<Item> unequippedInventoryItems;
 
     // TODO = expand the range of buildings
-    private List<VampireCastleBuilding> buildingEntities;
+    private List<Building> buildingEntities;
 
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse them
@@ -68,11 +73,11 @@ public class LoopManiaWorld {
         this.height = height;
         nonSpecifiedEntities = new ArrayList<>();
         character = null;
-        enemies = new ArrayList<>();
+        enemies = new ArrayList<BasicEnemy>();
         cardEntities = new ArrayList<>();
-        unequippedInventoryItems = new ArrayList<>();
+        unequippedInventoryItems = new ArrayList<Item>();
         this.orderedPath = orderedPath;
-        buildingEntities = new ArrayList<>();
+        buildingEntities = new ArrayList<Building>();
     }
 
     public int getWidth() {
@@ -212,8 +217,29 @@ public class LoopManiaWorld {
      * run moves which occur with every tick without needing to spawn anything immediately
      */
     public void runTickMoves(){
+        int startLoop = character.getLoop();
         character.moveDownPath();
+        for (Building b: buildingEntities) {
+            if (b.canInteract(character)) {
+                b.interact(character);
+            }
+        }
+        // checks if character has completed a loop
+        if (character.getLoop() > startLoop) {
+            for (Building b: buildingEntities) {
+                b.newLoop(this, character);
+            }
+        }
         moveBasicEnemies();
+        for (Building b: buildingEntities) {
+            for (BasicEnemy enemy: enemies) {
+                if (b.canInteractMob(enemy)) {
+                    b.interactMob(enemy);
+                    b.destroy();
+                    buildingEntities.remove(b);
+                }
+            }
+        }
     }
 
     /**
@@ -347,5 +373,23 @@ public class LoopManiaWorld {
         shiftCardsDownFromXCoordinate(cardNodeX);
 
         return newBuilding;
+    }
+
+    public PathPosition findClosestPathTile(int x, int y) {
+        double smallestDistance = 999;
+        int indexInPath = 0;
+        for (Pair<Integer, Integer> p : orderedPath) {
+            double distance = Math.sqrt((p.getValue0() - x)^2 + (p.getValue1() - y)^2);
+            if (distance < smallestDistance) {
+                indexInPath = orderedPath.indexOf(p);
+                smallestDistance = distance;
+            }
+        }
+        PathPosition closest = new PathPosition(indexInPath, orderedPath);
+        return closest;
+    }
+
+    public void addEnemy(BasicEnemy enemy) {
+        enemies.add(enemy);
     }
 }
