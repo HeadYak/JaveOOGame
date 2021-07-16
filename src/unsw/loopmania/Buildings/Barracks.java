@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.Building;
 import unsw.loopmania.Character;
 import unsw.loopmania.BasicEnemy;
+import unsw.loopmania.*;
 
 public class Barracks extends Building{
     public Barracks(SimpleIntegerProperty x, SimpleIntegerProperty y) {
@@ -44,5 +45,9 @@ public class Barracks extends Building{
     @Override
     public Boolean canInteractMob(BasicEnemy enemy) {
         return false;
+    }
+
+    @Override
+    public void newLoop(LoopManiaWorld world, Character character) {
     }
 }

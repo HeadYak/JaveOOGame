@@ -7,6 +7,7 @@ import unsw.loopmania.BasicEnemy;
 import unsw.loopmania.Building;
 import unsw.loopmania.Character;
 import unsw.loopmania.Items.Item;
+import unsw.loopmania.*;
 
 public class HeroCastle extends Building{
     private ArrayList<Item> shop;
@@ -51,15 +52,17 @@ public class HeroCastle extends Building{
 
     @Override
     public void interact(Character character) {
-        if (character.getX() == getX() && character.getY() == getY()) {
-            //TODO make open shop
-            getShop();
-        }
+        getShop();
+        character.newLoop();
     }
 
     @Override
     public Boolean canInteract(Character character) {
-        return true;
+        if (character.getX() == getX() && character.getY() == getY()) {
+            generateNewShop();
+            return true;            
+        }
+        return false;
     }
 
     @Override
@@ -71,4 +74,7 @@ public class HeroCastle extends Building{
         return false;
     }
     
+    @Override
+    public void newLoop(LoopManiaWorld world, Character character) {
+    }
 }

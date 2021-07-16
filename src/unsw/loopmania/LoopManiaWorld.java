@@ -217,10 +217,17 @@ public class LoopManiaWorld {
      * run moves which occur with every tick without needing to spawn anything immediately
      */
     public void runTickMoves(){
+        int startLoop = character.getLoop();
         character.moveDownPath();
         for (Building b: buildingEntities) {
             if (b.canInteract(character)) {
                 b.interact(character);
+            }
+        }
+        // checks if character has completed a loop
+        if (character.getLoop() > startLoop) {
+            for (Building b: buildingEntities) {
+                b.newLoop(this, character);
             }
         }
         moveBasicEnemies();

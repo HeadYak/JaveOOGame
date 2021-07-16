@@ -19,6 +19,7 @@ public class Character extends MovingEntity {
     private Weapon equippedWeapon;
     private ArrayList<Item> inventory;
     private int xp;
+    private int loops;
     // TODO = potentially implement relationships between this class and other classes
     public Character(PathPosition position) {
         super(position);
@@ -116,5 +117,13 @@ public class Character extends MovingEntity {
 
     public Boolean getMobSupported() {
         return mobSupport;
+    }
+
+    public void newLoop() {
+        loops +=1;
+    }
+
+    public int getLoop() {
+        return loops;
     }
 }
