@@ -27,6 +27,38 @@ public class CombatTest {
         PathPosition charP = new PathPosition(0, path);
         Character playerChar = new Character(charP);
 
-        
+        // TODO:
+    }
+
+    @Test
+    public void testBattleWithZombie() {
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+
+        // TODO:
+    }
+
+    @Test
+    public void testBattleWithVampire() {
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+
+        // TODO:
+    }
+
+    @Test
+    public void testEnemiesCannotPassCharacter() {
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+
+        // Spawn vampire tile next to character where they would cross paths
+        PathPosition vampireP = new PathPosition(1, path);
+        Vampire vampire = new Vampire(vampireP);
+
+        // Simulate the movement of character + vampire by 1
+        world.runTickMoves();
+
+        // Check that combat was initiated and one died
+
     }
 }

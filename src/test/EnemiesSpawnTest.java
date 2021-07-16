@@ -88,4 +88,11 @@ public class EnemiesSpawnTest {
         assertFalse(vampire.isBuffed());
         assertEquals(vampire.getBuffDuration(), 0);
     }
+
+    @Test
+    public void testEnemiesStack() {
+        // TODO: not sure how to implement yet
+
+        assertEquals(1, 0);
+    }
 }
