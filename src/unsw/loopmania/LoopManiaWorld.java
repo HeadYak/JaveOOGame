@@ -1,5 +1,7 @@
 package unsw.loopmania;
 import unsw.loopmania.Items.*;
+import unsw.loopmania.Items.Weapons.Sword;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

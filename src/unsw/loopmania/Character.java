@@ -2,11 +2,10 @@ package unsw.loopmania;
 
 import java.util.ArrayList;
 
-import unsw.loopmania.Items.Armor;
-import unsw.loopmania.Items.ChestArmor;
-import unsw.loopmania.Items.Helmet;
 import unsw.loopmania.Items.Item;
-import unsw.loopmania.Items.Weapon;
+import unsw.loopmania.Items.Armor.ChestArmor;
+import unsw.loopmania.Items.Armor.Helmet;
+import unsw.loopmania.Items.Weapons.Weapon;
 
 /**
  * represents the main character in the backend of the game world
