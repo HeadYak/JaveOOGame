@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
+import unsw.loopmania.Character;
 
 public class CombatTest {
     List<Pair<Integer, Integer>> path = Arrays.asList(
@@ -22,7 +23,10 @@ public class CombatTest {
     LoopManiaWorld world = new LoopManiaWorld(4, 4, path);
 
     @Test
-    public void testSmth() {
-        PathPosition characterP = new PathPosition()
+    public void testBattleWithSlug() {
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+
+        
     }
 }

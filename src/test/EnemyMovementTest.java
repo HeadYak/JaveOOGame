@@ -92,9 +92,11 @@ public class EnemyMovementTest {
         // Simulate the movement of enemeis + character by 1
         world.runTickMoves();
 
-        // Test that zombie is now on top of the character
-        assertEquals(1, zombie.getX());
-        assertEquals(0, zombie.getY());
+        // Test that either player or zombie is missing (as they had to intiate
+        // combat due to being on same tile)
+        // TODO: Add player check
+        assertTrue(world.getEnemies().size() == 0);
+
     }
 
     @Test
