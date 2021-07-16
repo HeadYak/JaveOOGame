@@ -1,6 +1,7 @@
 package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -56,6 +57,7 @@ public class EnemiesSpawnTest {
         // Test that zombie has correct properties
         assertEquals(vampire.getMoveSpeed(), 2);
         assertEquals(vampire.getCritChance(), 10);
+        assertFalse(vampire.isMovingClockwise());
         assertFalse(vampire.isBuffed());
         assertEquals(vampire.getBuffDuration(), 0);
     }
