@@ -6,7 +6,7 @@ import unsw.loopmania.Character;
 import unsw.loopmania.BasicEnemy;
 import unsw.loopmania.*;
 
-public class Tower extends Building{
+public class Tower extends Building implements Support{
     private int range;
     public Tower(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
@@ -24,8 +24,13 @@ public class Tower extends Building{
     }
 
     @Override
-    public void interact(Character character) {
+    public void support(Character character) {
         character.activateSupport();
+    }
+
+    @Override
+    public void interact(Character character) {
+        support(character);
     }
 
     @Override

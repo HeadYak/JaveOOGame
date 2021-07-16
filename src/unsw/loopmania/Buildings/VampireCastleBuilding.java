@@ -11,7 +11,7 @@ import unsw.loopmania.BasicEnemy;
 /**
  * a basic form of building in the world
  */
-public class VampireCastleBuilding extends Building implements Spawn{
+public class VampireCastleBuilding extends Building implements Spawn, Support{
     private int loopReq;
     private int range;
     // TODO = add more types of building, and make sure buildings have effects on entities as required by the spec
@@ -41,8 +41,13 @@ public class VampireCastleBuilding extends Building implements Spawn{
     }
 
     @Override
-    public void interact(Character character) {
+    public void support(Character character) {
         character.activateMobSupport();
+    }
+    
+    @Override
+    public void interact(Character character) {
+        support(character);
     }
 
     @Override
