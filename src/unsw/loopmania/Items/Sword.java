@@ -16,7 +16,5 @@ public class Sword extends Weapon {
         this.goldValue = 5;
 
     }    
-    public int getGoldValue(){
-        return goldValue;
-    }
+
 }

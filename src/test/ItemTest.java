@@ -1,5 +1,6 @@
 package test;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
@@ -12,8 +13,14 @@ import org.junit.jupiter.api.Test;
 
 import unsw.loopmania.*;
 import unsw.loopmania.Character;
+import unsw.loopmania.Items.Armor;
+import unsw.loopmania.Items.BlockBehaviour;
+import unsw.loopmania.Items.Helmet;
 import unsw.loopmania.Items.Item;
 import unsw.loopmania.Items.Sword;
+import unsw.loopmania.Items.Weapon;
+import unsw.loopmania.Items.basicChestArmor;
+import unsw.loopmania.Items.basicHelmet;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 /**
@@ -100,10 +107,10 @@ public class ItemTest {
         PathPosition temp = new PathPosition(0, tempPath);
         Character c = new Character(temp);
 
-        assertEquals(c.getInventory(), null);
+        assertEquals(c.getInventory().size(), 0);
     }
 
-
+    @Test
     public void characterHelmetBlockTest(){
         List<Pair<Integer, Integer>> tempPath = new ArrayList<Pair<Integer, Integer>>();
 
@@ -117,9 +124,59 @@ public class ItemTest {
         PathPosition temp = new PathPosition(0, tempPath);
         Character c = new Character(temp);
 
+        SimpleIntegerProperty x = new SimpleIntegerProperty();
+        SimpleIntegerProperty y = new SimpleIntegerProperty();
+
+        Helmet newhelmet = new basicHelmet(x, y);
+
+    
+
+        assertTrue(newhelmet.getBlockType() instanceof BlockBehaviour);
+
+        assertEquals(c.getInventory().size(),0);
+    }
+
+
+    @Test
+    public void characterChestArmorBlockTest(){
+        SimpleIntegerProperty x = new SimpleIntegerProperty();
+        SimpleIntegerProperty y = new SimpleIntegerProperty();
+
+        Sword newSword = new Sword(x, y);
+
+        System.out.println(newSword.getClass()); 
+
+        assertTrue(newSword instanceof Weapon);
+        assertTrue(newSword instanceof Item);
+        assertTrue(newSword instanceof Sword);
+
+    }
+
+    @Test
+    public void characterHelmetArmorBlockTest(){
+        SimpleIntegerProperty x = new SimpleIntegerProperty();
+        SimpleIntegerProperty y = new SimpleIntegerProperty();
+        
+        basicChestArmor newChestArmor = new basicChestArmor(x, y);
+
+        assertTrue(newChestArmor.getBlockType() instanceof BlockBehaviour);
+
+    }
+
+    public void characterArmorDamageReductionTest(){
+        SimpleIntegerProperty x = new SimpleIntegerProperty();
+        SimpleIntegerProperty y = new SimpleIntegerProperty();
+        basicChestArmor newChestArmor = new basicChestArmor(x, y);
         
 
-        assertEquals(c.getInventory(), null);
+        assertEquals(newChestArmor.getDamageTakenModifier(), 0.5);
+
+
+        basicHelmet newHelmet = new basicHelmet(x, y);
+
+        assertEquals(newChestArmor.getDamageTakenModifier(), 0.9);
+
+
     }
 
 

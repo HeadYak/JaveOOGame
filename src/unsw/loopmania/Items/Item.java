@@ -4,7 +4,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import java.util.concurrent.ThreadLocalRandom;
 import unsw.loopmania.StaticEntity;
 
-public class Item extends StaticEntity {
+public abstract class Item extends StaticEntity {
     private int goldValue;
     public Item(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);

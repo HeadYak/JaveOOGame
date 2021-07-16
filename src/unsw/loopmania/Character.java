@@ -46,6 +46,9 @@ public class Character extends MovingEntity {
     public void setWeapon(Weapon newWeapon){
         this.equippedWeapon = newWeapon;
     }
+    public Weapon getWeapon(){
+        return equippedWeapon;
+    }
 
     public int getHp() {
         return hp;
