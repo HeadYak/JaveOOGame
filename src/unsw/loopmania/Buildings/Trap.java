@@ -23,7 +23,6 @@ public class Trap extends Building{
     
     public void trap(BasicEnemy enemy) {
         enemy.damage(60);
-        destroy();
     }
 
     @Override

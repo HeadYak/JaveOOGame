@@ -10,6 +10,7 @@ import javax.swing.text.Position;
 import org.javatuples.Pair;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.Buildings.Trap;
 import unsw.loopmania.Buildings.VampireCastleBuilding;
 
 /**
@@ -217,7 +218,21 @@ public class LoopManiaWorld {
      */
     public void runTickMoves(){
         character.moveDownPath();
+        for (Building b: buildingEntities) {
+            if (b.canInteract(character)) {
+                b.interact(character);
+            }
+        }
         moveBasicEnemies();
+        for (Building b: buildingEntities) {
+            for (BasicEnemy enemy: enemies) {
+                if (b.canInteractMob(enemy)) {
+                    b.interactMob(enemy);
+                    b.destroy();
+                    buildingEntities.remove(b);
+                }
+            }
+        }
     }
 
     /**
