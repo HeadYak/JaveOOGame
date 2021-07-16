@@ -1,6 +1,8 @@
 package unsw.loopmania;
 
 import java.util.ArrayList;
+
+import unsw.loopmania.Items.Item;
 import unsw.loopmania.Items.Weapon;
 
 /**
@@ -15,12 +17,16 @@ public class Character extends MovingEntity {
     private Boolean isSupported;
     private Boolean mobSupport;
     private Weapon equippedWeapon;
+    private ArrayList<Item> inventory;
+    private int xp;
+    private int loops;
     // TODO = potentially implement relationships between this class and other classes
     public Character(PathPosition position) {
         super(position);
         hp = 100;
         maxHp = 100;
         allyList = new ArrayList<Ally>();
+        inventory = new ArrayList<Item>();
     }
     public Weapon getWeapon(){
         return equippedWeapon;
@@ -59,8 +65,22 @@ public class Character extends MovingEntity {
         return buffed;
     }
 
-    public void spend(int price) {
-        gold -= price;
+    public void buy(Item item) {
+        gold -= item.getGoldValue();
+        addToInventory(item);
+    }
+
+    public void addToInventory(Item item) {
+        inventory.add(item);
+        if (inventory.size() > 8) {
+            inventory.remove(0);
+            gold += 5;
+            xp += 5;
+        }
+    }
+
+    public int getXp() {
+        return xp;
     }
 
     public int getGold() {
@@ -97,5 +117,13 @@ public class Character extends MovingEntity {
 
     public Boolean getMobSupported() {
         return mobSupport;
+    }
+
+    public void newLoop() {
+        loops +=1;
+    }
+
+    public int getLoop() {
+        return loops;
     }
 }

@@ -13,4 +13,5 @@ public abstract class Building extends StaticEntity{
     abstract public void interact(Character character);
     abstract public Boolean canInteractMob(BasicEnemy enemy);
     abstract public void interactMob(BasicEnemy enemy);
+    abstract public void newLoop(LoopManiaWorld world, Character character);
 }

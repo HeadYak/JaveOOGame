@@ -48,4 +48,9 @@ public class ZombiePit extends Building implements Spawn{
     public Boolean canInteractMob(BasicEnemy enemy) {
         return false;
     }
+
+    @Override
+    public void newLoop(LoopManiaWorld world, Character character) {
+        spawn(character.getLoop(), world);
+    }
 }

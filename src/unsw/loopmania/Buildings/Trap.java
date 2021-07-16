@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.BasicEnemy;
 import unsw.loopmania.Building;
 import unsw.loopmania.Character;
+import unsw.loopmania.*;
 
 public class Trap extends Building{
 
@@ -23,7 +24,6 @@ public class Trap extends Building{
     
     public void trap(BasicEnemy enemy) {
         enemy.damage(60);
-        destroy();
     }
 
     @Override
@@ -43,5 +43,9 @@ public class Trap extends Building{
     @Override
     public Boolean canInteractMob(BasicEnemy enemy) {
         return true;
+    }
+
+    @Override
+    public void newLoop(LoopManiaWorld world, Character character) {
     }
 }
