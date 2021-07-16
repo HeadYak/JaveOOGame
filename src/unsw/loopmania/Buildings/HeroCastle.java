@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.BasicEnemy;
 import unsw.loopmania.Building;
 import unsw.loopmania.Character;
+import unsw.loopmania.Items.HealthPotion;
 import unsw.loopmania.Items.Item;
 import unsw.loopmania.*;
 
@@ -32,7 +33,7 @@ public class HeroCastle extends Building{
 
         SimpleIntegerProperty x = new SimpleIntegerProperty();
         SimpleIntegerProperty y = new SimpleIntegerProperty();
-        Item placeHolderItem = new Item(x,y);
+        Item placeHolderItem = new HealthPotion(x,y);
         for (int i = 0; i < 3; i++) {
             newShop.add(placeHolderItem.generateRandomItem());
         }

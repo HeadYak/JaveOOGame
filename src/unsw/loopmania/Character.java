@@ -2,6 +2,9 @@ package unsw.loopmania;
 
 import java.util.ArrayList;
 
+import unsw.loopmania.Items.Armor;
+import unsw.loopmania.Items.ChestArmor;
+import unsw.loopmania.Items.Helmet;
 import unsw.loopmania.Items.Item;
 import unsw.loopmania.Items.Weapon;
 
@@ -13,6 +16,7 @@ public class Character extends MovingEntity {
     private int maxHp;
     private boolean buffed;
     private int gold;
+    private double damageTaken;
     private ArrayList<Ally> allyList;
     private Boolean isSupported;
     private Boolean mobSupport;
@@ -20,20 +24,40 @@ public class Character extends MovingEntity {
     private ArrayList<Item> inventory;
     private int xp;
     private int loops;
+    private Helmet equippedHelmet;
+    private ChestArmor equippedChestArmor;
     // TODO = potentially implement relationships between this class and other classes
     public Character(PathPosition position) {
         super(position);
         hp = 100;
         maxHp = 100;
+        damageTaken = 1.0;
         allyList = new ArrayList<Ally>();
         inventory = new ArrayList<Item>();
     }
-    public Weapon getWeapon(){
-        return equippedWeapon;
+    public Helmet getHelmet(){
+        return equippedHelmet;
+    }
+    public void setHelmet(Helmet newHelmet){
+        equippedHelmet = newHelmet;
+    }
+
+    public ChestArmor equippedChestArmor(){
+        return equippedChestArmor;
+    }
+    public void setChestArmor(ChestArmor newChestArmor){
+        equippedChestArmor = newChestArmor;
+    }
+
+    public ArrayList<Item> getInventory(){
+        return inventory;
     }
 
     public void setWeapon(Weapon newWeapon){
         this.equippedWeapon = newWeapon;
+    }
+    public Weapon getWeapon(){
+        return equippedWeapon;
     }
 
     public int getHp() {

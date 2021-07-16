@@ -4,7 +4,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import java.util.concurrent.ThreadLocalRandom;
 import unsw.loopmania.StaticEntity;
 
-public class Item extends StaticEntity {
+public abstract class Item extends StaticEntity {
     private int goldValue;
     public Item(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
@@ -24,5 +24,9 @@ public class Item extends StaticEntity {
         Sword randomSword = new Sword(x_randitem, y_randitem);
 
         return randomSword; 
+    }
+
+    public void setItemValue(int itemValue){
+        goldValue = itemValue;
     }
 }
