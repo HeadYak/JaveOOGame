@@ -104,13 +104,6 @@ public class EnemyMovementTest {
         // Test that zombie is idle for the next tick again
         assertEquals(1, zombie.getCountdown());
 
-        // Simulate the movement of enemies + character by 1
-        world.runTickMoves();
-
-        // Test that zombie has not moved
-        assertEquals(0, zombie.getX());
-        assertEquals(1, zombie.getY());
-
         // Plant a new zombie at (5, 0) so that the character is in the
         // detection range
         // NOTE: Character at this point is at coordinates (8, 4)
@@ -131,22 +124,43 @@ public class EnemyMovementTest {
         world.runTickMoves();
         
         // Test that zombie2 has moved anticlockwise towards the player
-        assertEquals(5, zombie2.getX());
+        assertEquals(7, zombie2.getX());
         assertEquals(0, zombie2.getY());
-
-        
 
     }
 
     @Test
     public void testZombieChaseConsistency() {
         List<Zombie> zombies = new ArrayList<Zombie>();
+
+        // Create a character at (5, 0) that is in range of zombies at (0, 1)
+        PathPosition charP = new PathPosition(26, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
+        // Generate 50 zombies
+        PathPosition zombieP = new PathPosition(0, path);
+        for (int i = 0; i < 50; i++) {
+            Zombie zombie = new Zombie(zombieP, playerChar);
+            world.addEnemy(zombie);
+        }
+
+        // Simulate the world for two ticks
+        world.runTickMoves();
+        world.runTickMoves();
+
+        // Test that all 50 zombies are now on (1, 0)
+        for (Zombie zombie : zombies) {
+            assertEquals(1, zombie.getX());
+            assertEquals(0, zombie.getY());
+        }
+
     }
 
     @Test
     public void testVampireMovement() {
         PathPosition vampireP = new PathPosition(0, path);
-        Vampire vampire = new Vampire(vampireP);
+        Vampire vampire = new Vampire(vampireP, world);
         world.addEnemy(vampire);
 
         // Create a character and place him at (0, 5)
@@ -179,6 +193,7 @@ public class EnemyMovementTest {
         SimpleIntegerProperty x = new SimpleIntegerProperty(7);
         SimpleIntegerProperty y = new SimpleIntegerProperty(5);
         Campfire campfire = new Campfire(x, y);
+        world.addBuilding(campfire);
 
         // Test that the vampire's direction is set to counter-clockwise
         assertFalse(vampire.isMovingClockwise());
@@ -202,4 +217,5 @@ public class EnemyMovementTest {
         assertEquals(8, vampire.getX());
         assertEquals(3, vampire.getY());
     }
+
 }

@@ -59,7 +59,8 @@ public class Zombie extends BasicEnemy {
     public void performMove() {
         PathPosition currPos = getPosition();
 
-        if (currPos.distanceToCharacter(targetCharacter) < detectionRadius) {
+        // Character has been detected
+        if (currPos.distanceToCharacter(targetCharacter) <= detectionRadius) {
             PathPosition nextPos = currPos.getNextPosition();
             PathPosition prevPos = currPos.getNextPosition();
 
@@ -76,6 +77,7 @@ public class Zombie extends BasicEnemy {
                 setMoveBehaviour(new MoveAntiClockwise());
             }
 
+        // Character has been lost
         } else {
             setMoveBehaviour(new MoveRandomly());
         }
