@@ -1,9 +1,11 @@
 package unsw.loopmania.enemies;
 
 import unsw.loopmania.PathPosition;
+import unsw.loopmania.movement.MoveAntiClockwise;
+import unsw.loopmania.enemies.crits.CritStackBuff;
 
 public class Vampire extends BasicEnemy {
-    private static final double CRIT_CHANCE = 10;
+    private boolean isMovingClockwise;
     private boolean isBuffed;
     private int buffDuration;
 
@@ -12,16 +14,20 @@ public class Vampire extends BasicEnemy {
      */
     public Vampire(PathPosition position) {
         super(position);
+
+        // Vampire stats
+        setMoveSpeed(2);
+        setCritChance(0.1);
+        setBattleRadius(2);
+        setSupportRadius(3);
+        setHp(100);
+        isMovingClockwise = false;
         isBuffed = false;
         buffDuration = 0;
-    }
 
-    /**
-     * Getter for crit chance of vampire
-     * @return chance of vampire critting
-     */
-    public static double getCritChance() {
-        return CRIT_CHANCE;
+        // Behaviours
+        setMoveBehaviour(new MoveAntiClockwise());
+        setCritBehaviour(new CritStackBuff());
     }
 
     /**

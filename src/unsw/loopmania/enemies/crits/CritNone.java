@@ -1,9 +1,9 @@
 package unsw.loopmania.enemies.crits;
 
-public class CritNone  implements CritBehaviour {
+public class CritNone implements CritBehaviour {
 
     @Override
-    public void crit() {
+    public void critEffects() {
         // TODO Auto-generated method stub
         
     }

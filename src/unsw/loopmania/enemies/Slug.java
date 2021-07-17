@@ -1,6 +1,8 @@
 package unsw.loopmania.enemies;
 
 import unsw.loopmania.PathPosition;
+import unsw.loopmania.movement.MoveClockwise;
+import unsw.loopmania.enemies.crits.CritNone;
 
 public class Slug extends BasicEnemy {
     private static final double CRIT_CHANCE = 10;
@@ -11,14 +13,17 @@ public class Slug extends BasicEnemy {
      */
     public Slug(PathPosition position) {
         super(position);
-    }
 
-    /**
-     * Getter for slug crit chance
-     * @return chance of slug critting
-     */
-    public static double getCritChance() {
-        return CRIT_CHANCE;
+        // Slug stats
+        setMoveSpeed(1);
+        setCritChance(0.1);
+        setBattleRadius(1);
+        setSupportRadius(1);
+        setHp(100);
+
+        // Slug behaviours
+        setMoveBehaviour(new MoveClockwise());
+        setCritBehaviour(new CritNone());
     }
     
 }
