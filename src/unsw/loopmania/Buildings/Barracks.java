@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.Character;
 import unsw.loopmania.BasicEnemy;
 import unsw.loopmania.*;
+import unsw.loopmania.Buildings.*;
 
 public class Barracks extends Building{
     public Barracks(SimpleIntegerProperty x, SimpleIntegerProperty y) {

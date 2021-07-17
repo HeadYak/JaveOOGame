@@ -8,7 +8,6 @@ import unsw.loopmania.Character;
 import unsw.loopmania.Items.HealthPotion;
 import unsw.loopmania.Items.Item;
 import unsw.loopmania.*;
-import unsw.loopmania.Character;
 
 public class HeroCastle extends Building{
     private ArrayList<Item> shop;

@@ -2,7 +2,6 @@ package unsw.loopmania.Buildings;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.BasicEnemy;
-import unsw.loopmania.Building;
 import unsw.loopmania.Character;
 import unsw.loopmania.*;
 

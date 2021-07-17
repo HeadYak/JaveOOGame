@@ -2,6 +2,7 @@ package unsw.loopmania.Buildings;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.Character;
+import unsw.loopmania.BasicEnemy;
 import unsw.loopmania.*;
 
 public class Tower extends Building implements Support{
@@ -54,23 +55,5 @@ public class Tower extends Building implements Support{
 
     @Override
     public void newLoop(LoopManiaWorld world, Character character) {
-    }
-
-    @Override
-    public Boolean canInteract(java.lang.Character character) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void interact(java.lang.Character character) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void newLoop(LoopManiaWorld world, java.lang.Character character) {
-        // TODO Auto-generated method stub
-        
     }
 }
