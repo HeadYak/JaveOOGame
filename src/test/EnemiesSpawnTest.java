@@ -37,9 +37,14 @@ public class EnemiesSpawnTest {
         assertEquals(slug.getX(), 0);
         assertEquals(slug.getY(), 1);
 
-        // Test that slug has correct properties
+        // Test that DEFAULT slug has correct properties
         assertEquals(slug.getMoveSpeed(), 1);
-        assertEquals(slug.getCritChance(), 10);
+        assertEquals(slug.getCritChance(), 0.1);
+        assertEquals(slug.getBattleRadius(), 1);
+        assertEquals(slug.getSupportRadius(), 1);
+        assertEquals(slug.getHp(), 100);
+        assertEquals(slug.getAtk(), 10);
+        assertEquals(slug.getDef(), 0);
     }
 
     @Test
@@ -59,10 +64,15 @@ public class EnemiesSpawnTest {
         assertEquals(zombie.getY(), 1);
 
         // Test that zombie has correct properties
-        assertEquals(zombie.getMoveSpeed(), 1);
-        assertEquals(zombie.getCritChance(), 10);
+        assertEquals(zombie.getMoveSpeed(), 0.5);
+        assertEquals(zombie.getCritChance(), 0.1);
+        assertEquals(zombie.getBattleRadius(), 1);
+        assertEquals(zombie.getSupportRadius(), 2);
+        assertEquals(zombie.getDetectionRadius(), 5);
         assertFalse(zombie.isMoving());
-        assertEquals(zombie.getMoveCountdown(), 1);
+        assertEquals(zombie.getHp(), 200);
+        assertEquals(zombie.getAtk(), 30);
+        assertEquals(zombie.getDef(), 0);
     }
 
     @Test
@@ -83,10 +93,15 @@ public class EnemiesSpawnTest {
 
         // Test that zombie has correct properties
         assertEquals(vampire.getMoveSpeed(), 2);
-        assertEquals(vampire.getCritChance(), 10);
+        assertEquals(vampire.getCritChance(), 0.1);
+        assertEquals(vampire.getBattleRadius(), 2);
+        assertEquals(vampire.getSupportRadius(), 3);
         assertFalse(vampire.isMovingClockwise());
         assertFalse(vampire.isBuffed());
         assertEquals(vampire.getBuffDuration(), 0);
+        assertEquals(vampire.getHp(), 200);
+        assertEquals(vampire.getAtk(), 30);
+        assertEquals(vampire.getDef(), 0);
     }
 
     @Test
