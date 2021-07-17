@@ -177,7 +177,7 @@ public class ItemTest {
         LoopManiaWorld d = new LoopManiaWorld(1, 2, tempPath);
 
         List<Pair<Integer, Integer>> temp = d.getPath();
-        Pair testpair = new Pair<>(0, 0);
+        Pair<Integer, Integer> testpair = new Pair<>(0, 0);
         System.out.println(!temp.contains(testpair));
     }
 

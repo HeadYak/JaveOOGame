@@ -21,9 +21,7 @@ class onlyPathTiles implements cardAllowedTiles{
 
 }
 
-
 class onlyadjacentPathTiles implements cardAllowedTiles{
-
     @Override
     public List<Pair<Integer, Integer>> getvalidTiles(LoopManiaWorld world) {
 

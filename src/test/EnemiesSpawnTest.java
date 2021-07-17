@@ -3,19 +3,18 @@ package test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.jupiter.api.Test;
 import org.javatuples.Pair;
+import org.junit.jupiter.api.Test;
 
+import unsw.loopmania.Character;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.enemies.Slug;
 import unsw.loopmania.enemies.Vampire;
 import unsw.loopmania.enemies.Zombie;
-import unsw.loopmania.Character;
 
 public class EnemiesSpawnTest {
     List<Pair<Integer, Integer>> path = Arrays.asList(
