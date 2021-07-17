@@ -67,4 +67,44 @@ public class PathPosition{
     public SimpleIntegerProperty getY(){
         return y;
     }
+
+    /**
+     * Gets the next position in the path
+     * @return
+     */
+    public PathPosition getNextPosition() {
+        int nextPositionInPath = (currentPositionInPath + 1)%orderedPath.size();
+        PathPosition next = new PathPosition(nextPositionInPath, orderedPath);
+        return next;
+    }
+
+    /**
+     * Gets the previous position in the path
+     * @return
+     */
+    public PathPosition getPrevPosition() {
+        int prevPositionInPath = (currentPositionInPath - 1)%orderedPath.size();
+        PathPosition prev = new PathPosition(prevPositionInPath, orderedPath);
+        return prev;
+    }
+
+    /**
+     * Returns the distance from current path position to character
+     * @param character character we are calculating the distance to
+     * @return dist(character, currentPos)
+     */
+    public double distanceToCharacter(Character character) {
+        // Get x and y value of current position
+        int intX = orderedPath.get(currentPositionInPath).getValue0();
+        int intY = orderedPath.get(currentPositionInPath).getValue1();
+
+        // Finding the x and y component of Pythagoras
+        double xComponent = Math.pow((character.getX() - intX), 2);
+        double yComponent = Math.pow((character.getY() - intY), 2);
+
+        // Squaring for distance
+        double dist = Math.sqrt(xComponent + yComponent);
+
+        return dist;
+    }
 }

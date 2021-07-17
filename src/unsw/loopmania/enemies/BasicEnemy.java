@@ -2,7 +2,6 @@ package unsw.loopmania.enemies;
 
 import unsw.loopmania.MovingEntity;
 import unsw.loopmania.PathPosition;
-import unsw.loopmania.Character;
 import unsw.loopmania.enemies.crits.CritBehaviour;
 
 /**
@@ -77,13 +76,5 @@ public abstract class BasicEnemy extends MovingEntity {
      */
     public void performCritEffects() {
         critBehaviour.critEffects();
-    }
-
-    public double distanceFromCharacter(Character character) {
-        double xComponent = Math.pow((character.getX() - getX()), 2);
-        double yComponent = Math.pow((character.getY() - getY()), 2);
-        double distance = Math.sqrt(xComponent + yComponent);
-
-        return distance;
     }
 }

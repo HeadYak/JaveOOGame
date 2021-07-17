@@ -1,10 +1,17 @@
 package unsw.loopmania.enemies;
 
 import unsw.loopmania.PathPosition;
-import unsw.loopmania.movement.MoveChasePlayer;
+
+import org.javatuples.Pair;
+
+import unsw.loopmania.Character;
+import unsw.loopmania.movement.MoveAntiClockwise;
+import unsw.loopmania.movement.MoveClockwise;
+import unsw.loopmania.movement.MoveRandomly;
 import unsw.loopmania.enemies.crits.CritConvertToEnemy;
 
 public class Zombie extends BasicEnemy {
+    private Character targetCharacter;
     private int detectionRadius;
     private boolean isMoving;
     private int countdown;
@@ -13,8 +20,9 @@ public class Zombie extends BasicEnemy {
      * Constructor for zombie
      * @param position tile position of zombie
      */
-    public Zombie(PathPosition position) {
+    public Zombie(PathPosition position, Character character) {
         super(position);
+        targetCharacter = character;
 
         // Zombie stats
         setMoveSpeed(0.5);
@@ -24,10 +32,10 @@ public class Zombie extends BasicEnemy {
         setHp(100);
         detectionRadius = 5;
         isMoving = false;
-        countdown = 0;
+        countdown = 1;
 
         // Behaviours
-        setMoveBehaviour(new MoveChasePlayer());
+        setMoveBehaviour(new MoveRandomly());
         setCritBehaviour(new CritConvertToEnemy());
     }
 
@@ -64,11 +72,39 @@ public class Zombie extends BasicEnemy {
     }
 
     /**
-     * Setter for countdown
-     * @param countdown new countdown of zombie when moving
+     * Overridden method that moves the zombie towards the character if in
+     * range, otherwise just wanders randomly
      */
-    public void setCountdown(int countdown) {
-        this.countdown = countdown;
-    }
+    @Override
+    public void performMove() {
+        PathPosition currPos = getPosition();
 
+        if (currPos.distanceToCharacter(targetCharacter) < detectionRadius) {
+            PathPosition nextPos = currPos.getNextPosition();
+            PathPosition prevPos = currPos.getNextPosition();
+
+            // Distances between character and the tile in front of and the tile
+            // behind the zombie
+            double forward = nextPos.distanceToCharacter(targetCharacter);
+            double backward = prevPos.distanceToCharacter(targetCharacter);
+
+            // Set moveBehaviour to move towards the tile that is closer to
+            // character
+            if (forward >= backward) {
+                setMoveBehaviour(new MoveClockwise());
+            } else {
+                setMoveBehaviour(new MoveAntiClockwise());
+            }
+        } else {
+            setMoveBehaviour(new MoveRandomly());
+        }
+
+        // Only move every two turns
+        if (countdown == 1) {
+            countdown = 0;
+        } else {
+            countdown = 1;
+            super.performMove();
+        }
+    }
 }
