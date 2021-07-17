@@ -172,4 +172,14 @@ public class Character extends MovingEntity {
     public int getLoop() {
         return loops;
     }
+
+    @Override
+    public int getHp() {
+        return hp;
+    }
+
+    @Override
+    public void setHp(int health) {
+        hp = health;
+    }
 }
