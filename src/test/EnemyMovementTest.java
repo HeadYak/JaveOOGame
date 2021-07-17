@@ -2,6 +2,7 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,6 +13,9 @@ import org.junit.jupiter.api.Test;
 
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
+import unsw.loopmania.enemies.Slug;
+import unsw.loopmania.enemies.Vampire;
+import unsw.loopmania.enemies.Zombie;
 import unsw.loopmania.Character;
 
 public class EnemyMovementTest {
@@ -34,6 +38,12 @@ public class EnemyMovementTest {
     public void testSlugMovement() {
         PathPosition slugP = new PathPosition(0, path);
         Slug slug = new Slug(slugP);
+        world.addEnemy(slug);
+
+        // Create a character and place him at (8, 7) - furthest fromthe slug
+        PathPosition charP = new PathPosition(25, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
 
         // Test that slug is on the correct position
         assertEquals(0, slug.getX());
@@ -47,13 +57,14 @@ public class EnemyMovementTest {
         assertNotEquals(1, slug.getY());
 
         // Test that slug has moved to (0, 0) or (0, 2)
-        assertTrue(slug.getY().equals(0) || slug.getY().equals(2));
+        assertTrue(slug.getY() == 0 || slug.getY() == 2);
     }
     
     @Test
     public void testZombieMovement() {
         PathPosition zombieP = new PathPosition(0, path);
         Zombie zombie = new Zombie(zombieP);
+        world.addEnemy(zombie);
 
         // Test that zombie is on the correct position
         assertEquals(0, zombie.getX());
@@ -112,6 +123,7 @@ public class EnemyMovementTest {
     public void testVampireMovement() {
         PathPosition vampireP = new PathPosition(0, path);
         Vampire vampire = new Vampire(vampireP);
+        world.addEnemy(vampire);
 
         // Test that vampire is on the correct position
         assertEquals(0, vampire.getX());

@@ -2,6 +2,7 @@ package unsw.loopmania.enemies;
 
 import unsw.loopmania.MovingEntity;
 import unsw.loopmania.PathPosition;
+import unsw.loopmania.Character;
 import unsw.loopmania.enemies.crits.CritBehaviour;
 
 /**
@@ -78,18 +79,11 @@ public abstract class BasicEnemy extends MovingEntity {
         critBehaviour.critEffects();
     }
 
-    // /**
-    //  * move the enemy
-    //  */
-    // public void move(){
-    //     // TODO = modify this, since this implementation doesn't provide the expected enemy behaviour
-    //     // this basic enemy moves in a random direction... 25% chance up or down, 50% chance not at all...
-    //     int directionChoice = (new Random()).nextInt(2);
-    //     if (directionChoice == 0){
-    //         moveUpPath();
-    //     }
-    //     else if (directionChoice == 1){
-    //         moveDownPath();
-    //     }
-    // }
+    public double distanceFromCharacter(Character character) {
+        double xComponent = Math.pow((character.getX() - getX()), 2);
+        double yComponent = Math.pow((character.getY() - getY()), 2);
+        double distance = Math.sqrt(xComponent + yComponent);
+
+        return distance;
+    }
 }

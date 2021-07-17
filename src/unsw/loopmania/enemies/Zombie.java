@@ -71,5 +71,4 @@ public class Zombie extends BasicEnemy {
         this.countdown = countdown;
     }
 
-    
 }
