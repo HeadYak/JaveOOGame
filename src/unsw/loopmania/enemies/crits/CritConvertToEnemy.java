@@ -1,6 +1,6 @@
-package unsw.loopmania.enemies;
+package unsw.loopmania.enemies.crits;
 
-public class CritNone  implements CritBehaviour {
+public class CritConvertToEnemy implements CritBehaviour {
 
     @Override
     public void crit() {

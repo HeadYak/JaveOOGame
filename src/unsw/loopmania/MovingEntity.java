@@ -13,7 +13,7 @@ public abstract class MovingEntity extends Entity {
     private PathPosition position;
 
     /**
-     * entity's movement behaviour (assigned in subclasses)
+     * entity's movement behaviour
      */
     private MoveBehaviour moveBehaviour;
 
@@ -23,7 +23,17 @@ public abstract class MovingEntity extends Entity {
     private double moveSpeed;
 
     /**
-     * Create a moving entity which moves up and down the path in position
+     * entity's critical strike chance
+     */
+    private double critChance;
+
+    /**
+     * entity's current hp
+     */
+    private int hp;
+
+    /**
+     * Create a moving entity which moves based on its moveBehaviour
      * @param position represents the current position in the path
      */
     public MovingEntity(PathPosition position) {
@@ -40,29 +50,59 @@ public abstract class MovingEntity extends Entity {
     }
 
     /**
-     * Make MovingEntity move
+     * Make moving entity move
      */
     public void performMove() {
-        moveBehaviour.move(getMoveSpeed());
+        moveBehaviour.move(position, getMoveSpeed());
     }
 
+    /**
+     * Getter for movement speed
+     * @return movement speed of Moving Entity
+     */
     public double getMoveSpeed() {
         return moveSpeed;
     }
 
-    // /**
-    //  * move clockwise through the path
-    //  */
-    // public void moveDownPath() {
-    //     position.moveDownPath();
-    // }
+    /**
+     * Setter for movement speed
+     * @param moveSpeed new movement speed to be set
+     */
+    public void setMoveSpeed(double moveSpeed) {
+        this.moveSpeed = moveSpeed;
+    }
 
-    // /**
-    //  * move anticlockwise through the path
-    //  */
-    // public void moveUpPath() {
-    //     position.moveUpPath();
-    // }
+    /**
+     * Getter for critical strike chance
+     * @return the critical strike chance as a decimal
+     */
+    public double getCritChance() {
+        return critChance;
+    }
+
+    /**
+     * Setter for critical strike chance
+     * @param critChance new critical strike chance to be set
+     */
+    public void setCritChance(double critChance) {
+        this.critChance = critChance;
+    }
+
+    /**
+     * Getter for moving entity's hp
+     * @return the current hp of moving entity
+     */
+    public int getHp() {
+        return hp;
+    }
+
+    /**
+     * Setter for moving entity's hp
+     * @param hp new hp of moving entity
+     */
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
 
     public SimpleIntegerProperty x() {
         return position.getX();
