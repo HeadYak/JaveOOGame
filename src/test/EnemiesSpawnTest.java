@@ -11,6 +11,9 @@ import org.javatuples.Pair;
 
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
+import unsw.loopmania.enemies.Slug;
+import unsw.loopmania.enemies.Vampire;
+import unsw.loopmania.enemies.Zombie;
 
 public class EnemiesSpawnTest {
     List<Pair<Integer, Integer>> path = Arrays.asList(
@@ -43,8 +46,6 @@ public class EnemiesSpawnTest {
         assertEquals(slug.getBattleRadius(), 1);
         assertEquals(slug.getSupportRadius(), 1);
         assertEquals(slug.getHp(), 100);
-        assertEquals(slug.getAtk(), 10);
-        assertEquals(slug.getDef(), 0);
     }
 
     @Test
@@ -71,8 +72,6 @@ public class EnemiesSpawnTest {
         assertEquals(zombie.getDetectionRadius(), 5);
         assertFalse(zombie.isMoving());
         assertEquals(zombie.getHp(), 200);
-        assertEquals(zombie.getAtk(), 30);
-        assertEquals(zombie.getDef(), 0);
     }
 
     @Test
@@ -100,8 +99,6 @@ public class EnemiesSpawnTest {
         assertFalse(vampire.isBuffed());
         assertEquals(vampire.getBuffDuration(), 0);
         assertEquals(vampire.getHp(), 200);
-        assertEquals(vampire.getAtk(), 30);
-        assertEquals(vampire.getDef(), 0);
     }
 
     @Test
