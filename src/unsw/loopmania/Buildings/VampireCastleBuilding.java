@@ -4,8 +4,8 @@ import javax.swing.text.Position;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.LoopManiaWorld;
+import unsw.loopmania.enemies.BasicEnemy;
 import unsw.loopmania.Character;
-import unsw.loopmania.BasicEnemy;
 
 /**
  * a basic form of building in the world

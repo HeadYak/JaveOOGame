@@ -7,6 +7,7 @@ import unsw.loopmania.Items.Item;
 import unsw.loopmania.Items.Armor.ChestArmor;
 import unsw.loopmania.Items.Armor.Helmet;
 import unsw.loopmania.Items.Weapons.Weapon;
+import unsw.loopmania.movement.MoveClockwise;
 import unsw.loopmania.Buildings.*;
 
 
@@ -42,6 +43,8 @@ public class Character extends MovingEntity {
         isSupported = false;
         mobSupport = false;
         buffed = false;
+
+        setMoveBehaviour(new MoveClockwise());
     }
     public Helmet getHelmet(){
         return equippedHelmet;
@@ -84,10 +87,6 @@ public class Character extends MovingEntity {
 
     public void setWeapon(Weapon newWeapon){
         this.equippedWeapon = newWeapon;
-    }
-
-    public int getHp() {
-        return hp;
     }
 
     public int getMaxHp() {
