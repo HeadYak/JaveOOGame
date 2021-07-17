@@ -3,7 +3,6 @@ package unsw.loopmania.Buildings;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.enemies.BasicEnemy;
 import unsw.loopmania.Character;
-import unsw.loopmania.enemies.BasicEnemy;
 import unsw.loopmania.*;
 
 public class Trap extends Building{
@@ -33,7 +32,7 @@ public class Trap extends Building{
      * damages the enemy that steps on trap
      */
     public void trap(BasicEnemy enemy) {
-        enemy.damage(60);
+        enemy.setHp(enemy.getHp()-60);
     }
 
     /**
