@@ -1,7 +1,7 @@
-package unsw.loopmania.Items;
+package unsw.loopmania.Items.Armor;
 
 import javafx.beans.property.SimpleIntegerProperty;
-
+import unsw.loopmania.*;
 public class basicChestArmor extends ChestArmor  {
 
     public basicChestArmor(SimpleIntegerProperty x, SimpleIntegerProperty y) {

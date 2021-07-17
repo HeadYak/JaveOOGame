@@ -1,6 +1,8 @@
-package unsw.loopmania;
+
+package unsw.loopmania.Cards;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.StaticEntity;
 
 /**
  * a Card in the world

@@ -1,4 +1,4 @@
-package unsw.loopmania.Items;
+package unsw.loopmania.Items.Armor;
 
 public interface BlockBehaviour {
     double getDamageTaken(double damageTaken);
