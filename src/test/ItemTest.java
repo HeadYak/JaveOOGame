@@ -168,6 +168,19 @@ public class ItemTest {
 
     }
 
+    @Test
+    public void testingPairs(){
+        List<Pair<Integer, Integer>> tempPath = new ArrayList<Pair<Integer, Integer>>();
+        Pair<Integer, Integer> pathtile = new Pair<>(0, 0);
+
+        tempPath.add(pathtile);
+        LoopManiaWorld d = new LoopManiaWorld(1, 2, tempPath);
+
+        List<Pair<Integer, Integer>> temp = d.getPath();
+        Pair testpair = new Pair<>(0, 0);
+        System.out.println(!temp.contains(testpair));
+    }
+
 
 
 }
