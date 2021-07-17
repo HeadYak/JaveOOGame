@@ -17,11 +17,18 @@ import unsw.loopmania.Character;
 public class EnemyMovementTest {
     List<Pair<Integer, Integer>> path = Arrays.asList(
             new Pair<>(0, 1), new Pair<>(0, 2), new Pair<>(0, 3),
-            new Pair<>(1, 3), new Pair<>(2, 3), new Pair<>(3, 3),
-            new Pair<>(3, 2), new Pair<>(3, 1), new Pair<>(3, 0),
-            new Pair<>(2, 0), new Pair<>(1, 0), new Pair<>(0, 0));
+            new Pair<>(0, 4), new Pair<>(0, 5), new Pair<>(0, 6),
+            new Pair<>(0, 7), new Pair<>(0, 8), new Pair<>(1, 8),
+            new Pair<>(2, 8), new Pair<>(3, 8), new Pair<>(4, 8),
+            new Pair<>(5, 8), new Pair<>(6, 8), new Pair<>(7, 8),
+            new Pair<>(8, 8), new Pair<>(8, 7), new Pair<>(8, 6),
+            new Pair<>(8, 5), new Pair<>(8, 4), new Pair<>(8, 3),
+            new Pair<>(8, 2), new Pair<>(8, 1), new Pair<>(8, 0),
+            new Pair<>(7, 0), new Pair<>(6, 0), new Pair<>(5, 0),
+            new Pair<>(4, 0), new Pair<>(3, 0), new Pair<>(2, 0),
+            new Pair<>(1, 0), new Pair<>(0, 0));
 
-    LoopManiaWorld world = new LoopManiaWorld(4, 4, path);
+    LoopManiaWorld world = new LoopManiaWorld(9, 9, path);
 
     @Test
     public void testSlugMovement() {
@@ -62,9 +69,8 @@ public class EnemyMovementTest {
             assertEquals(1, zombie.getY());
         }
 
-        // Create a character and place him 6 tiles counter-clockwise from the
-        // zombie
-        PathPosition charP = new PathPosition(6, path);
+        // Create a character and place him at (6, 0)
+        PathPosition charP = new PathPosition(25, path);
         Character playerChar = new Character(charP);
 
         // Simulate the movement of enemies + character by 1
@@ -74,6 +80,10 @@ public class EnemyMovementTest {
         // of player)
         assertEquals(0, zombie.getX());
         assertEquals(1, zombie.getY());
+
+        // Test that the zombie is preparing to move
+        assertTrue(zombie.isMoving());
+        assertEquals(zombie.getMoveCountdown(), 0);
 
         // Simulate the movement of enemeis + character by 1
         world.runTickMoves();
@@ -95,7 +105,7 @@ public class EnemyMovementTest {
         // Test that either player or zombie is missing (as they had to intiate
         // combat due to being on same tile)
         // TODO: Add player check
-        assertTrue(world.getEnemies().size() == 0);
+        assertTrue(world.getEnemies().size() == 0 || charP.getHp() == 0);
 
     }
 
@@ -121,25 +131,23 @@ public class EnemyMovementTest {
             world.runTickMoves();
         }
 
-        assertEquals(0, vampire.getX());
-        assertEquals(1, vampire.getY());
+        assertEquals(8, vampire.getX());
+        assertEquals(3, vampire.getY());
 
         // Add campfire to (2, 2)
         // TODO: Add campfire to (2, 2) -> assumes range of campfire is 1
-        Campfire campfire = new Campfire();
+        Campfire campfire = new Campfire(7, 5);
 
         // Test that the vampire's direction is set to counter-clockwise
         assertFalse(vampire.isMovingClockwise());
 
-        // Simulate the movement of enemies by 3 so that the vampire is now
+        // Simulate the movement of enemies by 1 so that the vampire is now
         // within the range of the campfire
-        world.runTickMoves();
-        world.runTickMoves();
         world.runTickMoves();
 
         // Check that vampire is at position (3, 1)
-        assertEquals(3, vampire.getX());
-        assertEquals(1, vampire.getY());
+        assertEquals(8, vampire.getX());
+        assertEquals(5, vampire.getY());
 
         // Check that the vampire's direction has reversed (check applied after
         // moving)
@@ -149,7 +157,7 @@ public class EnemyMovementTest {
         world.runTickMoves();
 
         // Check that the vampire has moved clockwise
-        assertEquals(2, vampire.getX());
-        assertEquals(0, vampire.getY());
+        assertEquals(8, vampire.getX());
+        assertEquals(3, vampire.getY());
     }
 }
