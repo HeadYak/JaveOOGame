@@ -12,26 +12,44 @@ public class Tower extends Building implements Support{
         range = 1;
     }
 
+    /**
+     * @return the range of the building
+     */
     @Override
     public int getRange() {
         return range;
     }
 
+    /**
+     * @return true if the building is a spawner and false if not
+     */
     @Override
     public Boolean getIsSpawner() {
         return false;
     }
 
+    /**
+     * @param character
+     * activates support buff for character
+     */
     @Override
     public void support(Character character) {
         character.activateSupport();
     }
 
+    /**
+     * @param character
+     * performs the buildings interaction with the building
+     */
     @Override
     public void interact(Character character) {
         support(character);
     }
 
+    /**
+     * @param character
+     * @return true if the character can interact with the building else false
+     */
     @Override
     public Boolean canInteract(Character character) {
         if (range > Math.sqrt((character.getX() - getX())^2 + (character.getY() - getY())^2)) {
@@ -44,15 +62,28 @@ public class Tower extends Building implements Support{
         return false;
     }
 
+    /**
+     * @param enemy
+     * performs the buildings interaction with the enemy
+     */
     @Override
     public void interactMob(BasicEnemy enemy) {
     }
 
+    /**
+     * @param enemy
+     * @return true if the enemy can interact with the building else false
+     */
     @Override
     public Boolean canInteractMob(BasicEnemy enemy) {
         return false;
     }
 
+    /**
+     * @param world
+     * @param character
+     * performs the buildings action on every new loop
+     */
     @Override
     public void newLoop(LoopManiaWorld world, Character character) {
     }
