@@ -3,6 +3,7 @@ package test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,8 +12,10 @@ import java.util.List;
 import org.javatuples.Pair;
 import org.junit.jupiter.api.Test;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
+import unsw.loopmania.Buildings.Campfire;
 import unsw.loopmania.enemies.Slug;
 import unsw.loopmania.enemies.Vampire;
 import unsw.loopmania.enemies.Zombie;
@@ -41,7 +44,7 @@ public class EnemyMovementTest {
         world.addEnemy(slug);
 
         // Create a character and place him at (8, 7) - furthest from the slug
-        PathPosition charP = new PathPosition(25, path);
+        PathPosition charP = new PathPosition(16, path);
         Character playerChar = new Character(charP);
         world.setCharacter(playerChar);
 
@@ -63,11 +66,10 @@ public class EnemyMovementTest {
     @Test
     public void testZombieMovement() {
         // Create a character so that zombie can have a target
-        PathPosition charP = new PathPosition(25, path);
+        PathPosition charP = new PathPosition(16, path);
         Character playerChar = new Character(charP);
         world.setCharacter(playerChar);
 
-        // If 
         PathPosition zombieP = new PathPosition(0, path);
         Zombie zombie = new Zombie(zombieP, playerChar);
         world.addEnemy(zombie);
@@ -76,56 +78,95 @@ public class EnemyMovementTest {
         assertEquals(0, zombie.getX());
         assertEquals(1, zombie.getY());
 
-        // Simulate the movement of enemies 10 times and test that zombie never
-        // moves
-        for (int i = 0; i < 10; i++) {
-            world.runTickMoves();
-
-            // Test that zombie has not moved
-            assertEquals(0, zombie.getX());
-            assertEquals(1, zombie.getY());
-        }
+        // Test that zombie is idle for the next tick
+        assertEquals(1, zombie.getCountdown());
 
         // Simulate the movement of enemies + character by 1
         world.runTickMoves();
 
-        // Test that zombie has not moved (as it has only just entered the range
-        // of player)
+        // Test that zombie has not moved
         assertEquals(0, zombie.getX());
         assertEquals(1, zombie.getY());
 
-        // Test that the zombie is preparing to move
-        assertTrue(zombie.isMoving());
-        assertEquals(zombie.getMoveCountdown(), 0);
+        // Test that zombie will move in the next tick
+        assertEquals(0, zombie.getCountdown());
 
-        // Simulate the movement of enemeis + character by 1
+        // Simulate the movement of enemies + character by 1
         world.runTickMoves();
 
-        // Test that zombie has now moved towards the player
+        // Test that zombie has moved
         assertEquals(0, zombie.getX());
-        assertEquals(0, zombie.getY());
+        assertNotEquals(1, zombie.getY());
 
-        // Simulate the movement of enemeis + character by 1
+        // Test that zombie has moved to (0, 0) or (0, 2)
+        assertTrue(zombie.getY() == 0 || zombie.getY() == 2);
+
+        // Test that zombie is idle for the next tick again
+        assertEquals(1, zombie.getCountdown());
+
+        // Plant a new zombie at (5, 0) so that the character is in the
+        // detection range
+        // NOTE: Character at this point is at coordinates (8, 4)
+        PathPosition zombieP2 = new PathPosition(26, path);
+        Zombie zombie2 = new Zombie(zombieP2, playerChar);
+        world.addEnemy(zombie2);
+
+        // Simulate the movement of enemies + character by 2
+        world.runTickMoves();
+        world.runTickMoves();
+        
+        // Test that zombie2 has moved anticlockwise towards the player
+        assertEquals(6, zombie2.getX());
+        assertEquals(0, zombie2.getY());
+
+        // Simulate the movement of enemies + character by 2
+        world.runTickMoves();
+        world.runTickMoves();
+        
+        // Test that zombie2 has moved anticlockwise towards the player
+        assertEquals(7, zombie2.getX());
+        assertEquals(0, zombie2.getY());
+
+    }
+
+    @Test
+    public void testZombieChaseConsistency() {
+        List<Zombie> zombies = new ArrayList<Zombie>();
+
+        // Create a character at (5, 0) that is in range of zombies at (0, 1)
+        PathPosition charP = new PathPosition(26, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
+        // Generate 50 zombies
+        PathPosition zombieP = new PathPosition(0, path);
+        for (int i = 0; i < 50; i++) {
+            Zombie zombie = new Zombie(zombieP, playerChar);
+            world.addEnemy(zombie);
+        }
+
+        // Simulate the world for two ticks
+        world.runTickMoves();
         world.runTickMoves();
 
-        // Test that zombie has not moved (as it is moving at 0.5 speed)
-        assertEquals(0, zombie.getX());
-        assertEquals(0, zombie.getY());
-
-        // Simulate the movement of enemeis + character by 1
-        world.runTickMoves();
-
-        // Test that either player or zombie is missing (as zombie has moved
-        // again into combat radius)
-        assertTrue(world.getEnemies().size() == 0 || charP.getHp() == 0);
+        // Test that all 50 zombies are now on (1, 0)
+        for (Zombie zombie : zombies) {
+            assertEquals(1, zombie.getX());
+            assertEquals(0, zombie.getY());
+        }
 
     }
 
     @Test
     public void testVampireMovement() {
         PathPosition vampireP = new PathPosition(0, path);
-        Vampire vampire = new Vampire(vampireP);
+        Vampire vampire = new Vampire(vampireP, world);
         world.addEnemy(vampire);
+
+        // Create a character and place him at (0, 5)
+        PathPosition charP = new PathPosition(4, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
 
         // Test that vampire is on the correct position
         assertEquals(0, vampire.getX());
@@ -144,12 +185,15 @@ public class EnemyMovementTest {
             world.runTickMoves();
         }
 
+        // Test that vampire is at the coordinates (8, 3)
         assertEquals(8, vampire.getX());
         assertEquals(3, vampire.getY());
 
-        // Add campfire to (2, 2)
-        // TODO: Add campfire to (2, 2) -> assumes range of campfire is 1
-        Campfire campfire = new Campfire(7, 5);
+        // Add campfire to (7, 5) -> assums range of campfire is 1
+        SimpleIntegerProperty x = new SimpleIntegerProperty(7);
+        SimpleIntegerProperty y = new SimpleIntegerProperty(5);
+        Campfire campfire = new Campfire(x, y);
+        world.addBuilding(campfire);
 
         // Test that the vampire's direction is set to counter-clockwise
         assertFalse(vampire.isMovingClockwise());
@@ -173,4 +217,5 @@ public class EnemyMovementTest {
         assertEquals(8, vampire.getX());
         assertEquals(3, vampire.getY());
     }
+
 }

@@ -405,4 +405,20 @@ public class LoopManiaWorld {
     public Character getCharacter() {
         return character;
     }
+
+    /**
+     * Getter method for building entities
+     * @return all building entities existing in world
+     */
+    public List<Building> getBuildingEntities() {
+        return buildingEntities;
+    }
+
+    /**
+     * Adds a building into the list of buildings in world
+     * @param enemy
+     */
+    public void addBuilding(Building building) {
+        buildingEntities.add(building);
+    }
 }

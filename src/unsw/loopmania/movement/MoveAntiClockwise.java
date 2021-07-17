@@ -15,7 +15,7 @@ public class MoveAntiClockwise implements MoveBehaviour {
         double noTiles = Math.ceil(moveSpeed);
 
         for (int i = 0; i < noTiles; i++) {
-            position.moveDownPath();
+            position.moveUpPath();
         }
 
     }

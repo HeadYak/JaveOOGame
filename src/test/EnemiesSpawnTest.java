@@ -75,7 +75,6 @@ public class EnemiesSpawnTest {
         assertEquals(zombie.getSupportRadius(), 2);
         assertEquals(zombie.getDetectionRadius(), 5);
         assertEquals(zombie.getCountdown(), 1);
-        assertFalse(zombie.isMoving());
         assertEquals(zombie.getHp(), 100);
     }
 
@@ -86,7 +85,7 @@ public class EnemiesSpawnTest {
 
         // Spawn a vampire
         PathPosition vampireP = new PathPosition(0, path);
-        Vampire vampire = new Vampire(vampireP);
+        Vampire vampire = new Vampire(vampireP, world);
         world.addEnemy(vampire);
 
         // Test that there is now 1 enemy

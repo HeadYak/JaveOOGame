@@ -1,11 +1,15 @@
 package unsw.loopmania.enemies;
 
+import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
+import unsw.loopmania.Buildings.Building;
+import unsw.loopmania.Buildings.Campfire;
 import unsw.loopmania.movement.MoveAntiClockwise;
 import unsw.loopmania.movement.MoveClockwise;
 import unsw.loopmania.enemies.crits.CritStackBuff;
 
 public class Vampire extends BasicEnemy {
+    private LoopManiaWorld worldReference;
     private boolean isMovingClockwise;
     private boolean isBuffed;
     private int buffDuration;
@@ -13,8 +17,9 @@ public class Vampire extends BasicEnemy {
     /**
      * Constructor for Vampire
      */
-    public Vampire(PathPosition position) {
+    public Vampire(PathPosition position, LoopManiaWorld world) {
         super(position);
+        worldReference = world;
 
         // Vampire stats
         setMoveSpeed(2);
@@ -83,6 +88,27 @@ public class Vampire extends BasicEnemy {
         }
         this.isMovingClockwise = isMovingClockwise;
     }
-    
+
+    /**
+     * Overridden method that moves vampire as usual, and then checks if it
+     * is in the range of a campfire
+     */
+    @Override
+    public void performMove() {
+        super.performMove();
+
+        // Check for campfires and see if they are in range
+        for (Building building : worldReference.getBuildingEntities()) {
+            double xComponent = Math.pow((building.getX() - getX()), 2);
+            double yComponent = Math.pow((building.getY() - getY()), 2);
+
+            double dist = Math.sqrt(xComponent + yComponent);
+
+            if (building instanceof Campfire && dist <= building.getRange()) {
+                setMovingClockwise(!isMovingClockwise);
+                break;
+            }
+        }
+    }
     
 }
