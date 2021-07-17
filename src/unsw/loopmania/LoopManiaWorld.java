@@ -2,19 +2,18 @@ package unsw.loopmania;
 import unsw.loopmania.Items.*;
 import unsw.loopmania.Items.Weapons.Sword;
 import unsw.loopmania.enemies.BasicEnemy;
-import unsw.loopmania.Cards.*;
+import unsw.loopmania.enemies.Slug;
 import unsw.loopmania.Buildings.*;
+import unsw.loopmania.Cards.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.lang.Math; 
 
-import javax.swing.text.Position;
-
 import org.javatuples.Pair;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import unsw.loopmania.Buildings.Trap;
+// import unsw.loopmania.Buildings.Trap;
 import unsw.loopmania.Buildings.VampireCastleBuilding;
 
 /**
@@ -120,7 +119,7 @@ public class LoopManiaWorld {
         List<BasicEnemy> spawningEnemies = new ArrayList<>();
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
-            BasicEnemy enemy = new BasicEnemy(new PathPosition(indexInPath, orderedPath));
+            Slug enemy = new Slug(new PathPosition(indexInPath, orderedPath));
             enemies.add(enemy);
             spawningEnemies.add(enemy);
         }
@@ -222,7 +221,7 @@ public class LoopManiaWorld {
      */
     public void runTickMoves(){
         int startLoop = character.getLoop();
-        character.moveDownPath();
+        character.performMove();
         for (Building b: buildingEntities) {
             if (b.canInteract(character)) {
                 b.interact(character);
@@ -316,7 +315,7 @@ public class LoopManiaWorld {
     private void moveBasicEnemies() {
         // TODO = expand to more types of enemy
         for (BasicEnemy e: enemies){
-            e.move();
+            e.performMove();
         }
     }
 
