@@ -67,7 +67,6 @@ public class EnemyMovementTest {
         Character playerChar = new Character(charP);
         world.setCharacter(playerChar);
 
-        // If 
         PathPosition zombieP = new PathPosition(0, path);
         Zombie zombie = new Zombie(zombieP, playerChar);
         world.addEnemy(zombie);
@@ -76,49 +75,47 @@ public class EnemyMovementTest {
         assertEquals(0, zombie.getX());
         assertEquals(1, zombie.getY());
 
-        // Simulate the movement of enemies 10 times and test that zombie never
-        // moves
-        for (int i = 0; i < 10; i++) {
-            world.runTickMoves();
-
-            // Test that zombie has not moved
-            assertEquals(0, zombie.getX());
-            assertEquals(1, zombie.getY());
-        }
+        // Test that zombie is idle for the next tick
+        assertEquals(1, zombie.getCountdown());
 
         // Simulate the movement of enemies + character by 1
         world.runTickMoves();
 
-        // Test that zombie has not moved (as it has only just entered the range
-        // of player)
+        // Test that zombie has not moved
         assertEquals(0, zombie.getX());
         assertEquals(1, zombie.getY());
 
-        // Test that the zombie is preparing to move
-        assertTrue(zombie.isMoving());
-        assertEquals(zombie.getMoveCountdown(), 0);
+        // Test that zombie will move in the next tick
+        assertEquals(0, zombie.getCountdown());
 
-        // Simulate the movement of enemeis + character by 1
+        // Simulate the movement of enemies + character by 1
         world.runTickMoves();
 
-        // Test that zombie has now moved towards the player
+        // Test that zombie has moved
         assertEquals(0, zombie.getX());
-        assertEquals(0, zombie.getY());
+        assertNotEquals(1, zombie.getY());
 
-        // Simulate the movement of enemeis + character by 1
+        // Test that zombie has moved to (0, 0) or (0, 2)
+        assertTrue(zombie.getY() == 0 || zombie.getY() == 2);
+
+        // Test that zombie is idle for the next tick again
+        assertEquals(1, zombie.getCountdown());
+
+        // Simulate the movement of enemies + character by 1
         world.runTickMoves();
 
-        // Test that zombie has not moved (as it is moving at 0.5 speed)
+        // Test that zombie has not moved
         assertEquals(0, zombie.getX());
-        assertEquals(0, zombie.getY());
+        assertEquals(1, zombie.getY());
 
-        // Simulate the movement of enemeis + character by 1
-        world.runTickMoves();
+        // Plant a new zombie close to the character
+        // NOTE: Character at this point is at coordinates ()
 
-        // Test that either player or zombie is missing (as zombie has moved
-        // again into combat radius)
-        assertTrue(world.getEnemies().size() == 0 || charP.getHp() == 0);
+    }
 
+    @Test
+    public void testZombieChaseConsistency() {
+        List<Zombie> zombies = new ArrayList<Zombie>();
     }
 
     @Test
