@@ -184,7 +184,7 @@ public class LoopManiaWorldController {
         // TODO = load more images/entities during initialization
         
         Image pathTilesImage = new Image((new File("src/images/32x32GrassAndDirtPath.png")).toURI().toString());
-        Image inventorySlotImage = new Image((new File("src/images/empty_slot.png")).toURI().toString());
+        Image inventorySlotImage = new Image((new File("src/images/equipment_slot.png")).toURI().toString());
         Rectangle2D imagePart = new Rectangle2D(0, 0, 32, 32);
 
         // Add the ground first so it is below all other entities (inculding all the twists and turns)
