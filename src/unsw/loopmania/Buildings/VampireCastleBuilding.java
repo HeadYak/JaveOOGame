@@ -3,7 +3,6 @@ package unsw.loopmania.Buildings;
 import javax.swing.text.Position;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import unsw.loopmania.Building;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.Character;
 import unsw.loopmania.BasicEnemy;

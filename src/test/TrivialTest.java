@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import unsw.loopmania.*;
 import unsw.loopmania.Character;
 import unsw.loopmania.Items.Item;
-import unsw.loopmania.Items.Sword;
+import unsw.loopmania.Items.Weapons.Sword;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 /**
@@ -33,56 +33,4 @@ public class TrivialTest {
         assertEquals(d.getWidth(), 1);
     }
 
-    @Test
-    public void swordTest(){
-        List<Pair<Integer, Integer>> tempPath = new ArrayList<Pair<Integer, Integer>>();
-
-        Pair<Integer, Integer> pathtile = new Pair<>(0, 0);
-
-        tempPath.add(pathtile);
-
-
-        LoopManiaWorld d = new LoopManiaWorld(1, 2, tempPath);
-        assertEquals(d.getWidth(), 1);
-        PathPosition temp = new PathPosition(0, tempPath);
-        Character c = new Character(temp);
-
-        assertEquals(c.getWeapon(), null);
-
-        SimpleIntegerProperty x = new SimpleIntegerProperty();
-        SimpleIntegerProperty y = new SimpleIntegerProperty();
-
-        Sword newsword = new Sword(x, y);
-        c.setWeapon(newsword);
-        
-        assertEquals(c.getWeapon(), newsword);
-        // System.out.println(c.getWeapon());
-    }
-
-
-
-    @Test
-    public void swordgoldValueTest(){
-        List<Pair<Integer, Integer>> tempPath = new ArrayList<Pair<Integer, Integer>>();
-
-        Pair<Integer, Integer> pathtile = new Pair<>(0, 0);
-
-        tempPath.add(pathtile);
-
-
-        LoopManiaWorld d = new LoopManiaWorld(1, 2, tempPath);
-        assertEquals(d.getWidth(), 1);
-        PathPosition temp = new PathPosition(0, tempPath);
-        Character c = new Character(temp);
-
-        assertEquals(c.getWeapon(), null);
-
-        SimpleIntegerProperty x = new SimpleIntegerProperty();
-        SimpleIntegerProperty y = new SimpleIntegerProperty();
-
-        Sword newsword = new Sword(x, y);
-
-        assertEquals(newsword.getGoldValue(), 5);
-
-    }
 }

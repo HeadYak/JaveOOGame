@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.BasicEnemy;
-import unsw.loopmania.Building;
 import unsw.loopmania.Character;
 import unsw.loopmania.Items.HealthPotion;
 import unsw.loopmania.Items.Item;

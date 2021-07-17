@@ -29,7 +29,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 import unsw.loopmania.Buildings.VampireCastleBuilding;
-import unsw.loopmania.Items.Sword;
+import unsw.loopmania.Cards.VampireCastleCard;
+import unsw.loopmania.Items.Weapons.Sword;
 
 import java.util.EnumMap;
 

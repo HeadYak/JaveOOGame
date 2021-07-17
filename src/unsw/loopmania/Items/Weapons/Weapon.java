@@ -1,8 +1,11 @@
-package unsw.loopmania.Items;
+package unsw.loopmania.Items.Weapons;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.Items.Item;
 
 public abstract class Weapon extends Item {
+
+    public WeaponEffect extraWeaponEffect;
 
     private int damage;
     public Weapon(SimpleIntegerProperty x, SimpleIntegerProperty y) {

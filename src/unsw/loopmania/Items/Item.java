@@ -3,6 +3,7 @@ package unsw.loopmania.Items;
 import javafx.beans.property.SimpleIntegerProperty;
 import java.util.concurrent.ThreadLocalRandom;
 import unsw.loopmania.StaticEntity;
+import unsw.loopmania.Items.Weapons.Sword;
 
 public abstract class Item extends StaticEntity {
     private int goldValue;
