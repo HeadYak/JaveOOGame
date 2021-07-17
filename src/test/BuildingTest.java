@@ -23,6 +23,7 @@ import unsw.loopmania.Buildings.Trap;
 import unsw.loopmania.Buildings.VampireCastleBuilding;
 import unsw.loopmania.Buildings.Village;
 import unsw.loopmania.Buildings.ZombiePit;
+import unsw.loopmania.enemies.Slug;
 
 
 public class BuildingTest {
@@ -100,6 +101,7 @@ public class BuildingTest {
         Village village = new Village(x, y);
         assertEquals(c.getHp(), c.getMaxHp());
         c.setHp(79);
+        assertEquals(c.getHp(), 79);
         village.heal(c);
         assertEquals(c.getHp(), 99);
         village.heal(c);
@@ -170,8 +172,9 @@ public class BuildingTest {
         SimpleIntegerProperty y = new SimpleIntegerProperty();
 
         Trap trap = new Trap(x, y);
+        int oldHp = slug.getHp();
         trap.trap(slug);
-        assertTrue(slug.getHP() < slug.getMaxHp());
+        assertTrue(slug.getHp() < oldHp);
     }
 
     @Test

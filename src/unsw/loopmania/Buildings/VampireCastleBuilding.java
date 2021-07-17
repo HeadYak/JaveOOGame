@@ -1,10 +1,9 @@
 package unsw.loopmania.Buildings;
 
-import javax.swing.text.Position;
-
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.enemies.BasicEnemy;
+import unsw.loopmania.enemies.Vampire;
 import unsw.loopmania.Character;
 
 /**
@@ -13,7 +12,6 @@ import unsw.loopmania.Character;
 public class VampireCastleBuilding extends Building implements Spawn, Support{
     private int loopReq;
     private int range;
-    // TODO = add more types of building, and make sure buildings have effects on entities as required by the spec
     
     public VampireCastleBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
