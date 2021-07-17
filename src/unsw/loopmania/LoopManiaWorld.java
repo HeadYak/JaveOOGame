@@ -98,7 +98,9 @@ public class LoopManiaWorld {
     public void setCharacter(Character character) {
         this.character = character;
     }
-
+    public List<Pair<Integer, Integer>> getPath(){
+        return orderedPath;
+    }
     /**
      * add a generic entity (without it's own dedicated method for adding to the world)
      * @param entity

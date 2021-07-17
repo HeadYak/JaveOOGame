@@ -3,19 +3,10 @@ package test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import javax.crypto.spec.ChaCha20ParameterSpec;
-
-import org.javatuples.Pair;
 import org.junit.jupiter.api.Test;
 
-import unsw.loopmania.*;
-import unsw.loopmania.Character;
-import unsw.loopmania.Items.Item;
-import unsw.loopmania.Items.Weapons.Sword;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.LoopManiaWorld;
 /**
  * this class is a dummy class demonstrating how to setup tests for the project
  * you should setup additional test classes in a similar fashion, aiming to achieve high coverage.

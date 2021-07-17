@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
+import unsw.loopmania.enemies.*;
 import unsw.loopmania.Character;
 
 public class CombatTest {
