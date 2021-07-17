@@ -95,16 +95,15 @@ public class EnemyMovementTest {
         // Simulate the movement of enemeis + character by 1
         world.runTickMoves();
 
-        // Test that zombie has not moved (as it is moving at a slower speed)
+        // Test that zombie has not moved (as it is moving at 0.5 speed)
         assertEquals(0, zombie.getX());
         assertEquals(0, zombie.getY());
 
         // Simulate the movement of enemeis + character by 1
         world.runTickMoves();
 
-        // Test that either player or zombie is missing (as they had to intiate
-        // combat due to being on same tile)
-        // TODO: Add player check
+        // Test that either player or zombie is missing (as zombie has moved
+        // again into combat radius)
         assertTrue(world.getEnemies().size() == 0 || charP.getHp() == 0);
 
     }

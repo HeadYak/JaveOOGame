@@ -9,6 +9,7 @@ import java.util.List;
 import org.javatuples.Pair;
 import org.junit.Test;
 
+import jdk.internal.jshell.tool.resources.l10n;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.Character;
@@ -34,7 +35,17 @@ public class CombatTest {
         PathPosition charP = new PathPosition(0, path);
         Character playerChar = new Character(charP);
 
-        // TODO:
+        // Create new slug on same tile as player
+        PathPosition slugP = new PathPosition(0, path);
+        Slug slug = new Slug(slugP);
+
+        // Simulate the world by 1 tick
+        world.runTickMoves();
+
+        // Test that combat has occurred by checking that the slug or the player
+        // is now dead
+        assertTrue(world.getEnemies().size() == 0 || charP.getHp() == 0);
+
     }
 
     @Test
@@ -42,7 +53,16 @@ public class CombatTest {
         PathPosition charP = new PathPosition(0, path);
         Character playerChar = new Character(charP);
 
-        // TODO:
+        // Create new zombie on same tile as player
+        PathPosition zombieP = new PathPosition(0, path);
+        Zombie zombie = new Zombie(zombieP);
+
+        // Simulate the world by 1 tick
+        world.runTickMoves();
+
+        // Test that combat has occurred by checking that the vampire or the
+        // player is now dead
+        assertTrue(world.getEnemies().size() == 0 || charP.getHp() == 0);
     }
 
     @Test
@@ -50,22 +70,20 @@ public class CombatTest {
         PathPosition charP = new PathPosition(0, path);
         Character playerChar = new Character(charP);
 
-        // TODO:
+        // Create new vampire on same tile as player
+        PathPosition vampireP = new PathPosition(0, path);
+        Vampire vampire = new Vampire(vampireP);
+
+        // Simulate the world by 1 tick
+        world.runTickMoves();
+
+        // Test that combat has occurred by checking that the slug or the player
+        // is now dead
+        assertTrue(world.getEnemies().size() == 0 || charP.getHp() == 0);
     }
 
     @Test
-    public void testEnemiesCannotPassCharacter() {
-        PathPosition charP = new PathPosition(0, path);
-        Character playerChar = new Character(charP);
-
-        // Spawn vampire tile next to character where they would cross paths
-        PathPosition vampireP = new PathPosition(1, path);
-        Vampire vampire = new Vampire(vampireP);
-
-        // Simulate the movement of character + vampire by 1
-        world.runTickMoves();
-
-        // Check that combat was initiated and one died
-
+    public void testPlayerDefeat() {
+        // need to decide on stats before implementing
     }
 }
