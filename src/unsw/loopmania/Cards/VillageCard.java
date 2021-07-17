@@ -7,14 +7,12 @@ import org.javatuples.Pair;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.LoopManiaWorld;
 
-/**
- * represents a vampire castle card in the backend game world
- */
-public class VampireCastleCard extends Card {
-    // TODO = add more types of card
-    public VampireCastleCard(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+public class VillageCard extends Card{
+
+    public VillageCard(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
-        allowedTilesList = new onlyadjacentPathTiles();
+        allowedTilesList = new onlyPathTiles();
+        //TODO Auto-generated constructor stub
     }
 
     @Override
@@ -22,5 +20,6 @@ public class VampireCastleCard extends Card {
         // TODO Auto-generated method stub
         return allowedTilesList.getvalidTiles(world);
     }
- 
+
+    
 }

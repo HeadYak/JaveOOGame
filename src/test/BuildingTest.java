@@ -7,8 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.crypto.spec.ChaCha20ParameterSpec;
-
 import org.javatuples.Pair;
 import org.junit.jupiter.api.Test;
 
