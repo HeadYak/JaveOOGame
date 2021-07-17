@@ -193,7 +193,7 @@ public class BuildingTest {
         VampireCastleBuilding vampireCastle = new VampireCastleBuilding(x, y);
         ZombiePit zPit = new ZombiePit(x, y);
         assertEquals(c.getLoop(), 0);
-        assertEquals(d.get, actual);
+        assertEquals(d.getEnemies().size(), 0);
         c.newLoop();
         c.newLoop();
         c.newLoop();
@@ -202,7 +202,7 @@ public class BuildingTest {
         assertEquals(c.getLoop(), 5);
         vampireCastle.spawn(c.getLoop(), d);
         zPit.spawn(c.getLoop(), d);
-        assertEquals(d.getEnemieList().size(), 2);
+        assertEquals(d.getEnemies().size(), 2);
     }
 
 

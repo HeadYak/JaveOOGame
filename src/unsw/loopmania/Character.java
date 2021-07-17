@@ -39,6 +39,9 @@ public class Character extends MovingEntity {
         allyList = new ArrayList<Ally>();
         inventory = new ArrayList<Item>();
         inRange = new ArrayList<Building>();
+        isSupported = false;
+        mobSupport = false;
+        buffed = false;
     }
     public Helmet getHelmet(){
         return equippedHelmet;
