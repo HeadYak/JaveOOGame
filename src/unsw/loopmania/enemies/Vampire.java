@@ -2,6 +2,7 @@ package unsw.loopmania.enemies;
 
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.movement.MoveAntiClockwise;
+import unsw.loopmania.movement.MoveClockwise;
 import unsw.loopmania.enemies.crits.CritStackBuff;
 
 public class Vampire extends BasicEnemy {
@@ -75,6 +76,11 @@ public class Vampire extends BasicEnemy {
      * @param isMovingClockwise whether it is moving clockwise or not
      */
     public void setMovingClockwise(boolean isMovingClockwise) {
+        if (isMovingClockwise) {
+            setMoveBehaviour(new MoveClockwise());
+        } else {
+            setMoveBehaviour(new MoveAntiClockwise());
+        }
         this.isMovingClockwise = isMovingClockwise;
     }
     

@@ -1,7 +1,7 @@
 package unsw.loopmania.enemies;
 
 import unsw.loopmania.PathPosition;
-import unsw.loopmania.movement.ChasePlayer;
+import unsw.loopmania.movement.MoveChasePlayer;
 import unsw.loopmania.enemies.crits.CritConvertToEnemy;
 
 public class Zombie extends BasicEnemy {
@@ -27,7 +27,7 @@ public class Zombie extends BasicEnemy {
         countdown = 0;
 
         // Behaviours
-        setMoveBehaviour(new ChasePlayer());
+        setMoveBehaviour(new MoveChasePlayer());
         setCritBehaviour(new CritConvertToEnemy());
     }
 
