@@ -11,7 +11,6 @@ import unsw.loopmania.enemies.crits.CritConvertToEnemy;
 public class Zombie extends BasicEnemy {
     private Character targetCharacter;
     private int detectionRadius;
-    private boolean isMoving;
     private int countdown;
 
     /**
@@ -29,7 +28,6 @@ public class Zombie extends BasicEnemy {
         setSupportRadius(2);
         setHp(100);
         detectionRadius = 5;
-        isMoving = false;
         countdown = 1;
 
         // Behaviours
@@ -46,24 +44,8 @@ public class Zombie extends BasicEnemy {
     }
 
     /**
-     * Getter for isMoving
-     * @return if zombie is moving or not
-     */
-    public boolean isMoving() {
-        return isMoving;
-    }
-
-    /**
-     * Setter for isMoving
-     * @param isMoving whether zombie is moving or not
-     */
-    public void setMoving(boolean isMoving) {
-        this.isMoving = isMoving;
-    }
-
-    /**
      * Getter for countdown
-     * @return the countdown of zombie before it moves again (only if isMoving)
+     * @return the countdown of zombie before it moves again
      */
     public int getCountdown() {
         return countdown;

@@ -3,6 +3,7 @@ package test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,8 +12,10 @@ import java.util.List;
 import org.javatuples.Pair;
 import org.junit.jupiter.api.Test;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
+import unsw.loopmania.Buildings.Campfire;
 import unsw.loopmania.enemies.Slug;
 import unsw.loopmania.enemies.Vampire;
 import unsw.loopmania.enemies.Zombie;
@@ -146,6 +149,11 @@ public class EnemyMovementTest {
         Vampire vampire = new Vampire(vampireP);
         world.addEnemy(vampire);
 
+        // Create a character and place him at (0, 5)
+        PathPosition charP = new PathPosition(4, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
         // Test that vampire is on the correct position
         assertEquals(0, vampire.getX());
         assertEquals(1, vampire.getY());
@@ -163,12 +171,14 @@ public class EnemyMovementTest {
             world.runTickMoves();
         }
 
+        // Test that vampire is at the coordinates (8, 3)
         assertEquals(8, vampire.getX());
         assertEquals(3, vampire.getY());
 
-        // Add campfire to (2, 2)
-        // TODO: Add campfire to (2, 2) -> assumes range of campfire is 1
-        Campfire campfire = new Campfire(7, 5);
+        // Add campfire to (7, 5) -> assums range of campfire is 1
+        SimpleIntegerProperty x = new SimpleIntegerProperty(7);
+        SimpleIntegerProperty y = new SimpleIntegerProperty(5);
+        Campfire campfire = new Campfire(x, y);
 
         // Test that the vampire's direction is set to counter-clockwise
         assertFalse(vampire.isMovingClockwise());
