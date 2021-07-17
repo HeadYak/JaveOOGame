@@ -93,6 +93,7 @@ public class Zombie extends BasicEnemy {
             } else {
                 setMoveBehaviour(new MoveAntiClockwise());
             }
+
         } else {
             setMoveBehaviour(new MoveRandomly());
         }

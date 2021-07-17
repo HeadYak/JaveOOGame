@@ -40,7 +40,7 @@ public class EnemyMovementTest {
         Slug slug = new Slug(slugP);
         world.addEnemy(slug);
 
-        // Create a character and place him at (8, 7) - furthest fromthe slug
+        // Create a character and place him at (8, 7) - furthest from the slug
         PathPosition charP = new PathPosition(25, path);
         Character playerChar = new Character(charP);
         world.setCharacter(playerChar);
@@ -63,8 +63,13 @@ public class EnemyMovementTest {
     @Test
     public void testZombieMovement() {
         // Create a character so that zombie can have a target
+        PathPosition charP = new PathPosition(25, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
+        // If 
         PathPosition zombieP = new PathPosition(0, path);
-        Zombie zombie = new Zombie(zombieP);
+        Zombie zombie = new Zombie(zombieP, playerChar);
         world.addEnemy(zombie);
 
         // Test that zombie is on the correct position
@@ -80,10 +85,6 @@ public class EnemyMovementTest {
             assertEquals(0, zombie.getX());
             assertEquals(1, zombie.getY());
         }
-
-        // Create a character and place him at (6, 0)
-        PathPosition charP = new PathPosition(25, path);
-        Character playerChar = new Character(charP);
 
         // Simulate the movement of enemies + character by 1
         world.runTickMoves();
