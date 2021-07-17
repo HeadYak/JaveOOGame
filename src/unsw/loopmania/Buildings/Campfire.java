@@ -1,6 +1,7 @@
 package unsw.loopmania.Buildings;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import jdk.internal.icu.impl.CharTrie;
 import unsw.loopmania.Building;
 import unsw.loopmania.Character;
 import unsw.loopmania.BasicEnemy;
@@ -35,9 +36,10 @@ public class Campfire extends Building{
     @Override
     public Boolean canInteract(Character character) {
         if (range > Math.sqrt((character.getX() - getX())^2 + (character.getY() - getY())^2)) {
+            character.addInRange(this);
             return true;
         }
-        character.deactivateBuff();
+        character.removeInRange(this);
         return false;
     }
 

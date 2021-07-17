@@ -1,6 +1,7 @@
 package unsw.loopmania;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import unsw.loopmania.Items.Item;
 import unsw.loopmania.Items.Armor.ChestArmor;
@@ -25,6 +26,7 @@ public class Character extends MovingEntity {
     private int loops;
     private Helmet equippedHelmet;
     private ChestArmor equippedChestArmor;
+    private List<Building> inRange;
     // TODO = potentially implement relationships between this class and other classes
     public Character(PathPosition position) {
         super(position);
@@ -33,6 +35,7 @@ public class Character extends MovingEntity {
         damageTaken = 1.0;
         allyList = new ArrayList<Ally>();
         inventory = new ArrayList<Item>();
+        inRange = new ArrayList<Building>();
     }
     public Helmet getHelmet(){
         return equippedHelmet;
@@ -50,13 +53,31 @@ public class Character extends MovingEntity {
 
     public ArrayList<Item> getInventory(){
         return inventory;
+
+    public List<Building> getInRange() {
+        return inRange;
+    }
+
+    public void addInRange(Building building) {
+        inRange.add(building);
+    }
+
+    public Boolean removeInRange(Building building) {
+        for (Building b : inRange) {
+            if (b.getX() == building.getX() && b.getY() == (building.getY())) {
+                inRange.remove(b);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Weapon getWeapon(){
+        return equippedWeapon;
     }
 
     public void setWeapon(Weapon newWeapon){
         this.equippedWeapon = newWeapon;
-    }
-    public Weapon getWeapon(){
-        return equippedWeapon;
     }
 
     public int getHp() {

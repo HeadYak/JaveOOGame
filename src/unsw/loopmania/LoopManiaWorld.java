@@ -394,4 +394,8 @@ public class LoopManiaWorld {
     public void addEnemy(BasicEnemy enemy) {
         enemies.add(enemy);
     }
+
+    public List<BasicEnemy> getEnemieList() {
+        return enemies;
+    }
 }
