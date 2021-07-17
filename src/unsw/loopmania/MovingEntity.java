@@ -18,6 +18,11 @@ public abstract class MovingEntity extends Entity {
     private MoveBehaviour moveBehaviour;
 
     /**
+     * entity's movement speed
+     */
+    private double moveSpeed;
+
+    /**
      * Create a moving entity which moves up and down the path in position
      * @param position represents the current position in the path
      */
@@ -34,8 +39,15 @@ public abstract class MovingEntity extends Entity {
         this.moveBehaviour = moveBehaviour;
     }
 
+    /**
+     * Make MovingEntity move
+     */
     public void performMove() {
-        
+        moveBehaviour.move(getMoveSpeed());
+    }
+
+    public double getMoveSpeed() {
+        return moveSpeed;
     }
 
     // /**

@@ -2,9 +2,8 @@ package unsw.loopmania.Buildings;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import jdk.internal.icu.impl.CharTrie;
-import unsw.loopmania.Building;
 import unsw.loopmania.Character;
-import unsw.loopmania.BasicEnemy;
+import unsw.loopmania.enemies.BasicEnemy;
 import unsw.loopmania.*;
 
 public class Campfire extends Building{

@@ -3,8 +3,8 @@ package unsw.loopmania.Buildings;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.Building;
 import unsw.loopmania.LoopManiaWorld;
+import unsw.loopmania.enemies.BasicEnemy;
 import unsw.loopmania.Character;
-import unsw.loopmania.BasicEnemy;
 
 public class ZombiePit extends Building implements Spawn{
     private Zombie zombie;

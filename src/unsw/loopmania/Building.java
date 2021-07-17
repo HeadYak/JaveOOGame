@@ -1,6 +1,7 @@
 package unsw.loopmania;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.enemies.BasicEnemy;
 
 public abstract class Building extends StaticEntity{
     public Building(SimpleIntegerProperty x, SimpleIntegerProperty y) {
