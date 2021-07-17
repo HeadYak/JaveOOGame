@@ -1,11 +1,14 @@
-package unsw.loopmania;
+package unsw.loopmania.enemies;
 
 import java.util.Random;
+
+import unsw.loopmania.MovingEntity;
+import unsw.loopmania.PathPosition;
 
 /**
  * a basic form of enemy in the world
  */
-public class BasicEnemy extends MovingEntity {
+public abstract class BasicEnemy extends MovingEntity {
     // TODO = modify this, and add additional forms of enemy
     public BasicEnemy(PathPosition position) {
         super(position);

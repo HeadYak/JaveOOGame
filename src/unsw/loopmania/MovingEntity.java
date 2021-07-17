@@ -7,12 +7,15 @@ import unsw.loopmania.movement.MoveBehaviour;
  * The moving entity
  */
 public abstract class MovingEntity extends Entity {
-    private MoveBehaviour moveBehaviour;
-
     /**
      * object holding position in the path
      */
     private PathPosition position;
+
+    /**
+     * entity's movement behaviour (assigned in subclasses)
+     */
+    private MoveBehaviour moveBehaviour;
 
     /**
      * Create a moving entity which moves up and down the path in position
@@ -31,21 +34,23 @@ public abstract class MovingEntity extends Entity {
         this.moveBehaviour = moveBehaviour;
     }
 
-    public void 
-
-    /**
-     * move clockwise through the path
-     */
-    public void moveDownPath() {
-        position.moveDownPath();
+    public void performMove() {
+        
     }
 
-    /**
-     * move anticlockwise through the path
-     */
-    public void moveUpPath() {
-        position.moveUpPath();
-    }
+    // /**
+    //  * move clockwise through the path
+    //  */
+    // public void moveDownPath() {
+    //     position.moveDownPath();
+    // }
+
+    // /**
+    //  * move anticlockwise through the path
+    //  */
+    // public void moveUpPath() {
+    //     position.moveUpPath();
+    // }
 
     public SimpleIntegerProperty x() {
         return position.getX();
