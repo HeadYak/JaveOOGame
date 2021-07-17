@@ -61,5 +61,22 @@ public class Vampire extends BasicEnemy {
     public void setBuffDuration(int buffDuration) {
         this.buffDuration = buffDuration;
     }
+
+    /**
+     * Getter for if it is moving clockwise
+     * @return if it is moving clockwise
+     */
+    public boolean isMovingClockwise() {
+        return isMovingClockwise;
+    }
+
+    /**
+     * Setter for if it is moving clockwise
+     * @param isMovingClockwise whether it is moving clockwise or not
+     */
+    public void setMovingClockwise(boolean isMovingClockwise) {
+        this.isMovingClockwise = isMovingClockwise;
+    }
+    
     
 }
