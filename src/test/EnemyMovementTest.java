@@ -41,7 +41,7 @@ public class EnemyMovementTest {
         world.addEnemy(slug);
 
         // Create a character and place him at (8, 7) - furthest from the slug
-        PathPosition charP = new PathPosition(25, path);
+        PathPosition charP = new PathPosition(16, path);
         Character playerChar = new Character(charP);
         world.setCharacter(playerChar);
 
@@ -63,7 +63,7 @@ public class EnemyMovementTest {
     @Test
     public void testZombieMovement() {
         // Create a character so that zombie can have a target
-        PathPosition charP = new PathPosition(25, path);
+        PathPosition charP = new PathPosition(16, path);
         Character playerChar = new Character(charP);
         world.setCharacter(playerChar);
 
@@ -108,8 +108,30 @@ public class EnemyMovementTest {
         assertEquals(0, zombie.getX());
         assertEquals(1, zombie.getY());
 
-        // Plant a new zombie close to the character
-        // NOTE: Character at this point is at coordinates ()
+        // Plant a new zombie at (5, 0) so that the character is in the
+        // detection range
+        // NOTE: Character at this point is at coordinates (8, 4)
+        PathPosition zombieP2 = new PathPosition(26, path);
+        Zombie zombie2 = new Zombie(zombieP2, playerChar);
+        world.addEnemy(zombie2);
+
+        // Simulate the movement of enemies + character by 2
+        world.runTickMoves();
+        world.runTickMoves();
+        
+        // Test that zombie2 has moved anticlockwise towards the player
+        assertEquals(6, zombie2.getX());
+        assertEquals(0, zombie2.getY());
+
+        // Simulate the movement of enemies + character by 2
+        world.runTickMoves();
+        world.runTickMoves();
+        
+        // Test that zombie2 has moved anticlockwise towards the player
+        assertEquals(5, zombie2.getX());
+        assertEquals(0, zombie2.getY());
+
+        
 
     }
 
