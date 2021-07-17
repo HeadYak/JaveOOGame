@@ -1,6 +1,7 @@
 package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,9 +34,6 @@ public class EnemiesSpawnTest {
 
         // Test that there is now 1 enemy
         assertEquals(world.getEnemies().size(), 1);
-
-        // Test that there are no enemies
-        assertEquals(world.getEnemies().size(), 0);
 
         // Test that slug is on the correct position
         assertEquals(slug.getX(), 0);
@@ -72,6 +70,7 @@ public class EnemiesSpawnTest {
         assertEquals(zombie.getBattleRadius(), 1);
         assertEquals(zombie.getSupportRadius(), 2);
         assertEquals(zombie.getDetectionRadius(), 5);
+        assertEquals(zombie.getCountdown(), 0);
         assertFalse(zombie.isMoving());
         assertEquals(zombie.getHp(), 200);
     }

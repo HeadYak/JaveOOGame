@@ -30,5 +30,46 @@ public class Zombie extends BasicEnemy {
         setMoveBehaviour(new ChasePlayer());
         setCritBehaviour(new CritConvertToEnemy());
     }
+
+    /**
+     * Getter for detection radius
+     * @return detection radius of zombie (always 5)
+     */
+    public int getDetectionRadius() {
+        return detectionRadius;
+    }
+
+    /**
+     * Getter for isMoving
+     * @return if zombie is moving or not
+     */
+    public boolean isMoving() {
+        return isMoving;
+    }
+
+    /**
+     * Setter for isMoving
+     * @param isMoving whether zombie is moving or not
+     */
+    public void setMoving(boolean isMoving) {
+        this.isMoving = isMoving;
+    }
+
+    /**
+     * Getter for countdown
+     * @return the countdown of zombie before it moves again (only if isMoving)
+     */
+    public int getCountdown() {
+        return countdown;
+    }
+
+    /**
+     * Setter for countdown
+     * @param countdown new countdown of zombie when moving
+     */
+    public void setCountdown(int countdown) {
+        this.countdown = countdown;
+    }
+
     
 }
