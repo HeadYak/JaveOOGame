@@ -42,6 +42,14 @@ public abstract class MovingEntity extends Entity {
     }
 
     /**
+     * Getter for the path position of a moving entity
+     * @return the current position of moving entity
+     */
+    public PathPosition getPosition() {
+        return position;
+    }
+
+    /**
      * Setter for move behaviour
      * @param moveBehaviour move behaviour we want to implement
      */
