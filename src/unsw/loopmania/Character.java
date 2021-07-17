@@ -86,10 +86,6 @@ public class Character extends MovingEntity {
         this.equippedWeapon = newWeapon;
     }
 
-    public int getHp() {
-        return hp;
-    }
-
     public int getMaxHp() {
         return maxHp;
     }
