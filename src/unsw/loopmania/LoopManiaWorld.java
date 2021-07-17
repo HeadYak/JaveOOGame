@@ -401,4 +401,8 @@ public class LoopManiaWorld {
     public List<BasicEnemy> getEnemies() {
         return enemies;
     }
+
+    public Character getCharacter() {
+        return character;
+    }
 }
