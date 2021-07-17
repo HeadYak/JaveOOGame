@@ -12,6 +12,7 @@ import javax.crypto.spec.ChaCha20ParameterSpec;
 import org.javatuples.Pair;
 import org.junit.jupiter.api.Test;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.*;
 import unsw.loopmania.Character;
 import unsw.loopmania.Buildings.Barracks;

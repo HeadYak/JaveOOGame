@@ -7,6 +7,9 @@ import unsw.loopmania.Items.Item;
 import unsw.loopmania.Items.Armor.ChestArmor;
 import unsw.loopmania.Items.Armor.Helmet;
 import unsw.loopmania.Items.Weapons.Weapon;
+import unsw.loopmania.Buildings.*;
+
+
 
 /**
  * represents the main character in the backend of the game world
@@ -53,7 +56,7 @@ public class Character extends MovingEntity {
 
     public ArrayList<Item> getInventory(){
         return inventory;
-
+    }
     public List<Building> getInRange() {
         return inRange;
     }
