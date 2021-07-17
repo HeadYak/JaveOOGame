@@ -15,6 +15,7 @@ import unsw.loopmania.PathPosition;
 import unsw.loopmania.enemies.Slug;
 import unsw.loopmania.enemies.Vampire;
 import unsw.loopmania.enemies.Zombie;
+import unsw.loopmania.Character;
 
 public class EnemiesSpawnTest {
     List<Pair<Integer, Integer>> path = Arrays.asList(
@@ -52,9 +53,13 @@ public class EnemiesSpawnTest {
         // Test that there are no enemies
         assertEquals(world.getEnemies().size(), 0);
 
+        // Create a character so that zombie can have a target
+        PathPosition charP = new PathPosition(1, path);
+        Character playerChar = new Character(charP);
+
         // Spawn a zombie
         PathPosition zombieP = new PathPosition(0, path);
-        Zombie zombie = new Zombie(zombieP);
+        Zombie zombie = new Zombie(zombieP, playerChar);
         world.addEnemy(zombie);
 
         // Test that there is now 1 enemy
@@ -70,7 +75,7 @@ public class EnemiesSpawnTest {
         assertEquals(zombie.getBattleRadius(), 1);
         assertEquals(zombie.getSupportRadius(), 2);
         assertEquals(zombie.getDetectionRadius(), 5);
-        assertEquals(zombie.getCountdown(), 0);
+        assertEquals(zombie.getCountdown(), 1);
         assertFalse(zombie.isMoving());
         assertEquals(zombie.getHp(), 100);
     }
@@ -105,8 +110,17 @@ public class EnemiesSpawnTest {
 
     @Test
     public void testEnemiesStack() {
-        // TODO: not sure how to implement yet
+        // Test that there are no enemies
+        assertEquals(world.getEnemies().size(), 0);
 
-        assertEquals(1, 0);
+        // Spawn 10 slugs on the same path position
+        PathPosition slugP = new PathPosition(0, path);
+        for (int i = 0; i < 10; i++) {
+            world.addEnemy(new Slug(slugP));
+        }
+
+        // Test that there are 10 slugs in the world (i.e. they are allowed to
+        // share a space)
+        assertEquals(world.getEnemies().size(), 10);
     }
 }

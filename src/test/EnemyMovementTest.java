@@ -62,6 +62,7 @@ public class EnemyMovementTest {
     
     @Test
     public void testZombieMovement() {
+        // Create a character so that zombie can have a target
         PathPosition zombieP = new PathPosition(0, path);
         Zombie zombie = new Zombie(zombieP);
         world.addEnemy(zombie);

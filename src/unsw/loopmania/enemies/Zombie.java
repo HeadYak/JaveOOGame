@@ -2,8 +2,6 @@ package unsw.loopmania.enemies;
 
 import unsw.loopmania.PathPosition;
 
-import org.javatuples.Pair;
-
 import unsw.loopmania.Character;
 import unsw.loopmania.movement.MoveAntiClockwise;
 import unsw.loopmania.movement.MoveClockwise;
