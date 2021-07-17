@@ -16,9 +16,12 @@ import unsw.loopmania.*;
 import unsw.loopmania.Character;
 import unsw.loopmania.Buildings.Barracks;
 import unsw.loopmania.Buildings.Campfire;
+import unsw.loopmania.Buildings.HeroCastle;
 import unsw.loopmania.Buildings.Tower;
+import unsw.loopmania.Buildings.Trap;
 import unsw.loopmania.Buildings.VampireCastleBuilding;
 import unsw.loopmania.Buildings.Village;
+import unsw.loopmania.Buildings.ZombiePit;
 
 
 public class BuildingTest {
@@ -124,4 +127,82 @@ public class BuildingTest {
         barracks.addAlly(c);
         assertEquals(c.getAllyList().size(), 1);
     }
+
+    @Test
+    public void heroCastleTest() {
+        List<Pair<Integer, Integer>> tempPath = new ArrayList<Pair<Integer, Integer>>();
+
+        Pair<Integer, Integer> pathtile = new Pair<>(0, 0);
+
+        tempPath.add(pathtile);
+
+
+        LoopManiaWorld d = new LoopManiaWorld(1, 2, tempPath);
+        assertEquals(d.getWidth(), 1);
+        PathPosition temp = new PathPosition(0, tempPath);
+        Character c = new Character(temp);
+
+        SimpleIntegerProperty x = new SimpleIntegerProperty();
+        SimpleIntegerProperty y = new SimpleIntegerProperty();
+
+        HeroCastle heroCastle = new HeroCastle(x, y);
+        assertEquals(heroCastle.getShop().size(), 3);
+        assertEquals(c.getLoop(), 0);
+        heroCastle.interact(c);
+        assertEquals(c.getLoop(), 1);
+    }
+
+    @Test
+    public void trapTest() {
+        List<Pair<Integer, Integer>> tempPath = new ArrayList<Pair<Integer, Integer>>();
+
+        Pair<Integer, Integer> pathtile = new Pair<>(0, 0);
+
+        tempPath.add(pathtile);
+
+        LoopManiaWorld d = new LoopManiaWorld(1, 2, tempPath);
+        assertEquals(d.getWidth(), 1);
+        PathPosition temp = new PathPosition(0, tempPath);
+        Slug slug = new Slug(temp);
+
+        SimpleIntegerProperty x = new SimpleIntegerProperty();
+        SimpleIntegerProperty y = new SimpleIntegerProperty();
+
+        Trap trap = new Trap(x, y);
+        trap.trap(slug);
+        assertTrue(slug.getHP() < slug.getMaxHp());
+    }
+
+    @Test
+    public void spawnTest() {
+        List<Pair<Integer, Integer>> tempPath = new ArrayList<Pair<Integer, Integer>>();
+
+        Pair<Integer, Integer> pathtile = new Pair<>(0, 0);
+
+        tempPath.add(pathtile);
+
+
+        LoopManiaWorld d = new LoopManiaWorld(1, 2, tempPath);
+        assertEquals(d.getWidth(), 1);
+        PathPosition temp = new PathPosition(0, tempPath);
+        Character c = new Character(temp);
+
+        SimpleIntegerProperty x = new SimpleIntegerProperty();
+        SimpleIntegerProperty y = new SimpleIntegerProperty();
+        VampireCastleBuilding vampireCastle = new VampireCastleBuilding(x, y);
+        ZombiePit zPit = new ZombiePit(x, y);
+        assertEquals(c.getLoop(), 0);
+        assertEquals(d.get, actual);
+        c.newLoop();
+        c.newLoop();
+        c.newLoop();
+        c.newLoop();
+        c.newLoop();
+        assertEquals(c.getLoop(), 5);
+        vampireCastle.spawn(c.getLoop(), d);
+        zPit.spawn(c.getLoop(), d);
+        assertEquals(d.getEnemieList().size(), 2);
+    }
+
+
 }
