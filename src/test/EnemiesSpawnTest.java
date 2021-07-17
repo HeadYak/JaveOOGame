@@ -29,6 +29,7 @@ public class EnemiesSpawnTest {
         // Spawn a slug
         PathPosition slugP = new PathPosition(0, path);
         Slug slug = new Slug(slugP);
+        world.addEnemy(slug);
 
         // Test that there is now 1 enemy
         assertEquals(world.getEnemies().size(), 1);
@@ -56,6 +57,7 @@ public class EnemiesSpawnTest {
         // Spawn a zombie
         PathPosition zombieP = new PathPosition(0, path);
         Zombie zombie = new Zombie(zombieP);
+        world.addEnemy(zombie);
 
         // Test that there is now 1 enemy
         assertEquals(world.getEnemies().size(), 1);
@@ -82,6 +84,7 @@ public class EnemiesSpawnTest {
         // Spawn a vampire
         PathPosition vampireP = new PathPosition(0, path);
         Vampire vampire = new Vampire(vampireP);
+        world.addEnemy(vampire);
 
         // Test that there is now 1 enemy
         assertEquals(world.getEnemies().size(), 1);
