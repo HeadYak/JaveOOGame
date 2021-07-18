@@ -49,7 +49,6 @@ public class BattleManager {
      * Function that runs battles
      * @return
      */
-    // TODO:
     public List<BasicEnemy> battle() {
 
         while (totalEnemyHp > 0 && character.getHp() > 0) {
@@ -72,11 +71,17 @@ public class BattleManager {
         int characterDmg = 0;
         int weaponDmg = 0;
 
+        // No weapon
         if (weapon != null) {
             weaponDmg = weapon.getDamageValue();
         }
 
         characterDmg = (character.getDmg() + weaponDmg) * 4;
+
+        // Character is buffed
+        if (character.getBuffStatus()) {
+            characterDmg *= 2;
+        }
         
         // Getting total enemy dmg
         for (BasicEnemy enemy : battleEnemies) {
