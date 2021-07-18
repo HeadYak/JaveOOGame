@@ -53,7 +53,7 @@ public class BuildingTest {
         assertTrue(campfire.canInteract(c));
         assertFalse(campfire.canInteractMob(e));
 
-        
+        campfire.interactMob(e);
         assertTrue(c.getBuffStatus());
     }
 
@@ -84,6 +84,7 @@ public class BuildingTest {
         assertTrue(tower.canInteract(c));
         assertFalse(tower.canInteractMob(e));
         assertTrue(c.getIsSupported());
+        tower.interactMob(e);
     }
 
     @Test
@@ -116,7 +117,7 @@ public class BuildingTest {
         assertFalse(village.getIsSpawner());
         assertTrue(village.canInteract(c));
         assertFalse(village.canInteractMob(e));
-
+        village.interactMob(e);
     }
     
     @Test
@@ -146,6 +147,7 @@ public class BuildingTest {
         assertFalse(barracks.getIsSpawner());
         assertTrue(barracks.canInteract(c));
         assertFalse(barracks.canInteractMob(e));
+        barracks.interactMob(e);
     }
 
     @Test
@@ -176,6 +178,7 @@ public class BuildingTest {
         assertFalse(heroCastle.getIsSpawner());
         assertTrue(heroCastle.canInteract(c));
         assertFalse(heroCastle.canInteractMob(e));
+        heroCastle.interactMob(e);
     }
 
     @Test
@@ -247,6 +250,8 @@ public class BuildingTest {
         assertTrue(vampireCastle.getIsSpawner());
         assertFalse(vampireCastle.canInteract(c));
         assertFalse(vampireCastle.canInteractMob(e));
+        vampireCastle.interactMob(e);
+        zPit.interactMob(e);
     }
 
     @Test
