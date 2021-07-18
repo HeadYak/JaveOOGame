@@ -35,6 +35,7 @@ public class Character extends MovingEntity {
         super(position);
         hp = 100;
         maxHp = 100;
+        setDmg(5);
         damageTaken = 1.0;
         allyList = new ArrayList<Ally>();
         inventory = new ArrayList<Item>();

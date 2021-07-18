@@ -33,6 +33,11 @@ public abstract class MovingEntity extends Entity {
     private int hp;
 
     /**
+     * entity's current dmg
+     */
+    private int dmg;
+
+    /**
      * Create a moving entity which moves based on its moveBehaviour
      * @param position represents the current position in the path
      */
@@ -110,6 +115,22 @@ public abstract class MovingEntity extends Entity {
      */
     public void setHp(int hp) {
         this.hp = hp;
+    }
+
+    /**
+     * Getter for moving entity's dmg
+     * @return the current hp of moving entity
+     */
+    public int getDmg() {
+        return dmg;
+    }
+
+    /**
+     * Setter for moving entity's hp
+     * @param hp new hp of moving entity
+     */
+    public void setDmg(int dmg) {
+        this.dmg = dmg;
     }
 
     public SimpleIntegerProperty x() {

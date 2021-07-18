@@ -19,6 +19,7 @@ public class Slug extends BasicEnemy {
         setBattleRadius(1);
         setSupportRadius(1);
         setHp(100);
+        setDmg(1);
 
         // Slug behaviours
         setMoveBehaviour(new MoveRandomly());
