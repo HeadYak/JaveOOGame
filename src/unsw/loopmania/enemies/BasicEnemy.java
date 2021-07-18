@@ -2,7 +2,7 @@ package unsw.loopmania.enemies;
 
 import unsw.loopmania.MovingEntity;
 import unsw.loopmania.PathPosition;
-// import unsw.loopmania.enemies.crits.CritBehaviour;
+import unsw.loopmania.enemies.crits.CritBehaviour;
 
 /**
  * a basic form of enemy in the world
@@ -21,7 +21,7 @@ public abstract class BasicEnemy extends MovingEntity {
     /**
      * enemy's crit behaviour
      */
-    // private CritBehaviour critBehaviour;
+    private CritBehaviour critBehaviour;
 
     /**
      * Create a basic enemy
@@ -67,14 +67,14 @@ public abstract class BasicEnemy extends MovingEntity {
      * Setter for critical strikes
      * @param critBehaviour move behaviour we want to implement
      */
-    // public void setCritBehaviour(CritBehaviour critBehaviour) {
-    //     this.critBehaviour = critBehaviour;
-    // }
+    public void setCritBehaviour(CritBehaviour critBehaviour) {
+        this.critBehaviour = critBehaviour;
+    }
 
     /**
      * Make enemy do crit effects
      */
-    // public void performCritEffects() {
-    //     critBehaviour.critEffects();
-    // }
+    public void performCritEffects() {
+        critBehaviour.critEffects();
+    }
 }

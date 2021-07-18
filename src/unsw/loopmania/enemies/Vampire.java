@@ -6,7 +6,7 @@ import unsw.loopmania.Buildings.Building;
 import unsw.loopmania.Buildings.Campfire;
 import unsw.loopmania.movement.MoveAntiClockwise;
 import unsw.loopmania.movement.MoveClockwise;
-// import unsw.loopmania.enemies.crits.CritStackBuff;
+import unsw.loopmania.enemies.crits.CritStackBuff;
 
 public class Vampire extends BasicEnemy {
     private LoopManiaWorld worldReference;
@@ -34,7 +34,7 @@ public class Vampire extends BasicEnemy {
 
         // Behaviours
         setMoveBehaviour(new MoveAntiClockwise());
-        // setCritBehaviour(new CritStackBuff());
+        setCritBehaviour(new CritStackBuff());
     }
 
     /**
