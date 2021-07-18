@@ -11,10 +11,10 @@ public class MoveRandomly implements MoveBehaviour {
         int directionChoice = (new Random()).nextInt(2);
 
         // 50% chance of moving up the path or down the path
-        if (directionChoice == 0){
+        if (directionChoice == 0) {
             position.moveUpPath();
         }
-        else if (directionChoice == 1){
+        else {
             position.moveDownPath();
         }
     }
