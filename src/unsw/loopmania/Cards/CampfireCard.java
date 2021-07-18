@@ -28,13 +28,22 @@ public class CampfireCard extends Card {
 
         List<Pair<Integer, Integer>> validTiles = getValidTilesList(world);
 
-        if (validTiles.contains(cardCoord)) {
-            Campfire newCampfire = new Campfire(x, y);
+        // System.out.println(cardCoord);
 
+        int tempx = x.get();
+        int tempy = y.get();
+
+        Pair<Integer, Integer> tempcardCoord = new Pair<>(tempx, tempy);
+
+        // System.out.println(validTiles);
+
+        if (validTiles.contains(tempcardCoord)) {
+            System.out.println("Yoyo");
+            Campfire newCampfire = new Campfire(x, y);
             world.addBuilding(newCampfire);
 
         }
-        
+
     }
 
    
