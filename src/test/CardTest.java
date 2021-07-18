@@ -32,6 +32,10 @@ public class CardTest {
         
         BarracksCard newBarracksCard = new BarracksCard(x, y);
 
+
+
+        assertEquals(newBarracksCard.getValidTilesList(d).size(), 1);
+
         System.out.println(newBarracksCard.getValidTilesList(d));
 
 
@@ -55,6 +59,7 @@ public class CardTest {
 
         System.out.println(newTowerCard.getValidTilesList(d));
 
+        assertEquals(newTowerCard.getValidTilesList(d).size(), 8);
         // System.out.println(newVillageCard.allowedTilesList.t);
 
     }
