@@ -29,6 +29,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 import unsw.loopmania.Buildings.Barracks;
+import unsw.loopmania.Buildings.Building;
 import unsw.loopmania.Buildings.Campfire;
 import unsw.loopmania.Buildings.Tower;
 import unsw.loopmania.Buildings.Trap;
@@ -68,6 +69,9 @@ import java.io.IOException;
  */
 enum DRAGGABLE_TYPE{
     CARD,
+    PATH_CARD,
+    PATH_ADJACENT_CARD,
+    NON_PATH_CARD,
     ITEM
 }
 
@@ -507,8 +511,6 @@ public class LoopManiaWorldController {
 
     }
 
-    
-
     /**
      * load a vampire castle card into the GUI.
      * Particularly, we must connect to the drag detection event handler,
@@ -558,7 +560,7 @@ public class LoopManiaWorldController {
 
     /**
      * load a village card into the GUI.
-     * @param towerCard
+     * @param villageCard
      */
     private void onLoad(VillageCard villageCard) {
         ImageView view = new ImageView(villageImage);
@@ -573,7 +575,7 @@ public class LoopManiaWorldController {
 
     /**
      * load a barracks card into the GUI.
-     * @param towerCard
+     * @param barracksCard
      */
     private void onLoad(BarracksCard barracksCard) {
         ImageView view = new ImageView(barracksImage);
@@ -588,7 +590,7 @@ public class LoopManiaWorldController {
 
     /**
      * load a trap card into the GUI.
-     * @param towerCard
+     * @param trapCard
      */
     private void onLoad(TrapCard trapCard) {
         ImageView view = new ImageView(trapImage);
@@ -603,7 +605,7 @@ public class LoopManiaWorldController {
 
     /**
      * load a campfire card into the GUI.
-     * @param towerCard
+     * @param campfireCard
      */
     private void onLoad(CampfireCard campfireCard) {
         ImageView view = new ImageView(campfireImage);
@@ -633,7 +635,7 @@ public class LoopManiaWorldController {
      * load a stake into the GUI.
      * Particularly, we must connect to the drag detection event handler,
      * and load the image into the unequippedInventory GridPane.
-     * @param sword
+     * @param stake
      */
     private void onLoad(Stake stake) {
         ImageView view = new ImageView(stakeImage);
@@ -646,7 +648,7 @@ public class LoopManiaWorldController {
      * load a staff into the GUI.
      * Particularly, we must connect to the drag detection event handler,
      * and load the image into the unequippedInventory GridPane.
-     * @param sword
+     * @param staff
      */
     private void onLoad(Staff staff) {
         ImageView view = new ImageView(staffImage);
@@ -659,7 +661,7 @@ public class LoopManiaWorldController {
      * load a armour into the GUI.
      * Particularly, we must connect to the drag detection event handler,
      * and load the image into the unequippedInventory GridPane.
-     * @param sword
+     * @param armour
      */
     private void onLoad(Armor armour) {
         ImageView view = new ImageView(armourImage);
@@ -672,7 +674,7 @@ public class LoopManiaWorldController {
      * load a shield into the GUI.
      * Particularly, we must connect to the drag detection event handler,
      * and load the image into the unequippedInventory GridPane.
-     * @param sword
+     * @param shield
      */
     /*private void onLoad(Shield shield) {
         ImageView view = new ImageView(shieldImage);
@@ -685,7 +687,7 @@ public class LoopManiaWorldController {
      * load a helmet into the GUI.
      * Particularly, we must connect to the drag detection event handler,
      * and load the image into the unequippedInventory GridPane.
-     * @param sword
+     * @param helmet
      */
     private void onLoad(Helmet helmet) {
         ImageView view = new ImageView(helmetImage);
@@ -699,16 +701,23 @@ public class LoopManiaWorldController {
      * @param enemy
      */
     private void onLoad(BasicEnemy enemy) {
-        /*if (enemy.isInstance(Vampire)) {
+        if (enemy instanceof Vampire) {
             ImageView view = new ImageView(vampireImage);
-        } else if (enemy.isInstance(Zombie)) {
+            addEntity(enemy, view);
+            squares.getChildren().add(view);
+        } else if (enemy instanceof Zombie) {
             ImageView view = new ImageView(zombieImage);
+            addEntity(enemy, view);
+            squares.getChildren().add(view);
+        } else if (enemy instanceof Slug) {
+            ImageView view = new ImageView(slugImage);
+            addEntity(enemy, view);
+            squares.getChildren().add(view);
         } else {
             ImageView view = new ImageView(slugImage);
-        }*/
-        ImageView view = new ImageView(vampireImage);
-        addEntity(enemy, view);
-        squares.getChildren().add(view);
+            addEntity(enemy, view);
+            squares.getChildren().add(view);
+        }
     }
 
     /**
@@ -739,6 +748,46 @@ public class LoopManiaWorldController {
         ImageView view = new ImageView(slugImage);
         addEntity(slug, view);
         squares.getChildren().add(view);
+    }
+
+    /**
+     * load a building into the GUI according to its subclass
+     * @param newBuilding
+     */
+    private void onLoad(Building newBuilding){
+        if (newBuilding instanceof VampireCastleBuilding) {
+            ImageView view = new ImageView(vampireCastleImage);
+            addEntity(newBuilding, view);
+            squares.getChildren().add(view);
+        } else if (newBuilding instanceof ZombiePit) {
+            ImageView view = new ImageView(zombiePitImage);
+            addEntity(newBuilding, view);
+            squares.getChildren().add(view);
+        } else if (newBuilding instanceof Tower) {
+            ImageView view = new ImageView(towerImage);
+            addEntity(newBuilding, view);
+            squares.getChildren().add(view);
+        } else if (newBuilding instanceof Village) {
+            ImageView view = new ImageView(villageImage);
+            addEntity(newBuilding, view);
+            squares.getChildren().add(view);
+        } else if (newBuilding instanceof Barracks) {
+            ImageView view = new ImageView(barracksImage);
+            addEntity(newBuilding, view);
+            squares.getChildren().add(view);
+        } else if (newBuilding instanceof Trap) {
+            ImageView view = new ImageView(trapImage);
+            addEntity(newBuilding, view);
+            squares.getChildren().add(view);
+        } else if (newBuilding instanceof Campfire) {
+            ImageView view = new ImageView(campfireImage);
+            addEntity(newBuilding, view);
+            squares.getChildren().add(view);
+        } else {
+            ImageView view = new ImageView(vampireCastleImage);
+            addEntity(newBuilding, view);
+            squares.getChildren().add(view);
+        }  
     }
 
     /**
@@ -840,6 +889,19 @@ public class LoopManiaWorldController {
                  * or simply allow the card/item to return to its slot (the latter is easier, as you won't have to store the last valid drop location!)
                  */
                 if (currentlyDraggedType == draggableType){
+                    /*if (currentlyDraggedImage.getImage().equals(vampireCastleImage)
+                    || currentlyDraggedImage.getImage().equals(zombiePitImage)
+                    || currentlyDraggedImage.getImage().equals(towerImage)) {
+
+
+                    } else if (currentlyDraggedImage.getImage().equals(villageImage)
+                    || currentlyDraggedImage.getImage().equals(barracksImage)
+                    || currentlyDraggedImage.getImage().equals(trapImage)) {
+
+                    } else {
+                        
+                    }*/
+                    
                     // problem = event is drop completed is false when should be true...
                     // https://bugs.openjdk.java.net/browse/JDK-8117019
                     // putting drop completed at start not making complete on VLAB...
@@ -862,9 +924,7 @@ public class LoopManiaWorldController {
                         switch (draggableType){
                             case CARD:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
-                                // TODO = spawn a building here of different types
-                                if 
-                                VampireCastleBuilding newBuilding = convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
+                                Building newBuilding = convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
                                 onLoad(newBuilding);
                                 break;
                             case ITEM:
@@ -945,7 +1005,7 @@ public class LoopManiaWorldController {
      * @param buildingNodeY the y coordinate of the drop location for the card, where the building will spawn, from 0 to height-1
      * @return building entity returned from the world
      */
-    private VampireCastleBuilding convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
+    private Building convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
         return world.convertCardToBuildingByCoordinates(cardNodeX, cardNodeY, buildingNodeX, buildingNodeY);
     }
 
@@ -984,11 +1044,15 @@ public class LoopManiaWorldController {
 
                 draggedEntity.relocateToPoint(new Point2D(event.getSceneX(), event.getSceneY()));
                 switch (draggableType){
+                    // TOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+                    // DOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
                     case CARD:
-                        draggedEntity.setImage(vampireCastleImage);
+                        draggedEntity.setImage(currentlyDraggedImage.getImage()); 
+                        //draggedEntity.setImage(vampireCastleImage);
                         break;
                     case ITEM:
-                        draggedEntity.setImage(swordImage);
+                        draggedEntity.setImage(currentlyDraggedImage.getImage());    
+                        //draggedEntity.setImage(swordImage);
                         break;
                     default:
                         break;
