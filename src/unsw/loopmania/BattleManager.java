@@ -98,8 +98,30 @@ public class BattleManager {
         for (BasicEnemy enemy : battleEnemies) {
             if (enemy.getHp() > 0) {
                 enemy.setHp(enemy.getHp() - characterDmg);
-                totalEnemyHp -= characterDmg;
+
+                // Subtract from totalEnemyHp
+                if (enemy.getHp() < 0) {
+                    totalEnemyHp -= characterDmg + enemy.getHp();
+                } else {
+                    totalEnemyHp -= characterDmg;
+                }
                 break;
+            }
+        }
+
+        // Doing tower damage if it is in the battle -100 TO ALL
+        if (character.getIsSupported()) {
+            for (BasicEnemy enemy : battleEnemies) {
+                if (enemy.getHp() > 0) {
+                    enemy.setHp(enemy.getHp() - 100);
+
+                    // Subtract from totalEnemyHp
+                    if (enemy.getHp() < 0) {
+                        totalEnemyHp -= 100 + enemy.getHp();
+                    } else {
+                        totalEnemyHp -= characterDmg;
+                    }
+                }
             }
         }
     }
