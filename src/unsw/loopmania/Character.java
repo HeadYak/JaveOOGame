@@ -27,7 +27,6 @@ public class Character extends MovingEntity {
     private Weapon equippedWeapon;
     private ArrayList<Item> inventory;
     private int xp;
-    private int loops;
     private Helmet equippedHelmet;
     private ChestArmor equippedChestArmor;
     private List<Building> inRange;
@@ -279,20 +278,6 @@ public class Character extends MovingEntity {
      */
     public Boolean getMobSupported() {
         return mobSupport;
-    }
-
-    /**
-     * increases the characters loop total by 1
-     */
-    public void newLoop() {
-        loops +=1;
-    }
-
-    /**
-     * @return amount of loops completed by character
-     */
-    public int getLoop() {
-        return loops;
     }
 
     /**

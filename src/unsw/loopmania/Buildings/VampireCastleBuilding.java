@@ -41,8 +41,8 @@ public class VampireCastleBuilding extends Building implements Spawn, Support{
      * spawns a mob on nearest tile to building depending on amount of loops
      */
     @Override
-    public void spawn(int loops, LoopManiaWorld world) {
-        if (loops % loopReq == 0) {
+    public void spawn(LoopManiaWorld world) {
+        if (world.getLoops() % loopReq == 0) {
             Vampire newVampire = new Vampire(world.findClosestPathTile(getX(), getY()), world);
             world.addEnemy(newVampire);
         }
@@ -106,6 +106,6 @@ public class VampireCastleBuilding extends Building implements Spawn, Support{
      */
     @Override
     public void newLoop(LoopManiaWorld world, Character character) {
-        spawn(character.getLoop(), world);
+        spawn(world);
     }
 }

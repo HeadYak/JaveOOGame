@@ -8,6 +8,7 @@ import unsw.loopmania.Cards.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 import java.lang.Math; 
 
 import org.javatuples.Pair;
@@ -37,7 +38,7 @@ public class LoopManiaWorld {
      * height of the world in GridPane cells
      */
     private int height;
-
+    private int loops;
     /**
      * generic entitites - i.e. those which don't have dedicated fields
      */
@@ -81,6 +82,7 @@ public class LoopManiaWorld {
         unequippedInventoryItems = new ArrayList<Item>();
         this.orderedPath = orderedPath;
         buildingEntities = new ArrayList<Building>();
+        loops = 0;
     }
 
     public int getWidth() {
@@ -231,15 +233,17 @@ public class LoopManiaWorld {
      * run moves which occur with every tick without needing to spawn anything immediately
      */
     public void runTickMoves(){
-        int startLoop = character.getLoop();
         character.performMove();
         for (Building b: buildingEntities) {
             if (b.canInteract(character)) {
                 b.interact(character);
             }
         }
+
         // checks if character has completed a loop
-        if (character.getLoop() > startLoop) {
+        Building heroCastle = buildingEntities.get(0);
+        if (heroCastle.getX() == character.getX() && heroCastle.getY() == character.getY()) {
+            newLoop();
             for (Building b: buildingEntities) {
                 b.newLoop(this, character);
             }
@@ -447,8 +451,26 @@ public class LoopManiaWorld {
         buildingEntities.add(building);
     }
     
+    /**
+     * adds a card to the worlds card list
+     * @param card
+     */
     public void addCard(Card card) {
         cardEntities.add(card);
+    }
+
+    /**
+     * @return loops completed by character
+     */
+    public int getLoops() {
+        return loops;
+    }
+
+    /**
+     * adds a loop to world loop counter
+     */
+    public void newLoop() {
+        loops += 1;
     }
 
 }
