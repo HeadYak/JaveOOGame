@@ -16,7 +16,7 @@
 <!-- TODO = modify and expand the GUI? -->
 <!-- anchorPaneRoot is the background of the main game -->
 
-<AnchorPane fx:id="anchorPaneRoot" onKeyPressed="#handleKeyPress" prefHeight="1024.0" prefWidth="1280.0" style="-fx-background-color: #222222;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="unsw.loopmania.LoopManiaWorldController">
+<AnchorPane fx:id="anchorPaneRoot" onKeyPressed="#handleKeyPress" prefHeight="1024.0" prefWidth="1280.0" style="-fx-background-color: #222222;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <!-- HBox is used to stack items horizontally left to right -->
    <HBox layoutX="512.0" layoutY="150.0" prefHeight="0.0" prefWidth="0.0">
       <!-- VBox is used to stack items vertically top to bottom -->

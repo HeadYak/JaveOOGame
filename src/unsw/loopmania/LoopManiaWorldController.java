@@ -46,11 +46,13 @@ import unsw.loopmania.Cards.TrapCard;
 import unsw.loopmania.Cards.VampireCastleCard;
 import unsw.loopmania.Cards.VillageCard;
 import unsw.loopmania.Cards.ZombiePitCard;
-import unsw.loopmania.Items.HealthPotion;
-import unsw.loopmania.Items.Armor.Helmet;
-import unsw.loopmania.Items.Weapons.Staff;
 import unsw.loopmania.Items.Weapons.Stake;
 import unsw.loopmania.Items.Weapons.Sword;
+import unsw.loopmania.Items.HealthPotion;
+import unsw.loopmania.Items.Armor.Armor;
+import unsw.loopmania.Items.Armor.Helmet;
+import unsw.loopmania.Items.Armor.basicChestArmor;
+import unsw.loopmania.Items.Weapons.Staff;
 
 import java.util.EnumMap;
 import javafx.scene.text.Text;
@@ -447,20 +449,20 @@ public class LoopManiaWorldController {
     /**
      * load a armour from the world, and pair it with an image in the GUI
      */
-    private void loadArmour(){
+    private void loadChestArmour(){
         // start by getting first available coordinates
-        ChestArmour armour = world.addUnequippedArmour();
-        onLoad(armour);
+        basicChestArmor chestArmor = world.addUnequippedChestArmor();
+        onLoad(chestArmor);
     }
 
     /**
      * load a shield from the world, and pair it with an image in the GUI
      */
-    private void loadShield(){
-        // start by getting first available coordinates
-        Shield shield = world.addUnequippedShield();
-        onLoad(shield);
-    }
+    // private void loadShield(){
+    //     // start by getting first available coordinates
+    //     Shield shield = world.addUnequippedShield();
+    //     onLoad(shield);
+    // }
 
     /**
      * load a helmet from the world, and pair it with an image in the GUI
@@ -487,7 +489,7 @@ public class LoopManiaWorldController {
     private void reactToEnemyDefeat(BasicEnemy enemy){
         if (enemy instanceof Vampire) {
             loadStaff();
-            loadArmour();
+            loadChestArmour();
             loadBarracksCard();
         } else if (enemy instanceof Zombie) {
             loadStake();
@@ -659,7 +661,7 @@ public class LoopManiaWorldController {
      * and load the image into the unequippedInventory GridPane.
      * @param sword
      */
-    private void onLoad(Armour armour) {
+    private void onLoad(Armor armour) {
         ImageView view = new ImageView(armourImage);
         addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
         addEntity(armour, view);
@@ -672,12 +674,12 @@ public class LoopManiaWorldController {
      * and load the image into the unequippedInventory GridPane.
      * @param sword
      */
-    private void onLoad(Shield shield) {
+    /*private void onLoad(Shield shield) {
         ImageView view = new ImageView(shieldImage);
         addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
         addEntity(shield, view);
         unequippedInventory.getChildren().add(view);
-    }
+    }*/
     
     /**
      * load a helmet into the GUI.
@@ -810,6 +812,16 @@ public class LoopManiaWorldController {
     }
 
     /**
+     * load a health potion into the GUI
+     * @param healthPotion
+     */
+    private void onLoad(HealthPotion healthPotion){
+        ImageView view = new ImageView(healthPotionImage);
+        addEntity(healthPotion, view);
+        squares.getChildren().add(view);
+    }
+
+    /**
      * add drag event handlers for dropping into gridpanes, dragging over the background, dropping over the background.
      * These are not attached to invidual items such as swords/cards.
      * @param draggableType the type being dragged - card or item
@@ -851,6 +863,7 @@ public class LoopManiaWorldController {
                             case CARD:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                 // TODO = spawn a building here of different types
+                                if 
                                 VampireCastleBuilding newBuilding = convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
                                 onLoad(newBuilding);
                                 break;
