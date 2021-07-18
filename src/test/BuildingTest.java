@@ -279,7 +279,8 @@ public class BuildingTest {
         PathPosition charP = new PathPosition(0, path);
         Character playerChar = new Character(charP);
         world.setCharacter(playerChar);
-        assertEquals(world.getBuildingEntities().size(), 1);
+        HeroCastle heroCastle = new HeroCastle(new SimpleIntegerProperty(playerChar.getX()),new SimpleIntegerProperty(playerChar.getX()));
+        world.addBuilding(heroCastle);
         SimpleIntegerProperty x = new SimpleIntegerProperty(0);
         SimpleIntegerProperty y = new SimpleIntegerProperty(2);
 
