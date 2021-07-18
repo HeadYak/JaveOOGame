@@ -48,6 +48,7 @@ public class LoopManiaWorld {
     private Character character;
 
     // TODO = add more lists for other entities, for equipped inventory items, etc...
+    private List<Ally> allies;
 
     // TODO = expand the range of enemies
     private List<BasicEnemy> enemies;
@@ -483,5 +484,20 @@ public class LoopManiaWorld {
      */
     public BattleManager getBattleManager() {
         return battleManager;
+    }
+
+    /**
+     * @returns the character object
+     */
+    public List<Ally> getAllies() {
+        return allies;
+    }
+
+    /**
+     * adds an ally to the world's ally list
+     * @param ally the ally we are adding
+     */
+    public void addAlly(Ally ally) {
+        allies.add(ally);
     }
 }

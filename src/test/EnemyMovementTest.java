@@ -203,7 +203,7 @@ public class EnemyMovementTest {
         // within the range of the campfire
         world.runTickMoves();
 
-        // Check that vampire is at position (3, 1)
+        // Check that vampire is at position (8, 5)
         assertEquals(8, vampire.getX());
         assertEquals(5, vampire.getY());
 
@@ -217,6 +217,13 @@ public class EnemyMovementTest {
         // Check that the vampire has moved clockwise
         assertEquals(8, vampire.getX());
         assertEquals(3, vampire.getY());
+
+        // Simulate the movement of enemies by 1
+        world.runTickMoves();
+
+        // Check that the vampire has moved clockwise
+        assertEquals(8, vampire.getX());
+        assertEquals(1, vampire.getY());
     }
 
 }

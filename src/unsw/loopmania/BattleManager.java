@@ -9,6 +9,7 @@ import unsw.loopmania.enemies.BasicEnemy;
 public class BattleManager {
     Character character;
     int totalEnemyHp;
+    int alliesHp;
     List<Ally> allies;
     List<BasicEnemy> battleEnemies;
     List<BasicEnemy> supportEnemies;
@@ -42,14 +43,14 @@ public class BattleManager {
                 supportEnemies.add(enemy);
             }
         }
-        
+
+        allies = character.getAllyList();
     }
 
     /**
      * Function that runs battles
      * @return
      */
-    // TODO:
     public List<BasicEnemy> battle() {
 
         while (totalEnemyHp > 0 && character.getHp() > 0) {
@@ -60,6 +61,8 @@ public class BattleManager {
         allEnemiesAttacked.addAll(battleEnemies);
         allEnemiesAttacked.addAll(supportEnemies);
         return allEnemiesAttacked;
+
+
     }
     
     /**
@@ -72,29 +75,75 @@ public class BattleManager {
         int characterDmg = 0;
         int weaponDmg = 0;
 
+        // No weapon
         if (weapon != null) {
             weaponDmg = weapon.getDamageValue();
         }
 
         characterDmg = (character.getDmg() + weaponDmg) * 4;
-        
+
+        // Character is buffed
+        if (character.getBuffStatus()) {
+            characterDmg *= 2;
+        }
+
+        // Checking for allies and adding damage
+        for (Ally ally : allies) {
+            if (ally.getHp() > 0) {
+                characterDmg += ally.getDmg() * 4;
+            }
+        }
+
         // Getting total enemy dmg
         for (BasicEnemy enemy : battleEnemies) {
-            enemyDmg += enemy.getDmg() * 4;
+            if (enemy.getHp() > 0) {
+                enemyDmg += enemy.getDmg() * 4;
+            }
         }
         for (BasicEnemy enemy : supportEnemies) {
-            enemyDmg += enemy.getDmg() * 2;
+            if (enemy.getHp() > 0) {
+                enemyDmg += enemy.getDmg() * 2;
+            }
         }
 
-        // Applying damage to character
+        // Applying damage to character and first ally
         character.setHp(character.getHp() - enemyDmg);
 
-        // Applying damage to enemy
+        for (Ally ally : allies) {
+            if (ally.getHp() > 0) {
+                ally.setHp(ally.getHp() - enemyDmg);
+                break;
+            }
+        }
+
+        // Applying damage to first enemy
         for (BasicEnemy enemy : battleEnemies) {
             if (enemy.getHp() > 0) {
                 enemy.setHp(enemy.getHp() - characterDmg);
-                totalEnemyHp -= characterDmg;
+
+                // Subtract from totalEnemyHp
+                if (enemy.getHp() < 0) {
+                    totalEnemyHp -= characterDmg + enemy.getHp();
+                } else {
+                    totalEnemyHp -= characterDmg;
+                }
                 break;
+            }
+        }
+
+        // Doing tower damage if it is in the battle -100 TO ALL
+        if (character.getIsSupported()) {
+            for (BasicEnemy enemy : battleEnemies) {
+                if (enemy.getHp() > 0) {
+                    enemy.setHp(enemy.getHp() - 100);
+
+                    // Subtract from totalEnemyHp
+                    if (enemy.getHp() < 0) {
+                        totalEnemyHp -= 100 + enemy.getHp();
+                    } else {
+                        totalEnemyHp -= characterDmg;
+                    }
+                }
             }
         }
     }
