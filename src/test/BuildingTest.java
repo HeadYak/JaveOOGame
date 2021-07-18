@@ -44,9 +44,15 @@ public class BuildingTest {
 
         SimpleIntegerProperty x = new SimpleIntegerProperty();
         SimpleIntegerProperty y = new SimpleIntegerProperty();
-
+        
         Campfire campfire = new Campfire(x, y);
         campfire.buff(c);
+        Slug e = new Slug(temp);
+        assertEquals(campfire.getRange(), 1);
+        assertFalse(campfire.getIsSpawner());
+        assertTrue(campfire.canInteract(c));
+        assertFalse(campfire.canInteractMob(e));
+
         
         assertTrue(c.getBuffStatus());
     }
@@ -72,7 +78,11 @@ public class BuildingTest {
 
         Tower tower = new Tower(x, y);
         tower.support(c);
-        
+        Slug e = new Slug(temp);
+        assertEquals(tower.getRange(), 1);
+        assertFalse(tower.getIsSpawner());
+        assertTrue(tower.canInteract(c));
+        assertFalse(tower.canInteractMob(e));
         assertTrue(c.getIsSupported());
     }
 
@@ -100,6 +110,13 @@ public class BuildingTest {
         assertEquals(c.getHp(), c.getMaxHp()-1);
         village.heal(c);
         assertEquals(c.getHp(), c.getMaxHp());
+
+        Slug e = new Slug(temp);
+        assertEquals(village.getRange(), 0);
+        assertFalse(village.getIsSpawner());
+        assertTrue(village.canInteract(c));
+        assertFalse(village.canInteractMob(e));
+
     }
     
     @Test
@@ -123,6 +140,12 @@ public class BuildingTest {
         assertEquals(c.getAllyList().size(), 0);
         barracks.addAlly(c);
         assertEquals(c.getAllyList().size(), 1);
+
+        Slug e = new Slug(temp);
+        assertEquals(barracks.getRange(), 0);
+        assertFalse(barracks.getIsSpawner());
+        assertTrue(barracks.canInteract(c));
+        assertFalse(barracks.canInteractMob(e));
     }
 
     @Test
@@ -148,6 +171,11 @@ public class BuildingTest {
         heroCastle.purchaseItem(c, heroCastle.getShop().get(0));
         assertEquals(heroCastle.getShop().size(), 2);
         assertEquals(c.getInventory().size(), 1);
+        Slug e = new Slug(temp);
+        assertEquals(heroCastle.getRange(), 0);
+        assertFalse(heroCastle.getIsSpawner());
+        assertTrue(heroCastle.canInteract(c));
+        assertFalse(heroCastle.canInteractMob(e));
     }
 
     @Test
@@ -162,7 +190,7 @@ public class BuildingTest {
         assertEquals(d.getWidth(), 1);
         PathPosition temp = new PathPosition(0, tempPath);
         Slug slug = new Slug(temp);
-
+        Character c = new Character(temp);
         SimpleIntegerProperty x = new SimpleIntegerProperty();
         SimpleIntegerProperty y = new SimpleIntegerProperty();
 
@@ -170,6 +198,12 @@ public class BuildingTest {
         int oldHp = slug.getHp();
         trap.trap(slug);
         assertTrue(slug.getHp() < oldHp);
+        Slug e = new Slug(temp);
+        trap.interact(c);
+        assertEquals(trap.getRange(), 0);
+        assertFalse(trap.getIsSpawner());
+        assertFalse(trap.canInteract(c));
+        assertTrue(trap.canInteractMob(e));
     }
 
     @Test
@@ -199,6 +233,20 @@ public class BuildingTest {
         vampireCastle.spawn(d);
         zPit.spawn(d);
         assertEquals(d.getEnemies().size(), 2);
+
+        PathPosition temp = new PathPosition(0, tempPath);
+        Slug e = new Slug(temp);
+        Character c = new Character(temp);
+        zPit.interact(c);
+        assertEquals(zPit.getRange(), 0);
+        assertTrue(zPit.getIsSpawner());
+        assertFalse(zPit.canInteract(c));
+        assertFalse(zPit.canInteractMob(e));
+        vampireCastle.interact(c);
+        assertEquals(vampireCastle.getRange(), 0);
+        assertTrue(vampireCastle.getIsSpawner());
+        assertFalse(vampireCastle.canInteract(c));
+        assertFalse(vampireCastle.canInteractMob(e));
     }
 
     @Test
