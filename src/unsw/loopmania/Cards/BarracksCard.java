@@ -3,10 +3,12 @@ package unsw.loopmania.Cards;
 import java.util.List;
 
 import org.javatuples.Pair;
+import org.junit.jupiter.api.DisplayNameGenerator.Simple;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.Buildings.Barracks;
+import unsw.loopmania.Buildings.Building;
 
 public class BarracksCard extends Card {
 
@@ -42,6 +44,11 @@ public class BarracksCard extends Card {
         }
 
 
+    }
+
+    @Override
+    public Building getBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+        return (new Barracks(x, y));
     }
     
 }

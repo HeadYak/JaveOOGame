@@ -582,7 +582,7 @@ public class LoopManiaWorld {
         // now spawn building
         card.placeCard(this, new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
         
-        Building newBuilding = new VampireCastleBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+        Building newBuilding = card.getBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
         
         buildingEntities.add(newBuilding);
 

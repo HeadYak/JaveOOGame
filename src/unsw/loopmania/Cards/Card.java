@@ -8,6 +8,7 @@ import org.javatuples.Pair;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.StaticEntity;
+import unsw.loopmania.Buildings.Building;
 
 /**
  * a Card in the world
@@ -30,4 +31,5 @@ public abstract class Card extends StaticEntity {
     }
 
     abstract public List<Pair<Integer, Integer>> getValidTilesList(LoopManiaWorld world);
+    abstract public Building getBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y);
 }
