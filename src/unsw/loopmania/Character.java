@@ -42,7 +42,7 @@ public class Character extends MovingEntity {
         inRange = new ArrayList<Building>();
         isSupported = false;
         buffed = false;
-
+        setMoveSpeed(1);
         setMoveBehaviour(new MoveClockwise());
     }
 

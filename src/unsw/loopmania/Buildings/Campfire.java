@@ -43,6 +43,7 @@ public class Campfire extends Building{
     @Override
     public void interact(Character character) {
         character.activateBuff();
+        character.addInRange(this);
     }
 
     /**
@@ -51,11 +52,12 @@ public class Campfire extends Building{
      */
     @Override
     public Boolean canInteract(Character character) {
-        if (range > Math.sqrt((character.getX() - getX())^2 + (character.getY() - getY())^2)) {
-            character.addInRange(this);
+        if (Math.pow(range, 2) >= Math.pow(character.getX() - getX(), 2) + Math.pow(character.getY() - getY(), 2)) {
             return true;
         }
-        character.removeInRange(this);
+        if (character.removeInRange(this)) {
+            character.deactivateBuff();
+        }
         return false;
     }
 

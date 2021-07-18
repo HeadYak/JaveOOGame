@@ -407,7 +407,7 @@ public class LoopManiaWorld {
         double smallestDistance = 999;
         int indexInPath = 0;
         for (Pair<Integer, Integer> p : orderedPath) {
-            double distance = Math.sqrt((p.getValue0() - x)^2 + (p.getValue1() - y)^2);
+            double distance = Math.sqrt(Math.pow(p.getValue0() - x,2) + Math.pow(p.getValue1() - y,2));
             if (distance < smallestDistance) {
                 indexInPath = orderedPath.indexOf(p);
                 smallestDistance = distance;
