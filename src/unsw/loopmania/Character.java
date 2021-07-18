@@ -23,7 +23,6 @@ public class Character extends MovingEntity {
     private double damageTaken;
     private ArrayList<Ally> allyList;
     private Boolean isSupported;
-    private Boolean mobSupport;
     private Weapon equippedWeapon;
     private ArrayList<Item> inventory;
     private int xp;
@@ -40,7 +39,6 @@ public class Character extends MovingEntity {
         inventory = new ArrayList<Item>();
         inRange = new ArrayList<Building>();
         isSupported = false;
-        mobSupport = false;
         buffed = false;
 
         setMoveBehaviour(new MoveClockwise());
@@ -257,27 +255,6 @@ public class Character extends MovingEntity {
      */
     public Boolean getIsSupported() {
         return isSupported;
-    }
-
-    /**
-     * activates the mob support of the character ( in rnage of vampire castle)
-     */
-    public void activateMobSupport() {
-        mobSupport = true;
-    }
-
-    /**
-     * deactivates the mob support of the character (not in rnage of vampire castle)
-     */
-    public void deactivateMobSupport() {
-        mobSupport = false;
-    }
-
-    /**
-     * @return the mob support of the character
-     */
-    public Boolean getMobSupported() {
-        return mobSupport;
     }
 
     /**

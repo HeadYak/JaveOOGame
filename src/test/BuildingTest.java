@@ -65,18 +65,14 @@ public class BuildingTest {
         Character c = new Character(temp);
 
         assertFalse(c.getIsSupported());
-        assertFalse(c.getMobSupported());
 
         SimpleIntegerProperty x = new SimpleIntegerProperty();
         SimpleIntegerProperty y = new SimpleIntegerProperty();
 
         Tower tower = new Tower(x, y);
-        VampireCastleBuilding vampireCastle = new VampireCastleBuilding(x, y);
         tower.support(c);
-        vampireCastle.support(c);
         
         assertTrue(c.getIsSupported());
-        assertTrue(c.getMobSupported());
     }
 
     @Test
@@ -148,9 +144,10 @@ public class BuildingTest {
 
         HeroCastle heroCastle = new HeroCastle(x, y);
         assertEquals(heroCastle.getShop().size(), 3);
-        assertEquals(d.getLoops(), 0);
-        d.newLoop();
-        assertEquals(d.getLoops(), 1);
+        c.addGold(300);
+        heroCastle.purchaseItem(c, heroCastle.getShop().get(0));
+        assertEquals(heroCastle.getShop().size(), 2);
+        assertEquals(c.getInventory().size(), 1);
     }
 
     @Test
