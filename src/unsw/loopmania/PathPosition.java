@@ -83,7 +83,8 @@ public class PathPosition{
      * @return
      */
     public PathPosition getPrevPosition() {
-        int prevPositionInPath = (currentPositionInPath - 1)%orderedPath.size();
+        int prevPositionInPath = (currentPositionInPath - 1 +
+                orderedPath.size())%orderedPath.size();
         PathPosition prev = new PathPosition(prevPositionInPath, orderedPath);
         return prev;
     }

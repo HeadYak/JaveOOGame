@@ -63,7 +63,7 @@ public class Zombie extends BasicEnemy {
         // Character has been detected
         if (currPos.distanceToCharacter(targetCharacter) <= detectionRadius) {
             PathPosition nextPos = currPos.getNextPosition();
-            PathPosition prevPos = currPos.getNextPosition();
+            PathPosition prevPos = currPos.getPrevPosition();
 
             // Distances between character and the tile in front of and the tile
             // behind the zombie
