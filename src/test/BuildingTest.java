@@ -169,6 +169,9 @@ public class BuildingTest {
 
         HeroCastle heroCastle = new HeroCastle(x, y);
         assertEquals(heroCastle.getShop().size(), 3);
+        heroCastle.purchaseItem(c, heroCastle.getShop().get(0));
+        assertEquals(heroCastle.getShop().size(), 3);
+        assertEquals(c.getInventory().size(), 0);
         c.addGold(300);
         heroCastle.purchaseItem(c, heroCastle.getShop().get(0));
         assertEquals(heroCastle.getShop().size(), 2);
@@ -230,6 +233,9 @@ public class BuildingTest {
         d.newLoop();
         d.newLoop();
         d.newLoop();
+        assertEquals(d.getLoops(), 3);
+        vampireCastle.spawn(d);
+        assertEquals(d.getEnemies().size(), 0);
         d.newLoop();
         d.newLoop();
         assertEquals(d.getLoops(), 5);
