@@ -9,11 +9,6 @@
 
 * The game can be saved at any point in time and loaded to play later.
 
-* Enemy movement:
-    - Slugs do not move and stay in the tile they spawned in until a character moves to the same time as them
-    - Zombies once spawned continuously move in the opposite direction of the character (at half the rate) until encountering the character
-    - Vampires initially move in the opposite direction of the character at double the rate. If it encounters a campfire, it reverse direction
-
 * Equipments character has equipped: The character can only equip one of each item type (weapon, armour, shields and helmets)
 
 * The shop only contains three items
@@ -27,3 +22,26 @@
 * The character can only have 3 allies at once
 
 * buffs and support are only applied after the character moves
+
+* Slugs randomly move one tile in any direction per tick
+
+* Zombies move one tile per two ticks only when in range of a character (5 tiles)
+
+* When character enters the range of zombie, it moves once immediately and proceeds to move every two turns
+
+* If character escapes from zombie range zombie goes back to waiting
+
+* Vampires move two tiles per tick
+
+* Vampires will always run in the opposite direction of the character initially, but if it enters the range of a campfire it will change direction
+Assumptions: Combat
+
+* Enemies in combat as support units are not required to die for the battle to end
+
+* Support units will deal 0.5x dmg
+
+* Character's isBuffed (in range of campfire): x2 atk
+
+* Character's isSupported (in range of tower): tower deals dmg
+
+* When enemies attack the character, there is a 10% chance enemy will only damage an ally, 40% chance the enemy will hit both and 50% chance it hits only the character
