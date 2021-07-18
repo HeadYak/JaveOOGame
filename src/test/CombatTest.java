@@ -14,6 +14,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.Buildings.Tower;
+import unsw.loopmania.Ally;
 import unsw.loopmania.BattleManager;
 import unsw.loopmania.Items.Weapons.Stake;
 import unsw.loopmania.Items.Weapons.Sword;
@@ -201,7 +202,7 @@ public class CombatTest {
     }
 
     @Test
-    public void testAlliesAndBuildings() {
+    public void testTower() {
         PathPosition charP = new PathPosition(0, path);
         Character playerChar = new Character(charP);
         world.setCharacter(playerChar);
@@ -233,6 +234,45 @@ public class CombatTest {
 
         bm.battle();
 
+        // Test that combat has occurred by checking that the slug is now dead
+        // NOTE: Mathematically impossible for slug to win
+        assertTrue(world.getEnemies().get(0).getHp() < 0);
+    }
+
+    @Test
+    public void allySupport() {
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
+        // Spawn a vampire to fight
+        Vampire vampire = new Vampire(charP, world);
+        world.addEnemy(vampire);
+
+        // Spawn an ally to support character
+        Ally ally = new Ally(charP);
+        playerChar.recruitAlly(ally);
+
+        // Simulating battle manually to test each component of battle is
+        // working correctly
+        BattleManager bm = world.getBattleManager();
+        /// bm.lowerCrit(BasicEnemy.class, 1);
+
+        // Update battle manager with potential enemy and do single tick of
+        // battle
+        bm.update(world);
+        bm.runTickBattle();
+
+        // Check that the damage done by character and tower are the correct
+        // behaviour
+        int newVampireHp = 300 - (playerChar.getDmg() * 4 + ally.getDmg() * 4);
+        assertEquals(vampire.getHp(), newVampireHp);
+
+        bm.battle();
+
+        // Test that combat has occurred by checking that the slug is now dead
+        // NOTE: Mathematically impossible for slug to win
+        assertTrue(world.getEnemies().get(0).getHp() < 0);
     }
 
     @Test
