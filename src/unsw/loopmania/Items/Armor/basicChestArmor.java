@@ -5,12 +5,14 @@ public class basicChestArmor extends ChestArmor  {
 
     public basicChestArmor(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
-        blockBehaviourType = new ChestArmorDamageBlock();
+
+        setBlockBehaviour(new ChestArmorDamageBlock());
+        // blockBehaviourType = new ChestArmorDamageBlock();
         setItemValue(10);
     }
 
-    public Double getDamageTakenModifier() {
-        return blockBehaviourType.getDamageTakenModifier();
-    }
+    // public Double getDamageTakenModifier() {
+    //     return getBlockType().getDamageTakenModifier();
+    // }
     
 }

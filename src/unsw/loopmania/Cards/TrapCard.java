@@ -12,12 +12,13 @@ public class TrapCard extends Card {
 
     public TrapCard(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
-        allowedTilesList = new onlyPathTiles();
+        setAllowedTiles(new onlyPathTiles());
+        // allowedTilesList = new onlyPathTiles();
     }
 
     @Override
     public List<Pair<Integer, Integer>> getValidTilesList(LoopManiaWorld world) {
-        return allowedTilesList.getvalidTiles(world);
+        return getTileStrategy().getvalidTiles(world);
     }
 
     @Override

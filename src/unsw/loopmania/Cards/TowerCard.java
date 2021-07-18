@@ -12,14 +12,13 @@ public class TowerCard extends Card {
 
     public TowerCard(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
-        allowedTilesList = new onlyadjacentPathTiles();
-        //TODO Auto-generated constructor stub
+        setAllowedTiles(new onlyadjacentPathTiles());
+        // allowedTilesList = new onlyadjacentPathTiles();
     }
 
     @Override
     public List<Pair<Integer, Integer>> getValidTilesList(LoopManiaWorld world) {
-        // TODO Auto-generated method stub
-        return allowedTilesList.getvalidTiles(world);
+        return getTileStrategy().getvalidTiles(world);
     }
 
     @Override

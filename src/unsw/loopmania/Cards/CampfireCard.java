@@ -12,14 +12,14 @@ public class CampfireCard extends Card {
 
     public CampfireCard(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
-        allowedTilesList = new onlyPathTiles();
+        setAllowedTiles(new onlyPathTiles());
+        // allowedTilesList = new onlyPathTiles();
         //TODO Auto-generated constructor stub
     }
 
     @Override
     public List<Pair<Integer, Integer>> getValidTilesList(LoopManiaWorld world) {
-        // TODO Auto-generated method stub
-        return allowedTilesList.getvalidTiles(world);
+        return getTileStrategy().getvalidTiles(world);
     }
 
     @Override
