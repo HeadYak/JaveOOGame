@@ -2,8 +2,8 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,6 +13,7 @@ import org.junit.Test;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
+import unsw.loopmania.Buildings.Campfire;
 import unsw.loopmania.Buildings.Tower;
 import unsw.loopmania.Ally;
 import unsw.loopmania.BattleManager;
@@ -84,7 +85,7 @@ public class CombatTest {
 
         // Test that combat has occurred by checking that the slug is now dead
         // NOTE: Mathematically impossible for slug to win
-        assertTrue(world.getEnemies().get(0).getHp() < 0);
+        assertTrue(world.getEnemies().get(0).getHp() <= 0);
 
     }
 
@@ -134,7 +135,7 @@ public class CombatTest {
 
         // Test that combat has occurred by checking that the zombie is now dead
         // NOTE: Mathematically impossible for zombie to win
-        assertTrue(world.getEnemies().get(0).getHp() < 0);
+        assertTrue(world.getEnemies().get(0).getHp() <= 0);
     }
 
     @Test
@@ -198,24 +199,32 @@ public class CombatTest {
 
         // Test that combat has occurred by checking that the slug is now dead
         // NOTE: Mathematically impossible for slug to win
-        assertTrue(world.getEnemies().get(0).getHp() < 0);
+        assertTrue(world.getEnemies().get(0).getHp() <= 0);
     }
 
     @Test
     public void testTower() {
-        PathPosition charP = new PathPosition(0, path);
+        PathPosition charP = new PathPosition(31, path);
         Character playerChar = new Character(charP);
         world.setCharacter(playerChar);
-
-        // Spawn a vampire to fight
-        Vampire vampire = new Vampire(charP, world);
-        world.addEnemy(vampire);
 
         // Spawn a tower next to character
         SimpleIntegerProperty x = new SimpleIntegerProperty(1);
         SimpleIntegerProperty y = new SimpleIntegerProperty(1);
         Tower tower = new Tower(x, y);
         world.addBuilding(tower);
+
+        // Simulate movement by 1 to activate tower
+        world.runTickMoves();
+
+        // Spawn two vampires to fight
+        Vampire vampire1 = new Vampire(charP, world);
+        world.addEnemy(vampire1);
+        Vampire vampire2 = new Vampire(charP, world);
+        world.addEnemy(vampire2);
+
+        // Assert that character is supported by tower
+        assertTrue(playerChar.getIsSupported());
 
         // Simulating battle manually to test each component of battle is
         // working correctly
@@ -229,14 +238,60 @@ public class CombatTest {
 
         // Check that the damage done by character and tower are the correct
         // behaviour
-        int newVampireHp = 300 - (playerChar.getDmg() * 4 - 100);
+        int newVampireHp1 = 300 - (playerChar.getDmg() * 4 + 100);
+        assertEquals(vampire1.getHp(), newVampireHp1);
+        int newVampireHp2 = 300 - 100;
+        assertEquals(vampire2.getHp(), newVampireHp2);
+
+        bm.battle();
+
+        // Test that combat has occurred by checking that the slug is now dead
+        // NOTE: Mathematically impossible for slug to win
+        assertTrue(world.getEnemies().get(0).getHp() <= 0);
+    }
+
+    @Test
+    public void testCampfire() {
+        PathPosition charP = new PathPosition(31, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
+        // Spawn a tower next to character
+        SimpleIntegerProperty x = new SimpleIntegerProperty(1);
+        SimpleIntegerProperty y = new SimpleIntegerProperty(1);
+        Campfire campfire = new Campfire(x, y);
+        world.addBuilding(campfire);
+
+        // Simulate movement by 1 to activate tower
+        world.runTickMoves();
+
+        // Spawn a vampire to fight
+        Vampire vampire = new Vampire(charP, world);
+        world.addEnemy(vampire);
+
+        // Assert that character is supported by tower
+        assertTrue(playerChar.getBuffStatus());
+
+        // Simulating battle manually to test each component of battle is
+        // working correctly
+        BattleManager bm = world.getBattleManager();
+        /// bm.lowerCrit(BasicEnemy.class, 1);
+
+        // Update battle manager with potential enemy and do single tick of
+        // battle
+        bm.update(world);
+        bm.runTickBattle();
+
+        // Check that the damage done by character and tower are the correct
+        // behaviour
+        int newVampireHp = 300 - (playerChar.getDmg() * 4 * 2);
         assertEquals(vampire.getHp(), newVampireHp);
 
         bm.battle();
 
         // Test that combat has occurred by checking that the slug is now dead
         // NOTE: Mathematically impossible for slug to win
-        assertTrue(world.getEnemies().get(0).getHp() < 0);
+        assertTrue(world.getEnemies().get(0).getHp() <= 0);
     }
 
     @Test
@@ -245,13 +300,22 @@ public class CombatTest {
         Character playerChar = new Character(charP);
         world.setCharacter(playerChar);
 
+        // Equip a sword
+        SimpleIntegerProperty x = new SimpleIntegerProperty();
+        SimpleIntegerProperty y = new SimpleIntegerProperty();
+
+        Sword sword = new Sword(x, y);
+        playerChar.setWeapon(sword);
+
         // Spawn a vampire to fight
         Vampire vampire = new Vampire(charP, world);
         world.addEnemy(vampire);
 
-        // Spawn an ally to support character
-        Ally ally = new Ally(charP);
-        playerChar.recruitAlly(ally);
+        // Spawn two allies to support character
+        Ally ally1 = new Ally(charP);
+        playerChar.recruitAlly(ally1);
+        Ally ally2 = new Ally(charP);
+        playerChar.recruitAlly(ally2);
 
         // Simulating battle manually to test each component of battle is
         // working correctly
@@ -263,26 +327,101 @@ public class CombatTest {
         bm.update(world);
         bm.runTickBattle();
 
-        // Check that the damage done by character and tower are the correct
-        // behaviour
-        int newVampireHp = 300 - (playerChar.getDmg() * 4 + ally.getDmg() * 4);
+        // Check that the damage done by character and ally are the correct
+        // behaviour as well as ally being damaged
+        int newVampireHp = 300 - ((playerChar.getDmg() +
+                sword.getDamageValue()) * 4) - (ally1.getDmg() * 4) -
+                (ally2.getDmg() * 4);
         assertEquals(vampire.getHp(), newVampireHp);
+        int newAllyHp = 100 - (vampire.getDmg() * 4);
+        assertEquals(ally1.getHp(), newAllyHp);
+        assertEquals(ally2.getHp(), 100);
 
         bm.battle();
 
         // Test that combat has occurred by checking that the slug is now dead
         // NOTE: Mathematically impossible for slug to win
-        assertTrue(world.getEnemies().get(0).getHp() < 0);
+        assertTrue(world.getEnemies().get(0).getHp() <= 0);
     }
 
     @Test
     public void testEnemySupport() {
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
+        // Create new slug on same tile as player
+        Slug slug = new Slug(charP);
+        world.addEnemy(slug);
+
+        // Create new vampire in support radius
+        PathPosition vampireP = new PathPosition(3, path);
+        Vampire vampireSup = new Vampire(vampireP, world);
+        world.addEnemy(vampireSup);
+
+        // Create new vampire outside of support radius
+        PathPosition outsideRange = new PathPosition(4, path);
+        Vampire vampireIsolated = new Vampire(outsideRange, world);
+        world.addEnemy(vampireIsolated);
+
+        // Simulating battle manually to test each component of battle is
+        // working correctly
+        BattleManager bm = world.getBattleManager();
+        // bm.lowerCrit(BasicEnemy.class, 1);
+
+        // Update battle manager with potential enemy and do single tick of
+        // battle
+        bm.update(world);
+        bm.runTickBattle();
+
+        // Assert that isolated vampire is not in any list
+        assertFalse(bm.getBattleEnemies().contains(vampireIsolated));
+        assertFalse(bm.getSupportEnemies().contains(vampireIsolated));
+
+        // Check that character has received additional damage and vampireSup
+        // is not affected
+        int newCharHp = 300 - (slug.getDmg() * 4) - (vampireSup.getDmg() * 2);
+        assertEquals(playerChar.getHp(), newCharHp);
 
     }
 
     @Test
-    public void testAutoBattle() {
+    public void testWalkToBattle() {
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
 
+        // Equip a sword
+        SimpleIntegerProperty x = new SimpleIntegerProperty();
+        SimpleIntegerProperty y = new SimpleIntegerProperty();
+
+        Sword sword = new Sword(x, y);
+        playerChar.setWeapon(sword);
+
+        // Create vampire that walks to battle with playerChar at the most
+        // furthest square
+        PathPosition vampireP = new PathPosition(6, path);
+        Vampire vampire = new Vampire(vampireP, world);
+        world.addEnemy(vampire);
+
+        // Create vampire that walks just out of battle range after walking once
+        PathPosition vampireOut = new PathPosition(7, path);
+        Vampire vampireIsol = new Vampire(vampireOut, world);
+        world.addEnemy(vampireIsol);
+
+        // Check that there are exactly two enemies
+        assertEquals(world.getEnemies().size(), 2);
+
+        world.runTickMoves();
+
+        // Check that there are still exactly two enemies
+        assertEquals(world.getEnemies().size(), 2);
+
+        world.runTickMoves();
+
+        // Check that there are exactly one enemy
+        assertEquals(world.getEnemies().size(), 1);
+        assertEquals(world.getEnemies().get(0), vampireIsol);
     }
 
     @Test
@@ -312,12 +451,7 @@ public class CombatTest {
         bm.battle();
 
         // Test that character is now dead
-        assertTrue(playerChar.getHp() < 0);
-
-    }
-
-    @Test
-    public void testDifferentDamages() {
+        assertTrue(playerChar.getHp() <= 0);
 
     }
 }
