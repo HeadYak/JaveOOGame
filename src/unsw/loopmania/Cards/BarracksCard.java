@@ -16,12 +16,10 @@ public class BarracksCard extends Card {
     public BarracksCard(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
         allowedTilesList = new onlyPathTiles();
-        //TODO Auto-generated constructor stub
     }
 
     @Override
     public List<Pair<Integer, Integer>> getValidTilesList(LoopManiaWorld world) {
-        // TODO Auto-generated method stub
         return allowedTilesList.getvalidTiles(world);
     }
 
@@ -38,8 +36,6 @@ public class BarracksCard extends Card {
             world.addBuilding(newBarracks);
 
         }
-
-        // System.out.println(!temp.contains(testpair));
 
 
     }

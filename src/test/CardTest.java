@@ -3,7 +3,6 @@ package test;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.javatuples.Pair;
@@ -11,11 +10,8 @@ import org.junit.Test;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.LoopManiaWorld;
-import unsw.loopmania.PathPosition;
-import unsw.loopmania.Buildings.Village;
 import unsw.loopmania.Cards.BarracksCard;
 import unsw.loopmania.Cards.TowerCard;
-import unsw.loopmania.Cards.VillageCard;
 
 
 public class CardTest {
