@@ -245,7 +245,7 @@ public class LoopManiaWorld {
         if (heroCastle.getX() == character.getX() && heroCastle.getY() == character.getY()) {
             newLoop();
             for (Building b: buildingEntities) {
-                b.newLoop(this, character);
+                b.newLoop(this);
             }
         }
         moveBasicEnemies();
