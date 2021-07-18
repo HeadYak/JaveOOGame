@@ -238,7 +238,9 @@ public class LoopManiaWorldController {
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
             world.runTickMoves();
-            List<BasicEnemy> defeatedEnemies = world.runBattles();
+            world.getBattleManager().update(world);
+            List<BasicEnemy> defeatedEnemies =
+                    world.getBattleManager().battle();
             for (BasicEnemy e: defeatedEnemies){
                 reactToEnemyDefeat(e);
             }
