@@ -6,6 +6,7 @@ import org.javatuples.Pair;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.LoopManiaWorld;
+import unsw.loopmania.Buildings.VampireCastleBuilding;
 
 /**
  * represents a vampire castle card in the backend game world
@@ -19,8 +20,23 @@ public class VampireCastleCard extends Card {
 
     @Override
     public List<Pair<Integer, Integer>> getValidTilesList(LoopManiaWorld world) {
-        // TODO Auto-generated method stub
+
         return allowedTilesList.getvalidTiles(world);
+    }
+
+    @Override
+    public void placeCard(LoopManiaWorld world, SimpleIntegerProperty x, SimpleIntegerProperty y) {
+        Pair<SimpleIntegerProperty, SimpleIntegerProperty> cardCoord = new Pair<>(x, y);
+
+        List<Pair<Integer, Integer>> validTiles = getValidTilesList(world);
+
+        if (validTiles.contains(cardCoord)) {
+            VampireCastleBuilding newVampireCastle = new VampireCastleBuilding(x, y);
+
+            world.addBuilding(newVampireCastle);
+
+        }
+        
     }
  
 }

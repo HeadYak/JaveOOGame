@@ -204,6 +204,10 @@ public class Character extends MovingEntity {
         return xp;
     }
 
+    public void addXp(int addXp){
+        this.xp += addXp;
+    }
+
     /**
      * @return the amount of gold the character has
      */
@@ -211,6 +215,13 @@ public class Character extends MovingEntity {
         return gold;
     }
 
+    /**
+     * Adds gold to character
+     * @param addgold gold to be added
+     */
+    public void addGold(int addgold){
+        this.gold += addgold;
+    }
     /**
      * @return all the characters current allies
      */

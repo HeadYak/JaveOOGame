@@ -23,6 +23,7 @@ public abstract class Card extends StaticEntity {
     public void setAllowedTiles(cardAllowedTiles newAllowedTiles) {
         allowedTilesList = newAllowedTiles;
     }
+    abstract public void placeCard(LoopManiaWorld world, SimpleIntegerProperty x, SimpleIntegerProperty y);
     // public cardAllowedTiles getValidTiles(){
     //     return allowedTilesList;
     // }

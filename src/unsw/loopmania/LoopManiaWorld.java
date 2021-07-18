@@ -176,11 +176,14 @@ public class LoopManiaWorld {
         if (cardEntities.size() >= getWidth()){
             // TODO = give some cash/experience/item rewards for the discarding of the oldest card
             removeCard(0);
+            character.addGold(5);
+            character.addXp(5);
         }
         VampireCastleCard vampireCastleCard = new VampireCastleCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
         cardEntities.add(vampireCastleCard);
         return vampireCastleCard;
     }
+
 
     /**
      * remove card at a particular index of cards (position in gridpane of unplayed cards)
@@ -443,4 +446,9 @@ public class LoopManiaWorld {
     public void addBuilding(Building building) {
         buildingEntities.add(building);
     }
+    
+    public void addCard(Card card) {
+        cardEntities.add(card);
+    }
+
 }
