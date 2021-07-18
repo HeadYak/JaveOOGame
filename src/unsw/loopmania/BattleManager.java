@@ -60,7 +60,7 @@ public class BattleManager {
         List<BasicEnemy> allEnemiesAttacked = new ArrayList<BasicEnemy>();
         allEnemiesAttacked.addAll(battleEnemies);
         allEnemiesAttacked.addAll(supportEnemies);
-        return battleEnemies;
+        return allEnemiesAttacked;
 
     }
     
