@@ -82,11 +82,10 @@ public class VampireCastleBuilding extends Building implements Spawn{
 
     /**
      * @param world
-     * @param character
      * performs the buildings action on every new loop
      */
     @Override
-    public void newLoop(LoopManiaWorld world, Character character) {
+    public void newLoop(LoopManiaWorld world) {
         spawn(world);
     }
 }

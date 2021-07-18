@@ -78,11 +78,10 @@ public class Campfire extends Building{
 
     /**
      * @param world
-     * @param character
      * performs the buildings action on every new loop
      */
     @Override
-    public void newLoop(LoopManiaWorld world, Character character) {
+    public void newLoop(LoopManiaWorld world) {
     }
 }
 

@@ -78,6 +78,6 @@ public class Barracks extends Building{
      * performs the buildings action on every new loop
      */
     @Override
-    public void newLoop(LoopManiaWorld world, Character character) {
+    public void newLoop(LoopManiaWorld world) {
     }
 }
