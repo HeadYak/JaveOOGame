@@ -2,6 +2,7 @@ package unsw.loopmania;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.codefx.libfx.listener.handle.ListenerHandle;
 import org.codefx.libfx.listener.handle.ListenerHandles;
@@ -497,29 +498,73 @@ public class LoopManiaWorldController {
      */
     private void reactToEnemyDefeat(BasicEnemy enemy){
         if (enemy instanceof Vampire) {
-            loadStaff();
-            loadChestArmour();
-            loadBarracksCard();
+            Random rand = new Random();
+            if (rand.nextInt(4) == 1) {
+                loadStaff();
+            }
+            if (rand.nextInt(4) == 2) {
+                loadChestArmour();
+            }
+            if (rand.nextInt(4) == 3) {
+                loadBarracksCard();
+            }
         } else if (enemy instanceof Zombie) {
-            loadStake();
-            loadHealthPotion();
-            loadVillageCard();
-            loadCampfireCard();
-            loadVampireCard();
+            Random rand = new Random();
+            if (rand.nextInt(6) == 0) {
+                loadStake();
+            }
+            if (rand.nextInt(6) == 1) {
+                loadHealthPotion();
+            }
+            if (rand.nextInt(6) == 2) {
+                loadVillageCard();
+            }
+            if (rand.nextInt(6) == 3) {
+                loadCampfireCard();
+            }
+            if (rand.nextInt(6) == 4) {
+                loadVampireCard();
+            }
         } else if (enemy instanceof Slug) {
-            //loadSword();
-            //loadZombieCard();
-            //loadStake();
-            //loadHealthPotion();
-            loadVillageCard();
-            loadCampfireCard();
-            loadVampireCard();
-            loadChestArmour();
-            loadBarracksCard();
-            loadStaff();
+            Random rand = new Random();
+            if (rand.nextInt(10) == 0) {
+                loadSword();
+            }
+            if (rand.nextInt(10) == 1) {
+                loadZombieCard();
+            }
+            if (rand.nextInt(10) == 2) {
+                loadStake();
+            }
+            if (rand.nextInt(10) == 3) {
+                loadHealthPotion();
+            }
+            if (rand.nextInt(10) == 4) {
+                loadVillageCard();
+            }
+            if (rand.nextInt(10) == 5) {
+                loadCampfireCard();
+            }
+            if (rand.nextInt(10) == 6) {
+                loadVampireCard();
+            }
+            if (rand.nextInt(10) == 7) {
+                loadChestArmour();
+            }
+            if (rand.nextInt(10) == 8) {
+                loadBarracksCard();
+            }
+            if (rand.nextInt(10) == 9) {
+                loadStaff();
+            }
         } else {
-            loadSword();
-            loadHelmet();
+            Random rand = new Random();
+            if (rand.nextInt(2) == 0) {
+                loadSword();
+            }
+            if (rand.nextInt(2) == 1) {
+                loadHelmet();
+            }
         }
 
     }
