@@ -59,6 +59,7 @@ public class Character extends MovingEntity {
      * @param newHelmet
      */
     public void setHelmet(Helmet newHelmet){
+        addToInventory(equippedHelmet);
         equippedHelmet = newHelmet;
     }
 
@@ -74,6 +75,7 @@ public class Character extends MovingEntity {
      * @param newChestArmor
      */
     public void setChestArmor(ChestArmor newChestArmor){
+        addToInventory(equippedChestArmor);
         equippedChestArmor = newChestArmor;
     }
 
@@ -127,6 +129,7 @@ public class Character extends MovingEntity {
      * @param newWeapon
      */
     public void setWeapon(Weapon newWeapon){
+        addToInventory(equippedWeapon);
         this.equippedWeapon = newWeapon;
     }
 

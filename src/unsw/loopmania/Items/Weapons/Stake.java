@@ -8,7 +8,6 @@ public class Stake extends Weapon {
         super(x, y);
         setDamageValue(5);
         setItemValue(8);
-        //TODO Auto-generated constructor stub
     }
     
 }

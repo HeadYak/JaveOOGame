@@ -8,7 +8,6 @@ public class Staff extends Weapon{
         super(x, y);
         setItemValue(15);
         setDamageValue(2);
-        //TODO Auto-generated constructor stub
     }
     
 }
