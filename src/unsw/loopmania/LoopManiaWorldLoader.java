@@ -77,7 +77,6 @@ public abstract class LoopManiaWorldLoader {
             world.addEntity(entity);
             
             HeroCastle heroCastle = new HeroCastle(new SimpleIntegerProperty(x), new SimpleIntegerProperty(y));
-            world.setHeroCastle(heroCastle);
             onLoad(heroCastle);
             entity = heroCastle;
             world.addBuilding(heroCastle);

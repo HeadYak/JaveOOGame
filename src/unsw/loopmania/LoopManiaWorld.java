@@ -127,9 +127,6 @@ public class LoopManiaWorld {
     public void addEntity(Entity entity) {
         // for adding non-specific entities (ones without another dedicated list)
         // TODO = if more specialised types being added from main menu, add more methods like this with specific input types...
-        if (entity instanceof Building) {
-            addBuilding(entity);
-        }
         nonSpecifiedEntities.add(entity);
     }
 
