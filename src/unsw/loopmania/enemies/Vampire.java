@@ -26,7 +26,8 @@ public class Vampire extends BasicEnemy {
         setCritChance(0.1);
         setBattleRadius(2);
         setSupportRadius(3);
-        setHp(100);
+        setHp(300);
+        setDmg(8);
         isMovingClockwise = false;
         isBuffed = false;
         buffDuration = 0;

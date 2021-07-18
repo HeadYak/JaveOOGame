@@ -5,6 +5,7 @@ import unsw.loopmania.enemies.BasicEnemy;
 import unsw.loopmania.enemies.Slug;
 import unsw.loopmania.Buildings.*;
 import unsw.loopmania.Cards.*;
+import unsw.loopmania.BattleManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -60,6 +61,8 @@ public class LoopManiaWorld {
     // TODO = expand the range of buildings
     private List<Building> buildingEntities;
 
+    private BattleManager battleManager;
+
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse them
      */
@@ -103,6 +106,7 @@ public class LoopManiaWorld {
         SimpleIntegerProperty y = new SimpleIntegerProperty(character.getY());
         HeroCastle heroCastle = new HeroCastle(x, y);
         addBuilding(heroCastle);
+        battleManager = new BattleManager(character);
     }
 
     public List<Pair<Integer, Integer>> getPath(){
@@ -473,4 +477,11 @@ public class LoopManiaWorld {
         loops += 1;
     }
 
+    /**
+     * Getter for Battle Manager
+     * @return battle manager of world
+     */
+    public BattleManager getBattleManager() {
+        return battleManager;
+    }
 }

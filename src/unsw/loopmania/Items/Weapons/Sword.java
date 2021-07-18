@@ -9,7 +9,7 @@ public class Sword extends Weapon {
 
     public Sword(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
-        setDamageValue(10);
+        setDamageValue(15);
         setItemValue(5);
     }    
 

@@ -21,6 +21,7 @@ public class EnemiesSpawnTest {
             new Pair<>(0, 1), new Pair<>(0, 2));
 
     LoopManiaWorld world = new LoopManiaWorld(4, 4, path);
+    // world.setRandomSpawnRate() = 0;
 
     @Test
     public void testSlugSpawn() {
@@ -45,6 +46,7 @@ public class EnemiesSpawnTest {
         assertEquals(slug.getBattleRadius(), 1);
         assertEquals(slug.getSupportRadius(), 1);
         assertEquals(slug.getHp(), 100);
+        assertEquals(slug.getDmg(), 1);
     }
 
     @Test
@@ -75,7 +77,8 @@ public class EnemiesSpawnTest {
         assertEquals(zombie.getSupportRadius(), 2);
         assertEquals(zombie.getDetectionRadius(), 5);
         assertEquals(zombie.getCountdown(), 1);
-        assertEquals(zombie.getHp(), 100);
+        assertEquals(zombie.getHp(), 200);
+        assertEquals(zombie.getDmg(), 5);
     }
 
     @Test
@@ -103,7 +106,8 @@ public class EnemiesSpawnTest {
         assertFalse(vampire.isMovingClockwise());
         assertFalse(vampire.isBuffed());
         assertEquals(vampire.getBuffDuration(), 0);
-        assertEquals(vampire.getHp(), 100);
+        assertEquals(vampire.getHp(), 300);
+        assertEquals(vampire.getDmg(), 8);
     }
 
     @Test

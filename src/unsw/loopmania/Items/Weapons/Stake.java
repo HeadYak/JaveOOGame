@@ -6,7 +6,7 @@ public class Stake extends Weapon {
 
     public Stake(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
-        setDamageValue(5);
+        setDamageValue(10);
         setItemValue(8);
     }
     
