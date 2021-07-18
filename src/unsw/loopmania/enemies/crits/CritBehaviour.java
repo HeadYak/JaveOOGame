@@ -1,5 +1,5 @@
-// package unsw.loopmania.enemies.crits;
+package unsw.loopmania.enemies.crits;
 
-// public interface CritBehaviour {
-//     public void critEffects();
-// }
+public interface CritBehaviour {
+    public void critEffects();
+}
