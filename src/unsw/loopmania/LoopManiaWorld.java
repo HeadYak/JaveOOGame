@@ -380,6 +380,12 @@ public class LoopManiaWorld {
         return newBuilding;
     }
 
+    /**
+     * takes the x and y coordinate and returns the path position of the closest path tile
+     * @param x
+     * @param y
+     * @return PathPosition
+     */
     public PathPosition findClosestPathTile(int x, int y) {
         double smallestDistance = 999;
         int indexInPath = 0;
@@ -394,14 +400,24 @@ public class LoopManiaWorld {
         return closest;
     }
 
+    /**
+     * adds an enemy to the world's enemy list
+     * @param enemy
+     */
     public void addEnemy(BasicEnemy enemy) {
         enemies.add(enemy);
     }
 
+    /**
+     * @returns the a list of enemies in the world
+     */
     public List<BasicEnemy> getEnemies() {
         return enemies;
     }
 
+    /**
+     * @returns the character object
+     */
     public Character getCharacter() {
         return character;
     }
