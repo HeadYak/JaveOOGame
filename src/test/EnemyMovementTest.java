@@ -16,6 +16,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.Buildings.Campfire;
+import unsw.loopmania.Buildings.HeroCastle;
 import unsw.loopmania.enemies.Slug;
 import unsw.loopmania.enemies.Vampire;
 import unsw.loopmania.enemies.Zombie;
@@ -49,6 +50,12 @@ public class EnemyMovementTest {
         Character playerChar = new Character(charP);
         world.setCharacter(playerChar);
 
+        // Set a Hero Castle where character spawns
+        SimpleIntegerProperty cX = new SimpleIntegerProperty(playerChar.getX());
+        SimpleIntegerProperty cY = new SimpleIntegerProperty(playerChar.getY());
+        HeroCastle heroCastle = new HeroCastle(cX, cY);
+        world.addBuilding(heroCastle);
+
         // Test that slug is on the correct position
         assertEquals(0, slug.getX());
         assertEquals(1, slug.getY());
@@ -70,6 +77,12 @@ public class EnemyMovementTest {
         PathPosition charP = new PathPosition(16, path);
         Character playerChar = new Character(charP);
         world.setCharacter(playerChar);
+
+        // Set a Hero Castle where character spawns
+        SimpleIntegerProperty cX = new SimpleIntegerProperty(playerChar.getX());
+        SimpleIntegerProperty cY = new SimpleIntegerProperty(playerChar.getY());
+        HeroCastle heroCastle = new HeroCastle(cX, cY);
+        world.addBuilding(heroCastle);
 
         PathPosition zombieP = new PathPosition(0, path);
         Zombie zombie = new Zombie(zombieP, playerChar);
@@ -140,6 +153,12 @@ public class EnemyMovementTest {
         Character playerChar = new Character(charP);
         world.setCharacter(playerChar);
 
+        // Set a Hero Castle where character spawns
+        SimpleIntegerProperty cX = new SimpleIntegerProperty(playerChar.getX());
+        SimpleIntegerProperty cY = new SimpleIntegerProperty(playerChar.getY());
+        HeroCastle heroCastle = new HeroCastle(cX, cY);
+        world.addBuilding(heroCastle);
+
         // Generate 50 zombies at (0, 1)
         for (int i = 0; i < 50; i++) {
             PathPosition zombieP = new PathPosition(0, path);
@@ -184,6 +203,12 @@ public class EnemyMovementTest {
         PathPosition charP = new PathPosition(4, path);
         Character playerChar = new Character(charP);
         world.setCharacter(playerChar);
+
+        // Set a Hero Castle where character spawns
+        SimpleIntegerProperty cX = new SimpleIntegerProperty(playerChar.getX());
+        SimpleIntegerProperty cY = new SimpleIntegerProperty(playerChar.getY());
+        HeroCastle heroCastle = new HeroCastle(cX, cY);
+        world.addBuilding(heroCastle);
 
         // Test that vampire is on the correct position
         assertEquals(0, vampire.getX());
@@ -252,6 +277,12 @@ public class EnemyMovementTest {
         PathPosition charP = new PathPosition(4, path);
         Character playerChar = new Character(charP);
         world.setCharacter(playerChar);
+
+        // Set a Hero Castle where character spawns
+        SimpleIntegerProperty cX = new SimpleIntegerProperty(playerChar.getX());
+        SimpleIntegerProperty cY = new SimpleIntegerProperty(playerChar.getY());
+        HeroCastle heroCastle = new HeroCastle(cX, cY);
+        world.addBuilding(heroCastle);
 
         // Add campfire to (3, 1) -> assumes range of campfire is 1
         SimpleIntegerProperty x1 = new SimpleIntegerProperty(3);

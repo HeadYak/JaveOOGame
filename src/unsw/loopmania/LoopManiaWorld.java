@@ -72,6 +72,8 @@ public class LoopManiaWorld {
 
     private BattleManager battleManager;
 
+    private List<BasicEnemy> defeatedEnemies;
+
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse them
      */
@@ -94,6 +96,7 @@ public class LoopManiaWorld {
         unequippedInventoryItems = new ArrayList<Item>();
         this.orderedPath = orderedPath;
         buildingEntities = new ArrayList<Building>();
+        defeatedEnemies = new ArrayList<BasicEnemy>();
         loops = 0;
     }
 
@@ -440,26 +443,23 @@ public class LoopManiaWorld {
                     buildingEntities.remove(b);
 
                     if (enemy.getHp() <= 0) {
+                        defeatedEnemies.add(enemy);
                         killEnemy(enemy);
                     }
                 }
             }
         }
 
-    }
-
-    public List<BasicEnemy> runBattles() {
-        List<BasicEnemy> defeated = new ArrayList<BasicEnemy>();
         // Fight enemies
         battleManager.update(this);
         List<BasicEnemy> attackedEnemies = battleManager.battle();
         for (BasicEnemy enemy : attackedEnemies) {
             if (enemy.getHp() <= 0) {
-                defeated.add(enemy);
+                defeatedEnemies.add(enemy);
                 killEnemy(enemy);
             }
         }
-        return defeated;
+
     }
 
     /**
@@ -698,4 +698,21 @@ public class LoopManiaWorld {
     public void addAlly(Ally ally) {
         allies.add(ally);
     }
+
+    /**
+     * Getter for defeated enemies list
+     * @return list of all defeated enemies
+     */
+    public List<BasicEnemy> getDefeatedEnemies() {
+        return defeatedEnemies;
+    }
+
+    /**
+     * Clears defeated enemie
+     */
+    public void clearDefeatedEnemies() {
+        defeatedEnemies.clear();
+    }
+
+    
 }

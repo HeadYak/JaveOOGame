@@ -14,6 +14,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.Buildings.Campfire;
+import unsw.loopmania.Buildings.HeroCastle;
 import unsw.loopmania.Buildings.Tower;
 import unsw.loopmania.Ally;
 import unsw.loopmania.BattleManager;
@@ -390,6 +391,12 @@ public class CombatTest {
         PathPosition charP = new PathPosition(0, path);
         Character playerChar = new Character(charP);
         world.setCharacter(playerChar);
+
+        // Set a Hero Castle where character spawns
+        SimpleIntegerProperty cX = new SimpleIntegerProperty(playerChar.getX());
+        SimpleIntegerProperty cY = new SimpleIntegerProperty(playerChar.getY());
+        HeroCastle heroCastle = new HeroCastle(cX, cY);
+        world.addBuilding(heroCastle);
 
         // Equip a sword
         SimpleIntegerProperty x = new SimpleIntegerProperty();
