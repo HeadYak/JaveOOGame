@@ -25,3 +25,5 @@
 * Ally units do not appear on paths etc but appear like items and will only be used in conflict
 
 * The character can only have 3 allies at once
+
+* buffs and support are only applied after the character moves
