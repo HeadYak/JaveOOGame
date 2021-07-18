@@ -97,10 +97,16 @@ public class LoopManiaWorld {
      */
     public void setCharacter(Character character) {
         this.character = character;
+        SimpleIntegerProperty x = new SimpleIntegerProperty(character.getX());
+        SimpleIntegerProperty y = new SimpleIntegerProperty(character.getY());
+        HeroCastle heroCastle = new HeroCastle(x, y);
+        addBuilding(heroCastle);
     }
+
     public List<Pair<Integer, Integer>> getPath(){
         return orderedPath;
     }
+    
     /**
      * add a generic entity (without it's own dedicated method for adding to the world)
      * @param entity
