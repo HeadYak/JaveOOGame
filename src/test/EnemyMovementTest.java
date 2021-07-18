@@ -140,9 +140,10 @@ public class EnemyMovementTest {
         world.setCharacter(playerChar);
 
         // Generate 50 zombies
-        PathPosition zombieP = new PathPosition(0, path);
         for (int i = 0; i < 50; i++) {
+            PathPosition zombieP = new PathPosition(0, path);
             Zombie zombie = new Zombie(zombieP, playerChar);
+            zombies.add(zombie);
             world.addEnemy(zombie);
         }
 
@@ -152,7 +153,7 @@ public class EnemyMovementTest {
 
         // Test that all 50 zombies are now on (1, 0)
         for (Zombie zombie : zombies) {
-            assertEquals(1, zombie.getX());
+            assertEquals(0, zombie.getX());
             assertEquals(0, zombie.getY());
         }
 
