@@ -10,13 +10,11 @@ class noDamageBlock implements BlockBehaviour{
 
     @Override
     public double getDamageTaken(double damageTaken) {
-        // TODO Auto-generated method stub
         return damageTaken;
     }
 
     @Override
     public double getDamageTakenModifier() {
-        // TODO Auto-generated method stub
         return 1.0;
     }
 

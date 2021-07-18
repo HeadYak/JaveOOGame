@@ -27,13 +27,22 @@ public class TrapCard extends Card {
 
         List<Pair<Integer, Integer>> validTiles = getValidTilesList(world);
 
-        if (validTiles.contains(cardCoord)) {
-            Trap newTrap = new Trap(x, y);
+        // System.out.println(cardCoord);
 
+        int tempx = x.get();
+        int tempy = y.get();
+
+        Pair<Integer, Integer> tempcardCoord = new Pair<>(tempx, tempy);
+
+        // System.out.println(validTiles);
+
+        if (validTiles.contains(tempcardCoord)) {
+            System.out.println("Yoyo");
+            Trap newTrap = new Trap(x, y);
             world.addBuilding(newTrap);
 
         }
-        
+
     }
 
     
