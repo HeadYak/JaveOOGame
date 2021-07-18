@@ -132,18 +132,27 @@ public class EnemyMovementTest {
 
     @Test
     public void testZombieChaseConsistency() {
-        List<Zombie> zombies = new ArrayList<Zombie>();
+        List<Zombie> zombiesAntiClockwise = new ArrayList<Zombie>();
+        List<Zombie> zombiesClockwise = new ArrayList<Zombie>();
 
         // Create a character at (5, 0) that is in range of zombies at (0, 1)
         PathPosition charP = new PathPosition(26, path);
         Character playerChar = new Character(charP);
         world.setCharacter(playerChar);
 
-        // Generate 50 zombies
+        // Generate 50 zombies at (0, 1)
         for (int i = 0; i < 50; i++) {
             PathPosition zombieP = new PathPosition(0, path);
             Zombie zombie = new Zombie(zombieP, playerChar);
-            zombies.add(zombie);
+            zombiesAntiClockwise.add(zombie);
+            world.addEnemy(zombie);
+        }
+
+        // Generate 50 zombies at (8, 0)
+        for (int i = 0; i < 50; i++) {
+            PathPosition zombieP = new PathPosition(23, path);
+            Zombie zombie = new Zombie(zombieP, playerChar);
+            zombiesClockwise.add(zombie);
             world.addEnemy(zombie);
         }
 
@@ -151,9 +160,15 @@ public class EnemyMovementTest {
         world.runTickMoves();
         world.runTickMoves();
 
-        // Test that all 50 zombies are now on (1, 0)
-        for (Zombie zombie : zombies) {
+        // Test that all 50 zombies in anti clockwise are now on (0, 0)
+        for (Zombie zombie : zombiesAntiClockwise) {
             assertEquals(0, zombie.getX());
+            assertEquals(0, zombie.getY());
+        }
+
+        // Test that all 50 zombies in clockwise are now on (8, 3)
+        for (Zombie zombie : zombiesClockwise) {
+            assertEquals(7, zombie.getX());
             assertEquals(0, zombie.getY());
         }
 
