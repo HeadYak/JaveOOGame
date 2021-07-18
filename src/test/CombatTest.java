@@ -13,6 +13,7 @@ import org.junit.Test;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
+import unsw.loopmania.BattleManager;
 import unsw.loopmania.Items.Weapons.Stake;
 import unsw.loopmania.Items.Weapons.Sword;
 import unsw.loopmania.enemies.*;
@@ -54,17 +55,16 @@ public class CombatTest {
 
         // Simulating battle manually to test each component of battle is
         // working correctly
-        BattleManger bm = world.getBattleManager();
-        bm.lowerCrit(BasicEnemy.class, 1);
+        BattleManager bm = world.getBattleManager();
+        // bm.lowerCrit(BasicEnemy.class, 1);
 
         // Update battle manager with potential enemy and character
-        bm.update();
-        assertEquals(bm.getCharacter(), playerChar);
+        bm.update(world);
         assertEquals(bm.getAllies().size(), 0);
-        assertTrue(bm.getSupportEnemies().size(), 0);
+        assertEquals(bm.getSupportEnemies().size(), 0);
 
         assertEquals(bm.getBattleEnemies().size(), 1);
-        assertTrue(bm.getBattleEnemies()[0] instanceof Slug);
+        assertTrue(bm.getBattleEnemies().get(0) instanceof Slug);
 
         // Do a single tick of battle
         bm.runTickBattle();
@@ -78,11 +78,11 @@ public class CombatTest {
         assertEquals(slug.getHp(), newSlugHp);
 
         // Simulate the world by 1 tick to complete battle
-        world.runTickMoves();
+        bm.battle();
 
         // Test that combat has occurred by checking that the slug is now dead
         // NOTE: Mathematically impossible for slug to win
-        assertEquals(world.getEnemies().size(), 0);
+        assertTrue(world.getEnemies().get(0).getHp() < 0);
 
     }
 
@@ -105,17 +105,16 @@ public class CombatTest {
 
         // Simulating battle manually to test each component of battle is
         // working correctly
-        BattleManger bm = world.getBattleManager();
-        bm.lowerCrit(BasicEnemy.class, 1);
+        BattleManager bm = world.getBattleManager();
+        // bm.lowerCrit(BasicEnemy.class, 1);
 
         // Update battle manager with potential enemy and character
-        bm.update();
-        assertEquals(bm.getCharacter(), playerChar);
+        bm.update(world);
         assertEquals(bm.getAllies().size(), 0);
-        assertTrue(bm.getSupportEnemies().size(), 0);
+        assertEquals(bm.getSupportEnemies().size(), 0);
 
         assertEquals(bm.getBattleEnemies().size(), 1);
-        assertTrue(bm.getBattleEnemies()[0] instanceof Zombie);
+        assertTrue(bm.getBattleEnemies().get(0) instanceof Zombie);
 
         // Do a single tick of battle
         bm.runTickBattle();
@@ -124,16 +123,16 @@ public class CombatTest {
         // behaviour
         int newCharHp = 300 - (zombie.getDmg() * 4);
         assertEquals(playerChar.getHp(), newCharHp);
-        int newZombieHp = 100 - ((playerChar.getDmg() +
+        int newZombieHp = 200 - ((playerChar.getDmg() +
                 sword.getDamageValue()) * 4);
         assertEquals(zombie.getHp(), newZombieHp);
 
         // Simulate the world by 1 tick to complete battle
-        world.runTickMoves();
+        bm.battle();
 
         // Test that combat has occurred by checking that the zombie is now dead
         // NOTE: Mathematically impossible for zombie to win
-        assertEquals(world.getEnemies().size(), 0);
+        assertTrue(world.getEnemies().get(0).getHp() < 0);
     }
 
     @Test
@@ -155,17 +154,16 @@ public class CombatTest {
 
         // Simulating battle manually to test each component of battle is
         // working correctly
-        BattleManger bm = world.getBattleManager();
-        bm.lowerCrit(BasicEnemy.class, 1);
+        BattleManager bm = world.getBattleManager();
+        // bm.lowerCrit(BasicEnemy.class, 1);
 
         // Update battle manager with potential enemy and character
-        bm.update();
-        assertEquals(bm.getCharacter(), playerChar);
+        bm.update(world);
         assertEquals(bm.getAllies().size(), 0);
-        assertTrue(bm.getSupportEnemies().size(), 0);
+        assertEquals(bm.getSupportEnemies().size(), 0);
 
         assertEquals(bm.getBattleEnemies().size(), 1);
-        assertTrue(bm.getBattleEnemies()[0] instanceof Vampire);
+        assertTrue(bm.getBattleEnemies().get(0) instanceof Vampire);
 
         // Do a single tick of battle
         bm.runTickBattle();
@@ -174,7 +172,7 @@ public class CombatTest {
         // behaviour
         int newCharHp = 300 - (vampire.getDmg() * 4);
         assertEquals(playerChar.getHp(), newCharHp);
-        int newVampireHp = 100 - ((playerChar.getDmg() +
+        int newVampireHp = 300 - ((playerChar.getDmg() +
                 sword.getDamageValue()) * 4);
         assertEquals(vampire.getHp(), newVampireHp);
 
@@ -187,18 +185,18 @@ public class CombatTest {
 
         // Check that the damage done by character and vampire are the correct
         // behaviour
-        int newCharHp = newCharHp - (vampire.getDmg() * 4);
+        newCharHp = newCharHp - (vampire.getDmg() * 4);
         assertEquals(playerChar.getHp(), newCharHp);
-        int newVampireHp = newVampireHp - ((playerChar.getDmg() +
+        newVampireHp = newVampireHp - ((playerChar.getDmg() +
                 stake.getDamageValue()) * 4);
         assertEquals(vampire.getHp(), newVampireHp);
 
         // Simulate the world by 1 tick to complete battle
-        world.runTickMoves();
+        bm.battle();
 
         // Test that combat has occurred by checking that the slug is now dead
         // NOTE: Mathematically impossible for slug to win
-        assertEquals(world.getEnemies().size(), 0);
+        assertTrue(world.getEnemies().get(0).getHp() < 0);
     }
 
     @Test
@@ -239,7 +237,7 @@ public class CombatTest {
 
         // Get BattleManager and run the battle
         BattleManager bm = world.getBattleManager();
-        bm.update();
+        bm.update(world);
         bm.battle();
 
         // Test that character is now dead

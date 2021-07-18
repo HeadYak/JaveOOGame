@@ -77,7 +77,7 @@ public class EnemiesSpawnTest {
         assertEquals(zombie.getSupportRadius(), 2);
         assertEquals(zombie.getDetectionRadius(), 5);
         assertEquals(zombie.getCountdown(), 1);
-        assertEquals(zombie.getHp(), 100);
+        assertEquals(zombie.getHp(), 200);
         assertEquals(zombie.getDmg(), 5);
     }
 
@@ -106,7 +106,7 @@ public class EnemiesSpawnTest {
         assertFalse(vampire.isMovingClockwise());
         assertFalse(vampire.isBuffed());
         assertEquals(vampire.getBuffDuration(), 0);
-        assertEquals(vampire.getHp(), 100);
+        assertEquals(vampire.getHp(), 300);
         assertEquals(vampire.getDmg(), 8);
     }
 
