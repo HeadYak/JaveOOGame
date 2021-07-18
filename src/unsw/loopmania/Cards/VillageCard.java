@@ -6,6 +6,7 @@ import org.javatuples.Pair;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.LoopManiaWorld;
+import unsw.loopmania.Buildings.Building;
 import unsw.loopmania.Buildings.Village;
 
 public class VillageCard extends Card{
@@ -46,5 +47,9 @@ public class VillageCard extends Card{
 
     }
 
+    @Override
+    public Building getBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+        return (new Village(x, y));
+    }
     
 }

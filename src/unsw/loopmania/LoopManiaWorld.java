@@ -1,6 +1,11 @@
 package unsw.loopmania;
 import unsw.loopmania.Items.*;
+import unsw.loopmania.Items.Armor.ChestArmor;
+import unsw.loopmania.Items.Armor.basicChestArmor;
+import unsw.loopmania.Items.Armor.basicHelmet;
+import unsw.loopmania.Items.Weapons.Stake;
 import unsw.loopmania.Items.Weapons.Sword;
+import unsw.loopmania.Items.Weapons.Staff;
 import unsw.loopmania.enemies.BasicEnemy;
 import unsw.loopmania.enemies.Slug;
 import unsw.loopmania.Buildings.*;
@@ -14,6 +19,7 @@ import java.lang.Math;
 
 import org.javatuples.Pair;
 
+import javafx.beans.property.Property;
 import javafx.beans.property.SimpleIntegerProperty;
 // import unsw.loopmania.Buildings.Trap;
 import unsw.loopmania.Buildings.VampireCastleBuilding;
@@ -46,6 +52,8 @@ public class LoopManiaWorld {
     private List<Entity> nonSpecifiedEntities;
 
     private Character character;
+    // hp, maxHP, inventory (arrayList), equipped helmet, equipped sword, equipped armour, loop counter, ally list (arrayList), 
+    // 
 
     // TODO = add more lists for other entities, for equipped inventory items, etc...
     private List<Ally> allies;
@@ -103,12 +111,10 @@ public class LoopManiaWorld {
      */
     public void setCharacter(Character character) {
         this.character = character;
-        SimpleIntegerProperty x = new SimpleIntegerProperty(character.getX());
-        SimpleIntegerProperty y = new SimpleIntegerProperty(character.getY());
-        HeroCastle heroCastle = new HeroCastle(x, y);
-        addBuilding(heroCastle);
         battleManager = new BattleManager(character);
     }
+
+    
 
     public List<Pair<Integer, Integer>> getPath(){
         return orderedPath;
@@ -167,6 +173,98 @@ public class LoopManiaWorld {
         return vampireCastleCard;
     }
 
+    public ZombiePitCard loadZombieCard() {
+        // if adding more cards than have, remove the first card...
+        if (cardEntities.size() >= getWidth()) {
+            // TODO = give some cash/experience/item rewards for the discarding of the
+            // oldest card
+            removeCard(0);
+            character.addGold(5);
+            character.addXp(5);
+        }
+        ZombiePitCard zombiePitCard = new ZombiePitCard(new SimpleIntegerProperty(cardEntities.size()),
+                new SimpleIntegerProperty(0));
+        cardEntities.add(zombiePitCard);
+        return zombiePitCard;
+    }
+
+
+    public CampfireCard loadCampfireCard() {
+        // if adding more cards than have, remove the first card...
+        if (cardEntities.size() >= getWidth()) {
+            // TODO = give some cash/experience/item rewards for the discarding of the
+            // oldest card
+            removeCard(0);
+            character.addGold(5);
+            character.addXp(5);
+        }
+        CampfireCard campfireCard = new CampfireCard(new SimpleIntegerProperty(cardEntities.size()),
+                new SimpleIntegerProperty(0));
+        cardEntities.add(campfireCard);
+        return campfireCard;
+    }
+
+    public TowerCard loadTowerCard() {
+        // if adding more cards than have, remove the first card...
+        if (cardEntities.size() >= getWidth()) {
+            // TODO = give some cash/experience/item rewards for the discarding of the
+            // oldest card
+            removeCard(0);
+            character.addGold(5);
+            character.addXp(5);
+        }
+        TowerCard towerCard = new TowerCard(new SimpleIntegerProperty(cardEntities.size()),
+                new SimpleIntegerProperty(0));
+        cardEntities.add(towerCard);
+        return towerCard;
+    }
+
+    public TrapCard loadTrapCard(){
+        if (cardEntities.size() >= getWidth()) {
+            // TODO = give some cash/experience/item rewards for the discarding of the
+            // oldest card
+            removeCard(0);
+            character.addGold(5);
+            character.addXp(5);
+        }
+        TrapCard trapCard = new TrapCard(new SimpleIntegerProperty(cardEntities.size()),
+                new SimpleIntegerProperty(0));
+        cardEntities.add(trapCard);
+        return trapCard;
+
+    }
+
+    public VillageCard loadVillageCard() {
+        if (cardEntities.size() >= getWidth()) {
+            // TODO = give some cash/experience/item rewards for the discarding of the
+            // oldest card
+            removeCard(0);
+            character.addGold(5);
+            character.addXp(5);
+        }
+        VillageCard villageCard = new VillageCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        cardEntities.add(villageCard);
+        return villageCard;
+
+    }
+
+    public BarracksCard loadBarracksCard() {
+        if (cardEntities.size() >= getWidth()) {
+            // TODO = give some cash/experience/item rewards for the discarding of the
+            // oldest card
+            removeCard(0);
+            character.addGold(5);
+            character.addXp(5);
+        }
+        BarracksCard barracksCard = new BarracksCard(new SimpleIntegerProperty(cardEntities.size()),
+                new SimpleIntegerProperty(0));
+        cardEntities.add(barracksCard);
+        return barracksCard;
+
+    }
+
+
+
 
     /**
      * remove card at a particular index of cards (position in gridpane of unplayed cards)
@@ -198,6 +296,105 @@ public class LoopManiaWorld {
         Sword sword = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
         unequippedInventoryItems.add(sword);
         return sword;
+    }
+
+    public Stake addUnequippedStake() {
+        // TODO = expand this - we would like to be able to add multiple types of items,
+        // apart from swords
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+        if (firstAvailableSlot == null) {
+            // eject the oldest unequipped item and replace it... oldest item is that at
+            // beginning of items
+            // TODO = give some cash/experience rewards for the discarding of the oldest
+            // sword
+            removeItemByPositionInUnequippedInventoryItems(0);
+            firstAvailableSlot = getFirstAvailableSlotForItem();
+        }
+
+        // now we insert the new sword, as we know we have at least made a slot
+        // available...
+        Stake stake = new Stake(new SimpleIntegerProperty(firstAvailableSlot.getValue0()),
+                new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        unequippedInventoryItems.add(stake);
+        return stake;
+    }
+
+    public Staff addUnequippedStaff() {
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+        if (firstAvailableSlot == null) {
+            // eject the oldest unequipped item and replace it... oldest item is that at
+            // beginning of items
+            // TODO = give some cash/experience rewards for the discarding of the oldest
+            // sword
+            removeItemByPositionInUnequippedInventoryItems(0);
+            firstAvailableSlot = getFirstAvailableSlotForItem();
+        }
+
+        // now we insert the new sword, as we know we have at least made a slot
+        // available...
+        Staff staff = new Staff(new SimpleIntegerProperty(firstAvailableSlot.getValue0()),
+                new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        unequippedInventoryItems.add(staff);
+        return staff;
+    }
+
+    public basicChestArmor addUnequippedChestArmor() {
+        // apart from swords
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+        if (firstAvailableSlot == null) {
+            // eject the oldest unequipped item and replace it... oldest item is that at
+            // beginning of items
+            // TODO = give some cash/experience rewards for the discarding of the oldest
+            // sword
+            removeItemByPositionInUnequippedInventoryItems(0);
+            firstAvailableSlot = getFirstAvailableSlotForItem();
+        }
+
+        // now we insert the new sword, as we know we have at least made a slot
+        // available...
+        basicChestArmor chestArmor = new basicChestArmor(new SimpleIntegerProperty(firstAvailableSlot.getValue0()),
+                new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        unequippedInventoryItems.add(chestArmor);
+        return chestArmor;
+    }
+
+    public basicHelmet addUnequippedHelmet() {
+        // apart from swords
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+        if (firstAvailableSlot == null) {
+            // eject the oldest unequipped item and replace it... oldest item is that at
+            // beginning of items
+            // TODO = give some cash/experience rewards for the discarding of the oldest
+            // sword
+            removeItemByPositionInUnequippedInventoryItems(0);
+            firstAvailableSlot = getFirstAvailableSlotForItem();
+        }
+
+        // now we insert the new sword, as we know we have at least made a slot
+        // available...
+        basicHelmet helmet = new basicHelmet(new SimpleIntegerProperty(firstAvailableSlot.getValue0()),
+                new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        unequippedInventoryItems.add(helmet);
+        return helmet;
+    }
+
+    public HealthPotion addHealthPotion(){
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+        if (firstAvailableSlot == null) {
+            // eject the oldest unequipped item and replace it... oldest item is that at
+            // beginning of items
+            // TODO = give some cash/experience rewards for the discarding of the oldest
+            // sword
+            removeItemByPositionInUnequippedInventoryItems(0);
+            firstAvailableSlot = getFirstAvailableSlotForItem();
+        }
+
+        // now we insert the new sword, as we know we have at least made a slot
+        // available...
+        HealthPotion healthPotion = new HealthPotion(new SimpleIntegerProperty(firstAvailableSlot.getValue0()),
+                new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        unequippedInventoryItems.add(healthPotion);
+        return healthPotion; 
     }
 
     /**
@@ -249,14 +446,20 @@ public class LoopManiaWorld {
             }
         }
 
+    }
+
+    public List<BasicEnemy> runBattles() {
+        List<BasicEnemy> defeated = new ArrayList<BasicEnemy>();
         // Fight enemies
         battleManager.update(this);
         List<BasicEnemy> attackedEnemies = battleManager.battle();
         for (BasicEnemy enemy : attackedEnemies) {
             if (enemy.getHp() <= 0) {
+                defeated.add(enemy);
                 killEnemy(enemy);
             }
         }
+        return defeated;
     }
 
     /**
@@ -370,7 +573,7 @@ public class LoopManiaWorld {
      * @param buildingNodeX x index from 0 to width-1 of building to be added
      * @param buildingNodeY y index from 0 to height-1 of building to be added
      */
-    public VampireCastleBuilding convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
+    public Building convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
         // start by getting card
         Card card = null;
         for (Card c: cardEntities){
@@ -381,8 +584,9 @@ public class LoopManiaWorld {
         }
         
         // now spawn building
-        VampireCastleBuilding newBuilding = new VampireCastleBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
-        buildingEntities.add(newBuilding);
+        card.placeCard(this, new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+
+        Building newBuilding = card.getBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
 
         // destroy the card
         card.destroy();

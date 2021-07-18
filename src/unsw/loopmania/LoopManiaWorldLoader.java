@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.Buildings.HeroCastle;
 
 import java.util.List;
 
@@ -73,12 +74,18 @@ public abstract class LoopManiaWorldLoader {
             world.setCharacter(character);
             onLoad(character);
             entity = character;
+            world.addEntity(entity);
+            
+            HeroCastle heroCastle = new HeroCastle(new SimpleIntegerProperty(x), new SimpleIntegerProperty(y));
+            onLoad(heroCastle);
+            entity = heroCastle;
+            world.addBuilding(heroCastle);
             break;
         case "path_tile":
             throw new RuntimeException("path_tile's aren't valid entities, define the path externally.");
         // TODO Handle other possible entities
         }
-        world.addEntity(entity);
+        //world.addEntity(entity);
     }
 
     /**
@@ -146,7 +153,7 @@ public abstract class LoopManiaWorldLoader {
 
     public abstract void onLoad(Character character);
     public abstract void onLoad(PathTile pathTile, PathTile.Direction into, PathTile.Direction out);
-
+    public abstract void onLoad(HeroCastle heroCastle);
     // TODO Create additional abstract methods for the other entities
 
 }

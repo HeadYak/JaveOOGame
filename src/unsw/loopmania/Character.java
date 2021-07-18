@@ -44,6 +44,7 @@ public class Character extends MovingEntity {
         buffed = false;
         setMoveSpeed(1);
         setMoveBehaviour(new MoveClockwise());
+        setMoveSpeed(1);
     }
 
     /**
