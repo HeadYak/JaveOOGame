@@ -9,13 +9,11 @@ import unsw.loopmania.Character;
 /**
  * a basic form of building in the world
  */
-public class VampireCastleBuilding extends Building implements Spawn, Support{
+public class VampireCastleBuilding extends Building implements Spawn{
     private int loopReq;
-    private int range;
     
     public VampireCastleBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
-        range = 1;
         loopReq = 5;
     }
 
@@ -24,7 +22,7 @@ public class VampireCastleBuilding extends Building implements Spawn, Support{
      */
     @Override
     public int getRange() {
-        return range;
+        return 0;
     }
 
     /**
@@ -50,20 +48,10 @@ public class VampireCastleBuilding extends Building implements Spawn, Support{
 
     /**
      * @param character
-     * activates mobsupport buff for character
-     */
-    @Override
-    public void support(Character character) {
-        character.activateMobSupport();
-    }
-
-    /**
-     * @param character
      * performs the buildings interaction with the building
      */
     @Override
     public void interact(Character character) {
-        support(character);
     }
 
     /**
@@ -72,13 +60,6 @@ public class VampireCastleBuilding extends Building implements Spawn, Support{
      */
     @Override
     public Boolean canInteract(Character character) {
-        if (range > Math.sqrt((character.getX() - getX())^2 + (character.getY() - getY())^2)) {
-            character.addInRange(this);
-            return true;
-        }
-        if (character.removeInRange(this)) {
-            character.deactivateMobSupport();
-        }
         return false;
     }
 
