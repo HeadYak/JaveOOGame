@@ -20,7 +20,6 @@ public class Character extends MovingEntity {
     private int maxHp;
     private boolean buffed;
     private int gold;
-    private double damageTaken;
     private ArrayList<Ally> allyList;
     private Boolean isSupported;
     private Weapon equippedWeapon;
@@ -36,7 +35,6 @@ public class Character extends MovingEntity {
         maxHp = 300;
         setDmg(5);
         setMoveSpeed(1);
-        damageTaken = 1.0;
         allyList = new ArrayList<Ally>();
         inventory = new ArrayList<Item>();
         inRange = new ArrayList<Building>();
