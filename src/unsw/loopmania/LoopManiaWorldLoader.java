@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.Buildings.HeroCastle;
 
 import java.util.List;
 
@@ -146,7 +147,7 @@ public abstract class LoopManiaWorldLoader {
 
     public abstract void onLoad(Character character);
     public abstract void onLoad(PathTile pathTile, PathTile.Direction into, PathTile.Direction out);
-
+    public abstract void onLoad(HeroCastle heroCastle);
     // TODO Create additional abstract methods for the other entities
 
 }

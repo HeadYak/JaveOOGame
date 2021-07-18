@@ -28,9 +28,28 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
+import unsw.loopmania.Buildings.Barracks;
+import unsw.loopmania.Buildings.Campfire;
+import unsw.loopmania.Buildings.Tower;
+import unsw.loopmania.Buildings.Trap;
 import unsw.loopmania.Buildings.VampireCastleBuilding;
+import unsw.loopmania.Buildings.Village;
+import unsw.loopmania.Buildings.ZombiePit;
 import unsw.loopmania.enemies.BasicEnemy;
+import unsw.loopmania.enemies.Slug;
+import unsw.loopmania.enemies.Vampire;
+import unsw.loopmania.enemies.Zombie;
+import unsw.loopmania.Cards.BarracksCard;
+import unsw.loopmania.Cards.CampfireCard;
+import unsw.loopmania.Cards.TowerCard;
+import unsw.loopmania.Cards.TrapCard;
 import unsw.loopmania.Cards.VampireCastleCard;
+import unsw.loopmania.Cards.VillageCard;
+import unsw.loopmania.Cards.ZombiePitCard;
+import unsw.loopmania.Items.HealthPotion;
+import unsw.loopmania.Items.Armor.Helmet;
+import unsw.loopmania.Items.Weapons.Staff;
+import unsw.loopmania.Items.Weapons.Stake;
 import unsw.loopmania.Items.Weapons.Sword;
 
 import java.util.EnumMap;
@@ -430,7 +449,7 @@ public class LoopManiaWorldController {
      */
     private void loadArmour(){
         // start by getting first available coordinates
-        Armour armour = world.addUnequippedArmour();
+        ChestArmour armour = world.addUnequippedArmour();
         onLoad(armour);
     }
 
