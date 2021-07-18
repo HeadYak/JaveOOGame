@@ -336,7 +336,6 @@ public class LoopManiaWorldController {
             for (BasicEnemy e: defeatedEnemies){
                 reactToEnemyDefeat(e);
             }
-
             world.clearDefeatedEnemies();
             List<BasicEnemy> newEnemies = world.possiblySpawnEnemies();
             for (BasicEnemy newEnemy: newEnemies){

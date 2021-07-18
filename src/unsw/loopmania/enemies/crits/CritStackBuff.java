@@ -1,11 +1,11 @@
-package unsw.loopmania.enemies.crits;
+// package unsw.loopmania.enemies.crits;
 
-public class CritStackBuff implements CritBehaviour {
+// public class CritStackBuff implements CritBehaviour {
 
-    @Override
-    public void critEffects() {
-        // TODO Auto-generated method stub
+//     @Override
+//     public void critEffects() {
+//         // TODO Auto-generated method stub
         
-    }
+//     }
     
-}
+// }
