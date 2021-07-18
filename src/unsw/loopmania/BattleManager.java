@@ -8,6 +8,7 @@ import unsw.loopmania.enemies.BasicEnemy;
 
 public class BattleManager {
     Character character;
+    int totalEnemyHp;
     List<Ally> allies;
     List<BasicEnemy> battleEnemies;
     List<BasicEnemy> supportEnemies;
@@ -18,12 +19,10 @@ public class BattleManager {
      */
     public BattleManager(Character character) {
         this.character = character;
+        allies = new ArrayList<Ally>();
+        battleEnemies = new ArrayList<BasicEnemy>();
+        supportEnemies = new ArrayList<BasicEnemy>();
     }
-
-    // TODO: not sure how to
-    // public lowerCrit(Class class, double percentage) {
-
-    // }
 
     /**
      * Function that updates what enemies we are battling
@@ -38,6 +37,7 @@ public class BattleManager {
 
             if (enemyP.distanceToCharacter(character) <= br) {
                 battleEnemies.add(enemy);
+                totalEnemyHp += enemy.getHp();
             } else if (enemyP.distanceToCharacter(character) <= sr) {
                 supportEnemies.add(enemy);
             }
@@ -51,14 +51,8 @@ public class BattleManager {
      */
     // TODO:
     public List<BasicEnemy> battle() {
-        int totalEnemyHp = 0;
 
-        // Add each battle enemy's hp to totalEnemyHp
-        for (BasicEnemy enemy : battleEnemies) {
-            totalEnemyHp += enemy.getHp();
-        }
-
-        while (totalEnemyHp > 0) {
+        while (totalEnemyHp > 0 && character.getHp() > 0) {
             runTickBattle();
         }
 
@@ -70,13 +64,19 @@ public class BattleManager {
     
     /**
      * Function that runs a single turn of a battle
+     * @return the total enemy hp after battle has finished
      */
     public void runTickBattle() {
         Weapon weapon = character.getWeapon();
         int enemyDmg = 0;
         int characterDmg = 0;
+        int weaponDmg = 0;
 
-        characterDmg = (character.getDmg() + weapon.getDamageValue()) * 4;
+        if (weapon != null) {
+            weaponDmg = weapon.getDamageValue();
+        }
+
+        characterDmg = (character.getDmg() + weaponDmg) * 4;
         
         // Getting total enemy dmg
         for (BasicEnemy enemy : battleEnemies) {
@@ -93,6 +93,7 @@ public class BattleManager {
         for (BasicEnemy enemy : battleEnemies) {
             if (enemy.getHp() > 0) {
                 enemy.setHp(enemy.getHp() - characterDmg);
+                totalEnemyHp -= characterDmg;
                 break;
             }
         }

@@ -481,7 +481,7 @@ public class LoopManiaWorld {
      * Getter for Battle Manager
      * @return battle manager of world
      */
-    public void getBattleManger() {
+    public BattleManager getBattleManager() {
         return battleManager;
     }
 }
