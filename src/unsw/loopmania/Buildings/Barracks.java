@@ -15,7 +15,7 @@ public class Barracks extends Building{
      * adds an Ally unit to the character's list of ally's
      */
     public void addAlly(Character character) {
-        Ally newAlly = new Ally();
+        Ally newAlly = new Ally(character.getPosition());
         character.recruitAlly(newAlly);
     }
 
