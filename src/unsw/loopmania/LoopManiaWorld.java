@@ -414,6 +414,7 @@ public class LoopManiaWorld {
      * run moves which occur with every tick without needing to spawn anything immediately
      */
     public void runTickMoves(){
+        defeatedEnemies.clear();
         character.performMove();
 
         // Updates character's stats
@@ -452,14 +453,12 @@ public class LoopManiaWorld {
 
         // Fight enemies
         battleManager.update(this);
-        List<BasicEnemy> attackedEnemies = battleManager.battle();
-        for (BasicEnemy enemy : attackedEnemies) {
-            if (enemy.getHp() <= 0) {
-                defeatedEnemies.add(enemy);
-                killEnemy(enemy);
-            }
+        List<BasicEnemy> killList = new ArrayList<BasicEnemy>();
+        killList = battleManager.battle();
+        defeatedEnemies = killList;
+        for (BasicEnemy enemy : killList) {
+            killEnemy(enemy);
         }
-
     }
 
     /**

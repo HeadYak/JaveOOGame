@@ -7,12 +7,13 @@ import unsw.loopmania.Items.Weapons.Weapon;
 import unsw.loopmania.enemies.BasicEnemy;
 
 public class BattleManager {
-    Character character;
-    int totalEnemyHp;
-    int alliesHp;
-    List<Ally> allies;
-    List<BasicEnemy> battleEnemies;
-    List<BasicEnemy> supportEnemies;
+    private Character character;
+    private int totalEnemyHp;
+    private int alliesHp;
+    private List<Ally> allies;
+    private List<BasicEnemy> battleEnemies;
+    private List<BasicEnemy> supportEnemies;
+    private List<BasicEnemy> defeated;
 
     /**
      * Constructor for the Battle Manager
@@ -23,6 +24,7 @@ public class BattleManager {
         allies = new ArrayList<Ally>();
         battleEnemies = new ArrayList<BasicEnemy>();
         supportEnemies = new ArrayList<BasicEnemy>();
+        defeated = new ArrayList<BasicEnemy>();
     }
 
     /**
@@ -56,11 +58,19 @@ public class BattleManager {
         while (totalEnemyHp > 0 && character.getHp() > 0) {
             runTickBattle();
         }
-
-        List<BasicEnemy> allEnemiesAttacked = new ArrayList<BasicEnemy>();
-        allEnemiesAttacked.addAll(battleEnemies);
-        allEnemiesAttacked.addAll(supportEnemies);
-        return allEnemiesAttacked;
+        /*
+        for (BasicEnemy e : battleEnemies) {
+            if (e.getHp() <= 0) {
+                defeated.add(e);
+            }
+        }
+        for (BasicEnemy e : supportEnemies) {
+            if (e.getHp() <= 0) {
+                defeated.add(e);
+            }
+        }
+        */
+        return defeated;
 
     }
     
@@ -114,6 +124,7 @@ public class BattleManager {
                 break;
             }
         }
+        List<BasicEnemy> remove = new ArrayList<BasicEnemy>();
 
         // Applying damage to first enemy
         for (BasicEnemy enemy : battleEnemies) {
@@ -121,14 +132,21 @@ public class BattleManager {
                 enemy.setHp(enemy.getHp() - characterDmg);
 
                 // Subtract from totalEnemyHp
-                if (enemy.getHp() < 0) {
+                if (enemy.getHp() <= 0) {
                     totalEnemyHp -= (characterDmg + enemy.getHp());
+                    remove.add(enemy);
+                    defeated.add(enemy);
                 } else {
                     totalEnemyHp -= characterDmg;
                 }
                 break;
             }
         }
+
+        for (BasicEnemy e : remove) {
+            battleEnemies.remove(e);
+        }
+        remove = new ArrayList<BasicEnemy>();
 
         // Doing tower damage if it is in the battle -100 TO ALL
         if (character.getIsSupported()) {
@@ -137,13 +155,18 @@ public class BattleManager {
                     enemy.setHp(enemy.getHp() - 100);
 
                     // Subtract from totalEnemyHp
-                    if (enemy.getHp() < 0) {
+                    if (enemy.getHp() <= 0) {
                         totalEnemyHp -= (100 + enemy.getHp());
+                        defeated.add(enemy);
+                        remove.add(enemy);
                     } else {
                         totalEnemyHp -= 100;
                     }
                 }
             }
+        }
+        for (BasicEnemy e : remove) {
+            battleEnemies.remove(e);
         }
     }
 
