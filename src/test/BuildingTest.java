@@ -148,9 +148,9 @@ public class BuildingTest {
 
         HeroCastle heroCastle = new HeroCastle(x, y);
         assertEquals(heroCastle.getShop().size(), 3);
-        assertEquals(c.getLoop(), 0);
-        heroCastle.interact(c);
-        assertEquals(c.getLoop(), 1);
+        assertEquals(d.getLoops(), 0);
+        d.newLoop();
+        assertEquals(d.getLoops(), 1);
     }
 
     @Test
@@ -186,23 +186,21 @@ public class BuildingTest {
 
         LoopManiaWorld d = new LoopManiaWorld(1, 2, tempPath);
         assertEquals(d.getWidth(), 1);
-        PathPosition temp = new PathPosition(0, tempPath);
-        Character c = new Character(temp);
 
         SimpleIntegerProperty x = new SimpleIntegerProperty();
         SimpleIntegerProperty y = new SimpleIntegerProperty();
         VampireCastleBuilding vampireCastle = new VampireCastleBuilding(x, y);
         ZombiePit zPit = new ZombiePit(x, y);
-        assertEquals(c.getLoop(), 0);
+        assertEquals(d.getLoops(), 0);
         assertEquals(d.getEnemies().size(), 0);
-        c.newLoop();
-        c.newLoop();
-        c.newLoop();
-        c.newLoop();
-        c.newLoop();
-        assertEquals(c.getLoop(), 5);
-        vampireCastle.spawn(c.getLoop(), d);
-        zPit.spawn(c.getLoop(), d);
+        d.newLoop();
+        d.newLoop();
+        d.newLoop();
+        d.newLoop();
+        d.newLoop();
+        assertEquals(d.getLoops(), 5);
+        vampireCastle.spawn(d);
+        zPit.spawn(d);
         assertEquals(d.getEnemies().size(), 2);
     }
 
