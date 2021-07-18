@@ -7,7 +7,7 @@ public class Staff extends Weapon{
     public Staff(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
         setItemValue(15);
-        setDamageValue(2);
+        setDamageValue(7);
     }
     
 }
