@@ -36,6 +36,7 @@ public class EnemyMovementTest {
             new Pair<>(1, 0), new Pair<>(0, 0));
 
     LoopManiaWorld world = new LoopManiaWorld(9, 9, path);
+    // world.setRandomSpawnRate() = 0;
 
     @Test
     public void testSlugMovement() {

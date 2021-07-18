@@ -21,6 +21,7 @@ public class EnemiesSpawnTest {
             new Pair<>(0, 1), new Pair<>(0, 2));
 
     LoopManiaWorld world = new LoopManiaWorld(4, 4, path);
+    // world.setRandomSpawnRate() = 0;
 
     @Test
     public void testSlugSpawn() {
