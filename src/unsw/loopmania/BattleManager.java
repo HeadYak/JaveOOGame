@@ -62,7 +62,6 @@ public class BattleManager {
         allEnemiesAttacked.addAll(supportEnemies);
         return allEnemiesAttacked;
 
-
     }
     
     /**
@@ -123,7 +122,7 @@ public class BattleManager {
 
                 // Subtract from totalEnemyHp
                 if (enemy.getHp() < 0) {
-                    totalEnemyHp -= characterDmg + enemy.getHp();
+                    totalEnemyHp -= (characterDmg + enemy.getHp());
                 } else {
                     totalEnemyHp -= characterDmg;
                 }
@@ -139,9 +138,9 @@ public class BattleManager {
 
                     // Subtract from totalEnemyHp
                     if (enemy.getHp() < 0) {
-                        totalEnemyHp -= 100 + enemy.getHp();
+                        totalEnemyHp -= (100 + enemy.getHp());
                     } else {
-                        totalEnemyHp -= characterDmg;
+                        totalEnemyHp -= 100;
                     }
                 }
             }
