@@ -160,30 +160,6 @@ public class LoopManiaWorld {
     }
 
     /**
-     * run the expected battles in the world, based on current world state
-     * @return list of enemies which have been killed
-     */
-    public List<BasicEnemy> runBattles() {
-        // TODO = modify this - currently the character automatically wins all battles without any damage!
-        List<BasicEnemy> defeatedEnemies = new ArrayList<BasicEnemy>();
-        for (BasicEnemy e: enemies){
-            // Pythagoras: a^2+b^2 < radius^2 to see if within radius
-            // TODO = you should implement different RHS on this inequality, based on influence radii and battle radii
-            if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < 4){
-                // fight...
-                defeatedEnemies.add(e);
-            }
-        }
-        for (BasicEnemy e: defeatedEnemies){
-            // IMPORTANT = we kill enemies here, because killEnemy removes the enemy from the enemies list
-            // if we killEnemy in prior loop, we get java.util.ConcurrentModificationException
-            // due to mutating list we're iterating over
-            killEnemy(e);
-        }
-        return defeatedEnemies;
-    }
-
-    /**
      * spawn a card in the world and return the card entity
      * @return a card to be spawned in the controller as a JavaFX node
      */
@@ -439,6 +415,8 @@ public class LoopManiaWorld {
      */
     public void runTickMoves(){
         character.performMove();
+
+        // Updates character's stats
         for (Building b: buildingEntities) {
             if (b.canInteract(character)) {
                 b.interact(character);
@@ -453,14 +431,30 @@ public class LoopManiaWorld {
                 b.newLoop(this);
             }
         }
+
         moveBasicEnemies();
+        
+        // Checks for trap damage
         for (Building b: buildingEntities) {
             for (BasicEnemy enemy: enemies) {
                 if (b.canInteractMob(enemy)) {
                     b.interactMob(enemy);
                     b.destroy();
                     buildingEntities.remove(b);
+
+                    if (enemy.getHp() <= 0) {
+                        killEnemy(enemy);
+                    }
                 }
+            }
+        }
+
+        // Fight enemies
+        battleManager.update(this);
+        List<BasicEnemy> attackedEnemies = battleManager.battle();
+        for (BasicEnemy enemy : attackedEnemies) {
+            if (enemy.getHp() <= 0) {
+                killEnemy(enemy);
             }
         }
     }

@@ -140,9 +140,10 @@ public class EnemyMovementTest {
         world.setCharacter(playerChar);
 
         // Generate 50 zombies
-        PathPosition zombieP = new PathPosition(0, path);
         for (int i = 0; i < 50; i++) {
+            PathPosition zombieP = new PathPosition(0, path);
             Zombie zombie = new Zombie(zombieP, playerChar);
+            zombies.add(zombie);
             world.addEnemy(zombie);
         }
 
@@ -152,7 +153,7 @@ public class EnemyMovementTest {
 
         // Test that all 50 zombies are now on (1, 0)
         for (Zombie zombie : zombies) {
-            assertEquals(1, zombie.getX());
+            assertEquals(0, zombie.getX());
             assertEquals(0, zombie.getY());
         }
 
@@ -226,4 +227,65 @@ public class EnemyMovementTest {
         assertEquals(1, vampire.getY());
     }
 
+    @Test
+    public void testVampireBounces() {
+        PathPosition vampireP = new PathPosition(0, path);
+        Vampire vampire = new Vampire(vampireP, world);
+        world.addEnemy(vampire);
+
+        // Create a character and place him at (0, 5)
+        PathPosition charP = new PathPosition(4, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
+        // Add campfire to (3, 1) -> assumes range of campfire is 1
+        SimpleIntegerProperty x1 = new SimpleIntegerProperty(3);
+        SimpleIntegerProperty y1 = new SimpleIntegerProperty(1);
+        Campfire campfire1 = new Campfire(x1, y1);
+        world.addBuilding(campfire1);
+
+        // Add campfire to (1, 3) -> assumes range of campfire is 1
+        SimpleIntegerProperty x2 = new SimpleIntegerProperty(1);
+        SimpleIntegerProperty y2 = new SimpleIntegerProperty(3);
+        Campfire campfire2 = new Campfire(x2, y2);
+        world.addBuilding(campfire2);
+
+        // Simulate movement and test that vampire is moving anticlockwise
+        world.runTickMoves();
+        assertFalse(vampire.isMovingClockwise());
+        assertEquals(1, vampire.getX());
+        assertEquals(0, vampire.getY());
+
+        // Simulate movement and test that vampire is now preparing to move
+        // clockwise
+        world.runTickMoves();
+        assertTrue(vampire.isMovingClockwise());
+        assertEquals(3, vampire.getX());
+        assertEquals(0, vampire.getY());
+
+        // Simulate movement and test that vampire is moving clockwise
+        world.runTickMoves();
+        assertTrue(vampire.isMovingClockwise());
+        assertEquals(1, vampire.getX());
+        assertEquals(0, vampire.getY());
+
+        // Simulate movement and test that vampire is moving clockwise
+        world.runTickMoves();
+        assertTrue(vampire.isMovingClockwise());
+        assertEquals(0, vampire.getX());
+        assertEquals(1, vampire.getY());
+
+        // Simulate movement and test that vampire is now preparing to move
+        // anticlockwise
+        world.runTickMoves();
+        assertFalse(vampire.isMovingClockwise());
+        assertEquals(0, vampire.getX());
+        assertEquals(3, vampire.getY());
+
+        // Simulate movement and test that vampire is moving anticlockwise
+        world.runTickMoves();
+        assertFalse(vampire.isMovingClockwise());
+        assertEquals(0, vampire.getX());
+        assertEquals(1, vampire.getY());
+    }
 }
