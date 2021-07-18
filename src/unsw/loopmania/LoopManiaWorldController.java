@@ -30,8 +30,23 @@ import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 import unsw.loopmania.Buildings.VampireCastleBuilding;
 import unsw.loopmania.enemies.BasicEnemy;
+import unsw.loopmania.enemies.Slug;
+import unsw.loopmania.enemies.Vampire;
+import unsw.loopmania.enemies.Zombie;
+import unsw.loopmania.Cards.BarracksCard;
+import unsw.loopmania.Cards.CampfireCard;
+import unsw.loopmania.Cards.TowerCard;
+import unsw.loopmania.Cards.TrapCard;
 import unsw.loopmania.Cards.VampireCastleCard;
+import unsw.loopmania.Cards.VillageCard;
+import unsw.loopmania.Cards.ZombiePitCard;
+import unsw.loopmania.Items.Weapons.Stake;
 import unsw.loopmania.Items.Weapons.Sword;
+import unsw.loopmania.Items.HealthPotion;
+import unsw.loopmania.Items.Armor.Armor;
+import unsw.loopmania.Items.Armor.Helmet;
+import unsw.loopmania.Items.Armor.basicChestArmor;
+import unsw.loopmania.Items.Weapons.Staff;
 
 import java.util.EnumMap;
 import javafx.scene.text.Text;
@@ -428,20 +443,20 @@ public class LoopManiaWorldController {
     /**
      * load a armour from the world, and pair it with an image in the GUI
      */
-    private void loadArmour(){
+    private void loadChestArmour(){
         // start by getting first available coordinates
-        Armour armour = world.addUnequippedArmour();
-        onLoad(armour);
+        basicChestArmor chestArmor = world.addUnequippedChestArmor();
+        onLoad(chestArmor);
     }
 
     /**
      * load a shield from the world, and pair it with an image in the GUI
      */
-    private void loadShield(){
-        // start by getting first available coordinates
-        Shield shield = world.addUnequippedShield();
-        onLoad(shield);
-    }
+    // private void loadShield(){
+    //     // start by getting first available coordinates
+    //     Shield shield = world.addUnequippedShield();
+    //     onLoad(shield);
+    // }
 
     /**
      * load a helmet from the world, and pair it with an image in the GUI
@@ -468,7 +483,7 @@ public class LoopManiaWorldController {
     private void reactToEnemyDefeat(BasicEnemy enemy){
         if (enemy instanceof Vampire) {
             loadStaff();
-            loadArmour();
+            loadChestArmour();
             loadBarracksCard();
         } else if (enemy instanceof Zombie) {
             loadStake();
