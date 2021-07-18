@@ -76,7 +76,6 @@ public class HeroCastle extends Building{
     @Override
     public void interact(Character character) {
         getShop();
-        character.newLoop();
     }
 
     /**
