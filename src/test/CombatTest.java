@@ -13,6 +13,7 @@ import org.junit.Test;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
+import unsw.loopmania.Buildings.Tower;
 import unsw.loopmania.BattleManager;
 import unsw.loopmania.Items.Weapons.Stake;
 import unsw.loopmania.Items.Weapons.Sword;
@@ -77,7 +78,7 @@ public class CombatTest {
                 sword.getDamageValue()) * 4);
         assertEquals(slug.getHp(), newSlugHp);
 
-        // Simulate the world by 1 tick to complete battle
+        // Complete battle
         bm.battle();
 
         // Test that combat has occurred by checking that the slug is now dead
@@ -127,7 +128,7 @@ public class CombatTest {
                 sword.getDamageValue()) * 4);
         assertEquals(zombie.getHp(), newZombieHp);
 
-        // Simulate the world by 1 tick to complete battle
+        // Complete battle
         bm.battle();
 
         // Test that combat has occurred by checking that the zombie is now dead
@@ -191,7 +192,7 @@ public class CombatTest {
                 stake.getDamageValue()) * 4);
         assertEquals(vampire.getHp(), newVampireHp);
 
-        // Simulate the world by 1 tick to complete battle
+        // Complete battle
         bm.battle();
 
         // Test that combat has occurred by checking that the slug is now dead
@@ -201,6 +202,36 @@ public class CombatTest {
 
     @Test
     public void testAlliesAndBuildings() {
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
+        // Spawn a vampire to fight
+        Vampire vampire = new Vampire(charP, world);
+        world.addEnemy(vampire);
+
+        // Spawn a tower next to character
+        SimpleIntegerProperty x = new SimpleIntegerProperty(1);
+        SimpleIntegerProperty y = new SimpleIntegerProperty(1);
+        Tower tower = new Tower(x, y);
+        world.addBuilding(tower);
+
+        // Simulating battle manually to test each component of battle is
+        // working correctly
+        BattleManager bm = world.getBattleManager();
+        /// bm.lowerCrit(BasicEnemy.class, 1);
+
+        // Update battle manager with potential enemy and do single tick of
+        // battle
+        bm.update(world);
+        bm.runTickBattle();
+
+        // Check that the damage done by character and tower are the correct
+        // behaviour
+        int newVampireHp = 300 - (playerChar.getDmg() * 4 - 100);
+        assertEquals(vampire.getHp(), newVampireHp);
+
+        bm.battle();
 
     }
 
