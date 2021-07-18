@@ -332,11 +332,10 @@ public class LoopManiaWorldController {
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
             world.runTickMoves();
-            world.getBattleManager().update(world);
             List<BasicEnemy> defeatedEnemies =
-                    world.getBattleManager().battle();
+                    world.runBattles();
             for (BasicEnemy e: defeatedEnemies){
-                reactToEnemyDefeat(e);
+                    reactToEnemyDefeat(e);
             }
             List<BasicEnemy> newEnemies = world.possiblySpawnEnemies();
             for (BasicEnemy newEnemy: newEnemies){
@@ -510,8 +509,8 @@ public class LoopManiaWorldController {
         } else if (enemy instanceof Slug) {
             //loadSword();
             //loadZombieCard();
-            loadStake();
-            loadHealthPotion();
+            //loadStake();
+            //loadHealthPotion();
             loadVillageCard();
             loadCampfireCard();
             loadVampireCard();
@@ -1058,15 +1057,11 @@ public class LoopManiaWorldController {
 
                 draggedEntity.relocateToPoint(new Point2D(event.getSceneX(), event.getSceneY()));
                 switch (draggableType){
-                    // TOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-                    // DOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
                     case CARD:
                         draggedEntity.setImage(currentlyDraggedImage.getImage()); 
-                        //draggedEntity.setImage(vampireCastleImage);
                         break;
                     case ITEM:
                         draggedEntity.setImage(currentlyDraggedImage.getImage());    
-                        //draggedEntity.setImage(swordImage);
                         break;
                     default:
                         break;

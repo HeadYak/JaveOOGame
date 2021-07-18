@@ -446,14 +446,20 @@ public class LoopManiaWorld {
             }
         }
 
+    }
+
+    public List<BasicEnemy> runBattles() {
+        List<BasicEnemy> defeated = new ArrayList<BasicEnemy>();
         // Fight enemies
         battleManager.update(this);
         List<BasicEnemy> attackedEnemies = battleManager.battle();
         for (BasicEnemy enemy : attackedEnemies) {
             if (enemy.getHp() <= 0) {
+                defeated.add(enemy);
                 killEnemy(enemy);
             }
         }
+        return defeated;
     }
 
     /**
