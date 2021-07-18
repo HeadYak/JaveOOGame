@@ -12,12 +12,13 @@ public class ZombiePitCard extends Card {
 
     public ZombiePitCard(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
-        allowedTilesList = new onlyadjacentPathTiles();
+        setAllowedTiles(new onlyadjacentPathTiles());
+        // allowedTilesList = new onlyadjacentPathTiles();
     }
 
     @Override
     public List<Pair<Integer, Integer>> getValidTilesList(LoopManiaWorld world) {
-        return allowedTilesList.getvalidTiles(world);
+        return getTileStrategy().getvalidTiles(world);
     }
 
     @Override

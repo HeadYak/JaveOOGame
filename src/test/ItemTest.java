@@ -151,7 +151,6 @@ public class ItemTest {
     }
 
     @Test
-
     public void characterArmorDamageReductionTest(){
         SimpleIntegerProperty x = new SimpleIntegerProperty();
         SimpleIntegerProperty y = new SimpleIntegerProperty();
@@ -180,7 +179,5 @@ public class ItemTest {
         Pair<Integer, Integer> testpair = new Pair<>(0, 0);
         System.out.println(!temp.contains(testpair));
     }
-
-
 
 }
