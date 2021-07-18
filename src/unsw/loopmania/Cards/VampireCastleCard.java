@@ -15,13 +15,14 @@ public class VampireCastleCard extends Card {
     // TODO = add more types of card
     public VampireCastleCard(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
-        allowedTilesList = new onlyadjacentPathTiles();
+        setAllowedTiles(new onlyadjacentPathTiles());
+        // allowedTilesList = new onlyadjacentPathTiles();
     }
 
     @Override
     public List<Pair<Integer, Integer>> getValidTilesList(LoopManiaWorld world) {
 
-        return allowedTilesList.getvalidTiles(world);
+        return getTileStrategy().getvalidTiles(world);
     }
 
     @Override

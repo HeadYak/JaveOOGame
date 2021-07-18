@@ -5,7 +5,7 @@ import unsw.loopmania.Items.Item;
 
 public abstract class Armor extends Item {
     
-    public BlockBehaviour blockBehaviourType;
+    private BlockBehaviour blockBehaviourType;
 
     public Armor(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
@@ -17,5 +17,9 @@ public abstract class Armor extends Item {
 
     public BlockBehaviour getBlockType(){
         return blockBehaviourType;
+    }
+    
+    public Double getDamageTakenModifier() {
+        return getBlockType().getDamageTakenModifier();
     }
 }

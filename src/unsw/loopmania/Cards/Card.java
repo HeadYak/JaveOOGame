@@ -14,19 +14,20 @@ import unsw.loopmania.StaticEntity;
  * which doesn't move
  */
 public abstract class Card extends StaticEntity {
-    public cardAllowedTiles allowedTilesList;
+    private cardAllowedTiles allowedTiles;
     // TODO = implement other varieties of card than VampireCastleCard
     public Card(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
     }
 
     public void setAllowedTiles(cardAllowedTiles newAllowedTiles) {
-        allowedTilesList = newAllowedTiles;
+        allowedTiles = newAllowedTiles;
     }
     abstract public void placeCard(LoopManiaWorld world, SimpleIntegerProperty x, SimpleIntegerProperty y);
-    // public cardAllowedTiles getValidTiles(){
-    //     return allowedTilesList;
-    // }
+
+    public cardAllowedTiles getTileStrategy(){
+        return allowedTiles;
+    }
 
     abstract public List<Pair<Integer, Integer>> getValidTilesList(LoopManiaWorld world);
 }
