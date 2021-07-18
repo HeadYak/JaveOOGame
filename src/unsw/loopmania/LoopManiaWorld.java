@@ -19,6 +19,7 @@ import java.lang.Math;
 
 import org.javatuples.Pair;
 
+import javafx.beans.property.Property;
 import javafx.beans.property.SimpleIntegerProperty;
 // import unsw.loopmania.Buildings.Trap;
 import unsw.loopmania.Buildings.VampireCastleBuilding;
@@ -110,12 +111,10 @@ public class LoopManiaWorld {
      */
     public void setCharacter(Character character) {
         this.character = character;
-        SimpleIntegerProperty x = new SimpleIntegerProperty(character.getX());
-        SimpleIntegerProperty y = new SimpleIntegerProperty(character.getY());
-        HeroCastle heroCastle = new HeroCastle(x, y);
-        addBuilding(heroCastle);
         battleManager = new BattleManager(character);
     }
+
+    
 
     public List<Pair<Integer, Integer>> getPath(){
         return orderedPath;
@@ -128,6 +127,9 @@ public class LoopManiaWorld {
     public void addEntity(Entity entity) {
         // for adding non-specific entities (ones without another dedicated list)
         // TODO = if more specialised types being added from main menu, add more methods like this with specific input types...
+        if (entity instanceof Building) {
+            addBuilding(entity);
+        }
         nonSpecifiedEntities.add(entity);
     }
 

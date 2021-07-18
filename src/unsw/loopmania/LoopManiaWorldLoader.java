@@ -74,12 +74,19 @@ public abstract class LoopManiaWorldLoader {
             world.setCharacter(character);
             onLoad(character);
             entity = character;
+            world.addEntity(entity);
+            
+            HeroCastle heroCastle = new HeroCastle(new SimpleIntegerProperty(x), new SimpleIntegerProperty(y));
+            world.setHeroCastle(heroCastle);
+            onLoad(heroCastle);
+            entity = heroCastle;
+            world.addBuilding(heroCastle);
             break;
         case "path_tile":
             throw new RuntimeException("path_tile's aren't valid entities, define the path externally.");
         // TODO Handle other possible entities
         }
-        world.addEntity(entity);
+        //world.addEntity(entity);
     }
 
     /**

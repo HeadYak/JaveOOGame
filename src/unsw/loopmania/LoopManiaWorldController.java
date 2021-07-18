@@ -147,6 +147,9 @@ public class LoopManiaWorldController {
     @FXML
     private Text gold;
 
+    @FXML
+    private Text loops;
+
     // all image views including tiles, character, enemies, cards... even though cards in separate gridpane...
     private List<ImageView> entityImages;
 
@@ -258,7 +261,7 @@ public class LoopManiaWorldController {
         shieldImage = new Image((new File("src/images/shield.png")).toURI().toString());
         helmetImage = new Image((new File("src/images/helmet.png")).toURI().toString());
         goldImage = new Image((new File("src/imagess/gold.png")).toURI().toString());
-        healthPotionImage = new Image((new File("src/images/health_potion.png")).toURI().toString());
+        healthPotionImage = new Image((new File("src/images/healthPotion.png")).toURI().toString());
         oneRingImage = new Image((new File("src/images/ring.png")).toURI().toString());
 
         currentlyDraggedImage = null;
@@ -279,6 +282,7 @@ public class LoopManiaWorldController {
         Image pathTilesImage = new Image((new File("src/images/32x32GrassAndDirtPath.png")).toURI().toString());
         Image inventorySlotImage = new Image((new File("src/images/equipment_slot.png")).toURI().toString());
         Rectangle2D imagePart = new Rectangle2D(0, 0, 32, 32);
+        
 
         // Add the ground first so it is below all other entities (inculding all the twists and turns)
         for (int x = 0; x < world.getWidth(); x++) {
@@ -502,8 +506,16 @@ public class LoopManiaWorldController {
             loadCampfireCard();
             loadVampireCard();
         } else if (enemy instanceof Slug) {
-            loadSword();
-            loadZombieCard();
+            //loadSword();
+            //loadZombieCard();
+            loadStake();
+            loadHealthPotion();
+            loadVillageCard();
+            loadCampfireCard();
+            loadVampireCard();
+            loadChestArmour();
+            loadBarracksCard();
+            loadStaff();
         } else {
             loadSword();
             loadHelmet();
