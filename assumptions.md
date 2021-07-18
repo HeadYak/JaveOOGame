@@ -23,3 +23,5 @@
 * Buildings that can spawn enemies spawn them on the closest path tile
 
 * Ally units do not appear on paths etc but appear like items and will only be used in conflict
+
+* The character can only have 3 allies at once
