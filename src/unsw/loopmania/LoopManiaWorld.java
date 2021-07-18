@@ -36,6 +36,8 @@ public class LoopManiaWorld {
     private List<Entity> nonSpecifiedEntities;
 
     private Character character;
+    // hp, maxHP, inventory (arrayList), equipped helmet, equipped sword, equipped armour, loop counter, ally list (arrayList), 
+    // 
 
     // TODO = add more lists for other entities, for equipped inventory items, etc...
 
