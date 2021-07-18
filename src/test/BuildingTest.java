@@ -95,10 +95,9 @@ public class BuildingTest {
 
         Village village = new Village(x, y);
         assertEquals(c.getHp(), c.getMaxHp());
-        c.setHp(79);
-        assertEquals(c.getHp(), 79);
+        c.setHp(c.getMaxHp()-21);
         village.heal(c);
-        assertEquals(c.getHp(), 99);
+        assertEquals(c.getHp(), c.getMaxHp()-1);
         village.heal(c);
         assertEquals(c.getHp(), c.getMaxHp());
     }
