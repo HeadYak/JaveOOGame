@@ -44,6 +44,7 @@ public class Tower extends Building implements Support{
     @Override
     public void interact(Character character) {
         support(character);
+        character.addInRange(this);
     }
 
     /**
@@ -52,8 +53,7 @@ public class Tower extends Building implements Support{
      */
     @Override
     public Boolean canInteract(Character character) {
-        if (range > Math.sqrt((character.getX() - getX())^2 + (character.getY() - getY())^2)) {
-            character.addInRange(this);
+        if (Math.pow(range, 2) >= Math.pow(character.getX() - getX(), 2) + Math.pow(character.getY() - getY(), 2)) {
             return true;
         }
         if (character.removeInRange(this)) {

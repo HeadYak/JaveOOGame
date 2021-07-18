@@ -10,6 +10,7 @@ import unsw.loopmania.enemies.BasicEnemy;
 import unsw.loopmania.enemies.Slug;
 import unsw.loopmania.Buildings.*;
 import unsw.loopmania.Cards.*;
+import unsw.loopmania.BattleManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -54,6 +55,7 @@ public class LoopManiaWorld {
     // 
 
     // TODO = add more lists for other entities, for equipped inventory items, etc...
+    private List<Ally> allies;
 
     // TODO = expand the range of enemies
     private List<BasicEnemy> enemies;
@@ -66,6 +68,8 @@ public class LoopManiaWorld {
 
     // TODO = expand the range of buildings
     private List<Building> buildingEntities;
+
+    private BattleManager battleManager;
 
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse them
@@ -110,6 +114,7 @@ public class LoopManiaWorld {
         SimpleIntegerProperty y = new SimpleIntegerProperty(character.getY());
         HeroCastle heroCastle = new HeroCastle(x, y);
         addBuilding(heroCastle);
+        battleManager = new BattleManager(character);
     }
 
     public List<Pair<Integer, Integer>> getPath(){
@@ -602,7 +607,7 @@ public class LoopManiaWorld {
         double smallestDistance = 999;
         int indexInPath = 0;
         for (Pair<Integer, Integer> p : orderedPath) {
-            double distance = Math.sqrt((p.getValue0() - x)^2 + (p.getValue1() - y)^2);
+            double distance = Math.sqrt(Math.pow(p.getValue0() - x,2) + Math.pow(p.getValue1() - y,2));
             if (distance < smallestDistance) {
                 indexInPath = orderedPath.indexOf(p);
                 smallestDistance = distance;
@@ -672,4 +677,26 @@ public class LoopManiaWorld {
         loops += 1;
     }
 
+    /**
+     * Getter for Battle Manager
+     * @return battle manager of world
+     */
+    public BattleManager getBattleManager() {
+        return battleManager;
+    }
+
+    /**
+     * @returns the character object
+     */
+    public List<Ally> getAllies() {
+        return allies;
+    }
+
+    /**
+     * adds an ally to the world's ally list
+     * @param ally the ally we are adding
+     */
+    public void addAlly(Ally ally) {
+        allies.add(ally);
+    }
 }

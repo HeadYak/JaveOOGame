@@ -27,8 +27,18 @@ public class TowerCard extends Card {
         Pair<SimpleIntegerProperty, SimpleIntegerProperty> cardCoord = new Pair<>(x, y);
 
         List<Pair<Integer, Integer>> validTiles = getValidTilesList(world);
+        
 
-        if (validTiles.contains(cardCoord)) {
+        // System.out.println(cardCoord);
+
+        int tempx = x.get();
+        int tempy = y.get();
+        
+        Pair<Integer, Integer> tempcardCoord = new Pair<>(tempx, tempy);
+
+        // System.out.println(validTiles);
+
+        if (validTiles.contains(tempcardCoord)) {
             Tower newTower = new Tower(x, y);
             world.addBuilding(newTower);
 

@@ -26,7 +26,8 @@ public class Zombie extends BasicEnemy {
         setCritChance(0.1);
         setBattleRadius(1);
         setSupportRadius(2);
-        setHp(100);
+        setHp(200);
+        setDmg(5);
         detectionRadius = 5;
         countdown = 1;
 
@@ -71,7 +72,7 @@ public class Zombie extends BasicEnemy {
 
             // Set moveBehaviour to move towards the tile that is closer to
             // character
-            if (forward >= backward) {
+            if (forward < backward) {
                 setMoveBehaviour(new MoveClockwise());
             } else {
                 setMoveBehaviour(new MoveAntiClockwise());

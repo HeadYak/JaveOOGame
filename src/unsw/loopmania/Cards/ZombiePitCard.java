@@ -28,12 +28,22 @@ public class ZombiePitCard extends Card {
 
         List<Pair<Integer, Integer>> validTiles = getValidTilesList(world);
 
-        if (validTiles.contains(cardCoord)) {
-            ZombiePit newZombiePit = new ZombiePit(x, y);
+        // System.out.println(cardCoord);
 
+        int tempx = x.get();
+        int tempy = y.get();
+
+        Pair<Integer, Integer> tempcardCoord = new Pair<>(tempx, tempy);
+
+        // System.out.println(validTiles);
+
+        if (validTiles.contains(tempcardCoord)) {
+            System.out.println("Yoyo");
+            ZombiePit newZombiePit = new ZombiePit(x, y);
             world.addBuilding(newZombiePit);
 
-        }    
+        }
+
     }
 
     @Override

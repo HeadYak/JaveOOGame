@@ -32,13 +32,22 @@ public class VampireCastleCard extends Card {
 
         List<Pair<Integer, Integer>> validTiles = getValidTilesList(world);
 
-        if (validTiles.contains(cardCoord)) {
-            VampireCastleBuilding newVampireCastle = new VampireCastleBuilding(x, y);
+        // System.out.println(cardCoord);
 
+        int tempx = x.get();
+        int tempy = y.get();
+
+        Pair<Integer, Integer> tempcardCoord = new Pair<>(tempx, tempy);
+
+        // System.out.println(validTiles);
+
+        if (validTiles.contains(tempcardCoord)) {
+            System.out.println("Yoyo");
+            VampireCastleBuilding newVampireCastle = new VampireCastleBuilding(x, y);
             world.addBuilding(newVampireCastle);
 
         }
-        
+
     }
  
     @Override

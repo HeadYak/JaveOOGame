@@ -32,15 +32,17 @@ public class Character extends MovingEntity {
 
     public Character(PathPosition position) {
         super(position);
-        hp = 100;
-        maxHp = 100;
+        hp = 300;
+        maxHp = 300;
+        setDmg(5);
+        setMoveSpeed(1);
         damageTaken = 1.0;
         allyList = new ArrayList<Ally>();
         inventory = new ArrayList<Item>();
         inRange = new ArrayList<Building>();
         isSupported = false;
         buffed = false;
-
+        setMoveSpeed(1);
         setMoveBehaviour(new MoveClockwise());
         setMoveSpeed(1);
     }
