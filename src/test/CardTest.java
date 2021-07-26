@@ -17,6 +17,7 @@ import unsw.loopmania.Cards.CampfireCard;
 import unsw.loopmania.Cards.TowerCard;
 import unsw.loopmania.Cards.TrapCard;
 import unsw.loopmania.Cards.VampireCastleCard;
+import unsw.loopmania.Cards.VillageCard;
 import unsw.loopmania.Cards.ZombiePitCard;
 
 
@@ -36,21 +37,21 @@ public class CardTest {
         SimpleIntegerProperty x = new SimpleIntegerProperty();
         SimpleIntegerProperty y = new SimpleIntegerProperty();
         
-        BarracksCard newBarracksCard = new BarracksCard(x, y);
+        VillageCard newVillageCard = new VillageCard(x, y);
 
         x.set(0);
         y.set(0);
 
-        newBarracksCard.placeCard(d, x, y);
+        newVillageCard.placeCard(d, x, y);
 
         assertEquals(d.getBuildingEntities().size(), 1);
 
-        assertEquals(newBarracksCard.getValidTilesList(d).size(), 1);
+        assertEquals(newVillageCard.getValidTilesList(d).size(), 1);
 
-        System.out.println(newBarracksCard.getValidTilesList(d));
+        System.out.println(newVillageCard.getValidTilesList(d));
 
 
-        assertTrue(newBarracksCard.getBuilding(x, y) instanceof Building);
+        assertTrue(newVillageCard.getBuilding(x, y) instanceof Building);
 
         // System.out.println(newVillageCard.allowedTilesList.t);
 
