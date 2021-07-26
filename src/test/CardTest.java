@@ -1,6 +1,7 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ import org.junit.Test;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.LoopManiaWorld;
+import unsw.loopmania.Buildings.Building;
 import unsw.loopmania.Cards.BarracksCard;
 import unsw.loopmania.Cards.CampfireCard;
 import unsw.loopmania.Cards.TowerCard;
@@ -48,6 +50,7 @@ public class CardTest {
         System.out.println(newBarracksCard.getValidTilesList(d));
 
 
+        assertTrue(newBarracksCard.getBuilding(x, y) instanceof Building);
 
         // System.out.println(newVillageCard.allowedTilesList.t);
 
@@ -77,6 +80,8 @@ public class CardTest {
         assertEquals(d.getBuildingEntities().size(), 1);
         // System.out.println(newVillageCard.allowedTilesList.t);
 
+        assertTrue(newTowerCard.getBuilding(x, y) instanceof Building);
+
     }
 
     @Test
@@ -104,6 +109,8 @@ public class CardTest {
         assertEquals(d.getBuildingEntities().size(), 1);
         // System.out.println(newVillageCard.allowedTilesList.t);
 
+
+        assertTrue(newBarracksCard.getBuilding(x, y) instanceof Building);
     }
 
     @Test
@@ -130,6 +137,9 @@ public class CardTest {
 
         assertEquals(d.getBuildingEntities().size(), 1);
 
+
+        assertTrue(newCampfireCard.getBuilding(x, y) instanceof Building);
+
     }
 
     @Test
@@ -155,6 +165,8 @@ public class CardTest {
         newTrapCard.placeCard(d, x, y);
 
         assertEquals(d.getBuildingEntities().size(), 1);
+
+        assertTrue(newTrapCard.getBuilding(x, y) instanceof Building);
     }
 
     @Test
@@ -180,6 +192,8 @@ public class CardTest {
         newVampireCastleCard.placeCard(d, x, y);
 
         assertEquals(d.getBuildingEntities().size(), 1);
+
+        assertTrue(newVampireCastleCard.getBuilding(x, y) instanceof Building);
     }
 
 
@@ -197,7 +211,11 @@ public class CardTest {
 
         ZombiePitCard newZombiePitCard = new ZombiePitCard(x, y);
 
-        // System.out.println(newTowerCard.getValidTilesList(d));
+        
+        // System.out.println(newZombiePitCard.getBuilding(x, y));
+        assertTrue(newZombiePitCard.getBuilding(x, y) instanceof Building);
+        // assertTrue(newZombiePitCard.getBuilding(x, y).getClass());
+
 
         assertEquals(newZombiePitCard.getValidTilesList(d).size(), 8);
 
