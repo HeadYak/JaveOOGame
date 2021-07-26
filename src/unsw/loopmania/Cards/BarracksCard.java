@@ -31,11 +31,9 @@ public class BarracksCard extends Card {
 
     @Override
     public void placeCard(LoopManiaWorld world, SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        Pair<SimpleIntegerProperty, SimpleIntegerProperty> cardCoord = new Pair<>(x, y);
+        // Pair<SimpleIntegerProperty, SimpleIntegerProperty> cardCoord = new Pair<>(x, y);
 
         List<Pair<Integer, Integer>> validTiles = getValidTilesList(world);
-
-        // System.out.println(cardCoord);
 
         int tempx = x.get();
         int tempy = y.get();
@@ -43,7 +41,6 @@ public class BarracksCard extends Card {
         Pair<Integer, Integer> tempcardCoord = new Pair<>(tempx, tempy);
 
         System.out.println(validTiles);
-        // System.out.println("YOYO");
         if (validTiles.contains(tempcardCoord)) {
 
             Barracks newBarracks = new Barracks(x, y);
