@@ -1,0 +1,263 @@
+[33mcommit 078cc8307e7149a3528886b451dbb15ae4a5e4d1[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 13c20e9 cb6f47a
+Author: Owen Tang <owen.tang@student.unsw.edu.au>
+Date:   Mon Jul 19 01:18:30 2021 +1000
+
+    Merge branch 'it2_testEL' into 'master'
+    
+    fixed zombie chase test
+    
+    See merge request COMP2511/21T2/project-groups/F13A_AERO/21T2-cs2511-project!39
+
+[33mcommit cb6f47af8af75782a13d2faa26197cd3c2bc14d8[m[33m ([m[1;31morigin/it2_testEL[m[33m)[m
+Author: Elijah Lee <elijah.lee@student.unsw.edu.au>
+Date:   Mon Jul 19 01:17:59 2021 +1000
+
+    fixed zombie chase test
+
+[33mcommit 13c20e9769b0a1ab2380c5e9ccfe5ab3194af0b1[m
+Merge: 76439c8 11c32e2
+Author: Elijah Lee <elijah.lee@student.unsw.edu.au>
+Date:   Mon Jul 19 01:17:51 2021 +1000
+
+    Merge branch 'lastcoverage' into 'master'
+    
+    ok should cover all branches now
+    
+    See merge request COMP2511/21T2/project-groups/F13A_AERO/21T2-cs2511-project!38
+
+[33mcommit 11c32e2f1ac31a73d4acf501afc256360c7246ff[m
+Author: Owen Tang <z5255767@ad.unsw.edu.au>
+Date:   Mon Jul 19 01:14:06 2021 +1000
+
+    ok should cover all branches now
+
+[33mcommit 76439c882564ff9d34df91a1216457276f13df3a[m
+Merge: d6463c3 99d70f1
+Author: Owen Tang <owen.tang@student.unsw.edu.au>
+Date:   Mon Jul 19 01:09:09 2021 +1000
+
+    Merge branch 'it2_testEL' into 'master'
+    
+    fixed worldcontroller
+    
+    See merge request COMP2511/21T2/project-groups/F13A_AERO/21T2-cs2511-project!37
+
+[33mcommit 99d70f114c338c2b8306592159e98d90e455f409[m
+Author: Elijah Lee <elijah.lee@student.unsw.edu.au>
+Date:   Mon Jul 19 01:08:41 2021 +1000
+
+    fixed worldcontroller
+
+[33mcommit d6463c3226a3d89164ec3ae6ac0435d3c7a9c30a[m
+Merge: 217d12e 331accc
+Author: Owen Tang <owen.tang@student.unsw.edu.au>
+Date:   Mon Jul 19 01:05:22 2021 +1000
+
+    Merge branch 'it2_testEL' into 'master'
+    
+    added battle tests
+    
+    See merge request COMP2511/21T2/project-groups/F13A_AERO/21T2-cs2511-project!36
+
+[33mcommit 331accc48c303610646bf8f423bc9d686ffd0463[m
+Author: Elijah Lee <elijah.lee@student.unsw.edu.au>
+Date:   Mon Jul 19 01:04:37 2021 +1000
+
+    added battle tests
+
+[33mcommit 217d12e58466bf3f2fbc66dafe67181cb07e2593[m
+Merge: 0f8e12d fc8e5d6
+Author: Elijah Lee <elijah.lee@student.unsw.edu.au>
+Date:   Mon Jul 19 00:31:56 2021 +1000
+
+    Merge branch 'cardtest' into 'master'
+    
+    Cardtest
+    
+    See merge request COMP2511/21T2/project-groups/F13A_AERO/21T2-cs2511-project!35
+
+[33mcommit fc8e5d65b19bbf1bf7c85da7d909c69d29160dc8[m[33m ([m[1;31morigin/cardtest[m[33m, [m[1;32mcardtest[m[33m)[m
+Author: Frank Su <frank.su@student.unsw.edu.au>
+Date:   Mon Jul 19 00:30:36 2021 +1000
+
+    More tests for card
+
+[33mcommit 6b4bfb53103ba53faeb9580fe7ed4afb3a833af3[m
+Author: Frank Su <frank.su@student.unsw.edu.au>
+Date:   Sun Jul 18 23:55:29 2021 +1000
+
+    Add asserts in card test
+
+[33mcommit 0f8e12d1c89cc0bc21cd28b1be017f63a6c41670[m
+Merge: fa20e64 8de1fc3
+Author: Frank Su <frank.su@student.unsw.edu.au>
+Date:   Sun Jul 18 23:39:01 2021 +1000
+
+    Merge branch 'coverageround2' into 'master'
+    
+    actually 100 coverage
+    
+    See merge request COMP2511/21T2/project-groups/F13A_AERO/21T2-cs2511-project!34
+
+[33mcommit 8de1fc393f94d9411ec235db3f99eb9db5d162c2[m
+Author: Owen Tang <z5255767@ad.unsw.edu.au>
+Date:   Sun Jul 18 23:33:19 2021 +1000
+
+    actually 100 coverage
+
+[33mcommit fa20e64213ee97b7509f5a2a4543b3ca255a7936[m
+Merge: af4ddfc 9a34836
+Author: Owen Tang <owen.tang@student.unsw.edu.au>
+Date:   Sun Jul 18 23:18:42 2021 +1000
+
+    Merge branch 'it2_testEL' into 'master'
+    
+    It2 test el
+    
+    See merge request COMP2511/21T2/project-groups/F13A_AERO/21T2-cs2511-project!33
+
+[33mcommit 9a348360121d199ab5fbdd2f9e6f19a6785062e9[m
+Merge: d62c26f af4ddfc
+Author: Elijah Lee <elijah.lee@student.unsw.edu.au>
+Date:   Sun Jul 18 23:17:41 2021 +1000
+
+    updating
+
+[33mcommit d62c26f1c24a53b250e75e651a5107f79b9afac9[m
+Author: Elijah Lee <elijah.lee@student.unsw.edu.au>
+Date:   Sun Jul 18 23:17:14 2021 +1000
+
+    ally still failing test
+
+[33mcommit af4ddfc251b3eca804ca6d2a4cbd317be27815a1[m
+Merge: ee11647 09f91a9
+Author: Elijah Lee <elijah.lee@student.unsw.edu.au>
+Date:   Sun Jul 18 23:15:08 2021 +1000
+
+    Merge branch '100coveragebuildings' into 'master'
+    
+    should be 100% coverage
+    
+    See merge request COMP2511/21T2/project-groups/F13A_AERO/21T2-cs2511-project!32
+
+[33mcommit 09f91a93d736b4de717e6f7c60d401196448b313[m
+Author: Owen Tang <z5255767@ad.unsw.edu.au>
+Date:   Sun Jul 18 23:14:15 2021 +1000
+
+    should be 100% coverage
+
+[33mcommit ee116474fe02e8f6519e5e216ad36fb47360098f[m
+Merge: ece3380 eebd25d
+Author: Elijah Lee <elijah.lee@student.unsw.edu.au>
+Date:   Sun Jul 18 22:54:40 2021 +1000
+
+    Merge branch 'villagetestfix' into 'master'
+    
+    dammit elijah tell me when u change max hp next time
+    
+    See merge request COMP2511/21T2/project-groups/F13A_AERO/21T2-cs2511-project!31
+
+[33mcommit eebd25d90199b75fcee39466c041c11601596fe2[m
+Author: Owen Tang <z5255767@ad.unsw.edu.au>
+Date:   Sun Jul 18 22:53:09 2021 +1000
+
+    dammit elijah tell me when u change max hp next time
+
+[33mcommit ece33806ef2951d04c2deff302b85b5de936271e[m
+Merge: 04ca6c8 3ff8f4b
+Author: Elijah Lee <elijah.lee@student.unsw.edu.au>
+Date:   Sun Jul 18 22:47:45 2021 +1000
+
+    Merge branch 'testsowen' into 'master'
+    
+    Testsowen
+    
+    See merge request COMP2511/21T2/project-groups/F13A_AERO/21T2-cs2511-project!30
+
+[33mcommit 3ff8f4bd2e27adc6aa64768150b3e3b6f8967079[m
+Author: Owen Tang <z5255767@ad.unsw.edu.au>
+Date:   Sun Jul 18 22:46:57 2021 +1000
+
+    pow from ^2
+
+[33mcommit dd975b814adbf82c0b060a81afd42b532aebe843[m
+Author: Owen Tang <z5255767@ad.unsw.edu.au>
+Date:   Sun Jul 18 22:43:50 2021 +1000
+
+    finished tests for buildings and some bugs
+
+[33mcommit 82dac8e7eff83e704377825787915c35d03e6bbd[m[33m ([m[1;31morigin/it2_combatEL[m[33m)[m
+Author: Elijah Lee <elijah.lee@student.unsw.edu.au>
+Date:   Sun Jul 18 22:18:43 2021 +1000
+
+    worked a little on tower test
+
+[33mcommit 0cac1f795ef6cc27682f59a57db10858049b9e3b[m
+Author: Elijah Lee <elijah.lee@student.unsw.edu.au>
+Date:   Sun Jul 18 22:01:07 2021 +1000
+
+    added tower implementation
+
+[33mcommit 23fe4c8ac1c2d84293ee6ea8f8d4a7fb510261c5[m
+Author: Elijah Lee <elijah.lee@student.unsw.edu.au>
+Date:   Sun Jul 18 21:47:03 2021 +1000
+
+    added buff check
+
+[33mcommit 0b38b98f3f4b7fdadb6ceb39778ea50e4edf9b11[m
+Author: Elijah Lee <elijah.lee@student.unsw.edu.au>
+Date:   Sun Jul 18 21:41:17 2021 +1000
+
+    removed else if condition for coverage
+
+[33mcommit fd003a247ad8abfd2e96bd436b628b485ee4bb98[m
+Author: Elijah Lee <elijah.lee@student.unsw.edu.au>
+Date:   Sun Jul 18 21:38:59 2021 +1000
+
+    removed print statements
+
+[33mcommit 04ca6c830dd2f1b6fae6b20b3d1c3ce9b470096e[m
+Merge: dceb5f8 d10b3b4
+Author: Owen Tang <owen.tang@student.unsw.edu.au>
+Date:   Sun Jul 18 21:32:31 2021 +1000
+
+    Merge branch 'it2_testEL' into 'master'
+    
+    It2 test el
+    
+    See merge request COMP2511/21T2/project-groups/F13A_AERO/21T2-cs2511-project!29
+
+[33mcommit d10b3b4e627a35c3353ee84d7bdb2c05b3174e2d[m
+Author: Elijah Lee <elijah.lee@student.unsw.edu.au>
+Date:   Sun Jul 18 21:31:50 2021 +1000
+
+    All changes
+
+[33mcommit ac6ea15e2e869ffbf006453b11bb86a2002784e5[m
+Author: Elijah Lee <elijah.lee@student.unsw.edu.au>
+Date:   Sun Jul 18 21:30:37 2021 +1000
+
+    Fixed tests
+
+[33mcommit dceb5f883cf0c824dbb315e3777a9345b09653b8[m
+Author: Nathan Cao <nathan.cao@student.unsw.edu.au>
+Date:   Sun Jul 18 20:56:17 2021 +1000
+
+    Fixing symblink javafx file name
+
+[33mcommit 7aa1929bbdba17f4cc232625ab273ea8ce5c8384[m
+Author: Nathan Cao <nathan.cao@student.unsw.edu.au>
+Date:   Sun Jul 18 20:33:15 2021 +1000
+
+    Fixing lib_symlink file name
+
+[33mcommit 4a218895bef5a9e9e8f7bce0eeceba779d7c38d0[m
+Author: Nathan Cao <nathan.cao@student.unsw.edu.au>
+Date:   Sun Jul 18 20:27:09 2021 +1000
+
+    Reverting launch.json to project spec
+
+[33mcommit 8f8561894f82520467acde4f6ee3feace70aea32[m
+Author: Nathan Cao <nathan.cao@student.unsw.edu.au>
+Date:   Sun Jul 18 20:25:4

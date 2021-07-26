@@ -42,9 +42,10 @@ public class BarracksCard extends Card {
 
         Pair<Integer, Integer> tempcardCoord = new Pair<>(tempx, tempy);
 
-        // System.out.println(validTiles);
-
+        System.out.println(validTiles);
+        // System.out.println("YOYO");
         if (validTiles.contains(tempcardCoord)) {
+
             Barracks newBarracks = new Barracks(x, y);
             world.addBuilding(newBarracks);
 

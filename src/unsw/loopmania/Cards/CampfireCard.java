@@ -39,7 +39,7 @@ public class CampfireCard extends Card {
         // System.out.println(validTiles);
 
         if (validTiles.contains(tempcardCoord)) {
-            System.out.println("Yoyo");
+            // System.out.println("Yoyo");
             Campfire newCampfire = new Campfire(x, y);
             world.addBuilding(newCampfire);
 

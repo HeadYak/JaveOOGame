@@ -35,10 +35,8 @@ public class ZombiePitCard extends Card {
 
         Pair<Integer, Integer> tempcardCoord = new Pair<>(tempx, tempy);
 
-        // System.out.println(validTiles);
 
         if (validTiles.contains(tempcardCoord)) {
-            System.out.println("Yoyo");
             ZombiePit newZombiePit = new ZombiePit(x, y);
             world.addBuilding(newZombiePit);
 

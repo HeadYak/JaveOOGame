@@ -38,7 +38,6 @@ public class TrapCard extends Card {
         // System.out.println(validTiles);
 
         if (validTiles.contains(tempcardCoord)) {
-            System.out.println("Yoyo");
             Trap newTrap = new Trap(x, y);
             world.addBuilding(newTrap);
 
