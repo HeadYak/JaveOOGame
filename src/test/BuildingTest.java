@@ -176,6 +176,10 @@ public class BuildingTest {
         heroCastle.purchaseItem(c, heroCastle.getShop().get(0));
         assertEquals(heroCastle.getShop().size(), 2);
         assertEquals(c.getInventory().size(), 1);
+        int gold = c.getGold();
+        heroCastle.sellItem(c, c.getInventory().get(0));
+        assertEquals(c.getInventory().size(), 0);
+        assertTrue(c.getGold() > gold);
         Slug e = new Slug(temp);
         assertEquals(heroCastle.getRange(), 0);
         assertFalse(heroCastle.getIsSpawner());
