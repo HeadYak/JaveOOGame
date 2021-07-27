@@ -71,6 +71,14 @@ public class HeroCastle extends Building{
 
     /**
      * @param character
+     * @param item
+     * sells an item from the characters inventory and pays the player half the value back
+     */
+    public void sellItem(Character character, Item item) {
+        character.sell(item);
+    }
+    /**
+     * @param character
      * performs the buildings interaction with the building
      */
     @Override

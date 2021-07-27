@@ -183,6 +183,15 @@ public class Character extends MovingEntity {
     }
 
     /**
+     * sells item to shop, gets gold and removes item from inventory
+     * @param item
+     */
+    public void sell(Item item) {
+        gold += item.getGoldValue()/2;
+        inventory.remove(item);
+    }
+
+    /**
      * add an item to the characters inventory
      * @param item
      */
