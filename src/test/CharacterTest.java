@@ -14,11 +14,13 @@ import unsw.loopmania.Character;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.Items.Item;
-import unsw.loopmania.Items.Armor.BlockBehaviour;
+// import unsw.loopmania.Items.Armor.BlockBehaviour;
 import unsw.loopmania.Items.Armor.ChestArmor;
 import unsw.loopmania.Items.Armor.Helmet;
+import unsw.loopmania.Items.Armor.Shield;
 import unsw.loopmania.Items.Armor.basicChestArmor;
 import unsw.loopmania.Items.Armor.basicHelmet;
+import unsw.loopmania.Items.Armor.basicShield;
 import unsw.loopmania.Items.Weapons.Sword;
 import unsw.loopmania.Items.Weapons.Weapon;
 
@@ -141,6 +143,42 @@ public class CharacterTest {
         c.setChestArmor(newArmor);
 
         assertEquals(c.equippedChestArmor(), newArmor);
+
+    }
+
+
+    @Test
+    public void ArmorDecorator() {
+        List<Pair<Integer, Integer>> tempPath = new ArrayList<Pair<Integer, Integer>>();
+
+        Pair<Integer, Integer> pathtile = new Pair<>(0, 0);
+
+        tempPath.add(pathtile);
+
+        LoopManiaWorld d = new LoopManiaWorld(1, 2, tempPath);
+        assertEquals(d.getWidth(), 1);
+        PathPosition temp = new PathPosition(0, tempPath);
+        Character c = new Character(temp);
+
+        SimpleIntegerProperty x = new SimpleIntegerProperty();
+        SimpleIntegerProperty y = new SimpleIntegerProperty();
+
+        ChestArmor newArmor = new basicChestArmor(x, y);
+        c.setChestArmor(newArmor);
+        assertEquals(c.getDamageTakenModifier(), 0.5);
+
+
+        Helmet newHelmet = new basicHelmet(x, y);
+        c.setHelmet(newHelmet);
+        assertEquals(c.getDamageTakenModifier(), 0.55, 0.01);
+        // System.out.println(c.getDamageTakenModifier());
+
+        Shield newShield = new basicShield(x, y);
+        c.setShield(newShield);
+
+        assertEquals(c.getDamageTakenModifier(), 0.64,0.01);
+
+        System.out.println(c.getDamageTakenModifier());
 
     }
 
