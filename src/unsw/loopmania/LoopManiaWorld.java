@@ -31,7 +31,6 @@ import unsw.loopmania.Buildings.VampireCastleBuilding;
  * entity can occupy the same square.
  */
 public class LoopManiaWorld {
-    // TODO = add additional backend functionality
 
     public static final int unequippedInventoryWidth = 4;
     public static final int unequippedInventoryHeight = 4;

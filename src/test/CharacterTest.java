@@ -1,6 +1,5 @@
 package test;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
@@ -13,7 +12,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.Character;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
-import unsw.loopmania.Items.Item;
 // import unsw.loopmania.Items.Armor.BlockBehaviour;
 import unsw.loopmania.Items.Armor.ChestArmor;
 import unsw.loopmania.Items.Armor.Helmet;
@@ -22,7 +20,6 @@ import unsw.loopmania.Items.Armor.basicChestArmor;
 import unsw.loopmania.Items.Armor.basicHelmet;
 import unsw.loopmania.Items.Armor.basicShield;
 import unsw.loopmania.Items.Weapons.Sword;
-import unsw.loopmania.Items.Weapons.Weapon;
 
 public class CharacterTest {
     

@@ -122,7 +122,6 @@ public class Character extends MovingEntity {
     }
     public void setDamageTakenModifier(){
         Double temp = 1.0;
-        List<Double> values = new ArrayList<>();
         for(Armor i: eqiuppedArmors){
 
             temp = temp * (1.0 - i.getDamageBlockModifier());

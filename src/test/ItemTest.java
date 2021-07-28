@@ -14,18 +14,14 @@ import unsw.loopmania.Character;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.Items.Item;
-// import unsw.loopmania.Items.Armor.BlockBehaviour;
-import unsw.loopmania.Items.Armor.Helmet;
+import unsw.loopmania.Items.Armor.ArmorBlock;
+import unsw.loopmania.Items.Armor.ChestDamageBlock;
 import unsw.loopmania.Items.Armor.HelmetDamageBlock;
 import unsw.loopmania.Items.Armor.ShieldDamageBlock;
 import unsw.loopmania.Items.Armor.basicChestArmor;
-import unsw.loopmania.Items.Armor.basicHelmet;
 import unsw.loopmania.Items.Armor.noDamageBlock;
 import unsw.loopmania.Items.Weapons.Sword;
 import unsw.loopmania.Items.Weapons.Weapon;
-import unsw.loopmania.Items.Armor.Armor;
-import unsw.loopmania.Items.Armor.ArmorBlock;
-import unsw.loopmania.Items.Armor.ChestDamageBlock;
 /**
  * this class is a dummy class demonstrating how to setup tests for the project
  * you should setup additional test classes in a similar fashion, aiming to achieve high coverage.
@@ -116,8 +112,6 @@ public class ItemTest {
 
     @Test
     public void characterHelmetBlockTest(){
-        SimpleIntegerProperty x = new SimpleIntegerProperty();
-        SimpleIntegerProperty y = new SimpleIntegerProperty();
 
         ArmorBlock test = new ShieldDamageBlock(new HelmetDamageBlock(new ChestDamageBlock(new noDamageBlock())));
 

@@ -16,7 +16,6 @@ import unsw.loopmania.Buildings.Building;
  */
 public abstract class Card extends StaticEntity {
     private cardAllowedTiles allowedTiles;
-    // TODO = implement other varieties of card than VampireCastleCard
     public Card(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
     }

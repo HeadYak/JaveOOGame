@@ -1,7 +1,6 @@
 package unsw.loopmania.Items.Armor;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import unsw.loopmania.Items.Item;
 
 public abstract class Shield extends Armor {
 
