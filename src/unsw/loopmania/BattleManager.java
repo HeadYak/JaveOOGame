@@ -116,7 +116,7 @@ public class BattleManager {
         }
 
         // Applying damage to character and first ally
-        character.setHp(character.getHp() - enemyDmg);
+        character.setHp((int) (character.getHp() - enemyDmg*character.getDamageTakenModifier()));
 
         for (Ally ally : allies) {
             if (ally.getHp() > 0) {
