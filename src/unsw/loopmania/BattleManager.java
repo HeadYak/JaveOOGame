@@ -10,6 +10,7 @@ public class BattleManager {
     private Character character;
     private int totalEnemyHp;
     private int alliesHp;
+    private boolean critsEnabled;
     private List<Ally> allies;
     private List<BasicEnemy> battleEnemies;
     private List<BasicEnemy> supportEnemies;
@@ -25,6 +26,7 @@ public class BattleManager {
         battleEnemies = new ArrayList<BasicEnemy>();
         supportEnemies = new ArrayList<BasicEnemy>();
         defeated = new ArrayList<BasicEnemy>();
+        critsEnabled = true;
     }
 
     /**

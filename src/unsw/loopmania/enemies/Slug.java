@@ -2,7 +2,6 @@ package unsw.loopmania.enemies;
 
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.movement.MoveRandomly;
-import unsw.loopmania.enemies.crits.CritNone;
 
 public class Slug extends BasicEnemy {
 
@@ -23,7 +22,6 @@ public class Slug extends BasicEnemy {
 
         // Slug behaviours
         setMoveBehaviour(new MoveRandomly());
-        setCritBehaviour(new CritNone());
     }
     
 }

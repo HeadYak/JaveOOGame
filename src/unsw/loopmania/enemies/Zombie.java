@@ -6,7 +6,6 @@ import unsw.loopmania.Character;
 import unsw.loopmania.movement.MoveAntiClockwise;
 import unsw.loopmania.movement.MoveClockwise;
 import unsw.loopmania.movement.MoveRandomly;
-import unsw.loopmania.enemies.crits.CritConvertToEnemy;
 
 public class Zombie extends BasicEnemy {
     private Character targetCharacter;
@@ -33,7 +32,6 @@ public class Zombie extends BasicEnemy {
 
         // Behaviours
         setMoveBehaviour(new MoveRandomly());
-        setCritBehaviour(new CritConvertToEnemy());
     }
 
     /**
