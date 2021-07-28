@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import unsw.loopmania.Items.Item;
+import unsw.loopmania.Items.Armor.Armor;
 import unsw.loopmania.Items.Armor.ChestArmor;
 import unsw.loopmania.Items.Armor.Helmet;
+import unsw.loopmania.Items.Armor.Shield;
 import unsw.loopmania.Items.Weapons.Weapon;
 import unsw.loopmania.movement.MoveClockwise;
 import unsw.loopmania.Buildings.*;
@@ -28,11 +30,15 @@ public class Character extends MovingEntity {
     private Helmet equippedHelmet;
     private ChestArmor equippedChestArmor;
     private List<Building> inRange;
+    private Shield equippedShield;
+    private double damageTakenModifier;
+    private List<Armor> eqiuppedArmors;
 
     public Character(PathPosition position) {
         super(position);
         hp = 300;
         maxHp = 300;
+        damageTakenModifier = 1.0;
         setDmg(5);
         setMoveSpeed(1);
         allyList = new ArrayList<Ally>();
@@ -48,6 +54,24 @@ public class Character extends MovingEntity {
     /**
      * @returns the Helmet that is currently equiped by the character
      */
+    public void updateEquippedArmors(){
+        List<Armor> temp = new ArrayList<>();
+        if(equippedChestArmor != null){
+            temp.add(equippedChestArmor);
+        }
+        if(equippedHelmet != null){
+            temp.add(equippedHelmet);
+        }
+
+        if(equippedShield != null){
+            temp.add(equippedShield);
+        }
+
+        eqiuppedArmors = temp;
+        setDamageTakenModifier();
+    }
+
+
     public Helmet getHelmet(){
         return equippedHelmet;
     }
@@ -59,6 +83,18 @@ public class Character extends MovingEntity {
     public void setHelmet(Helmet newHelmet){
         addToInventory(equippedHelmet);
         equippedHelmet = newHelmet;
+        updateEquippedArmors();
+
+    }
+
+    public Shield getShield(){
+        return equippedShield;
+    }
+
+    public void setShield(Shield newshield){
+        addToInventory(equippedShield);
+        equippedShield = newshield;
+        updateEquippedArmors();
     }
 
     /**
@@ -75,6 +111,7 @@ public class Character extends MovingEntity {
     public void setChestArmor(ChestArmor newChestArmor){
         addToInventory(equippedChestArmor);
         equippedChestArmor = newChestArmor;
+        updateEquippedArmors();
     }
 
     /**
@@ -83,7 +120,19 @@ public class Character extends MovingEntity {
     public ArrayList<Item> getInventory(){
         return inventory;
     }
+    public void setDamageTakenModifier(){
+        Double temp = 1.0;
+        List<Double> values = new ArrayList<>();
+        for(Armor i: eqiuppedArmors){
 
+            temp = temp * (1.0 - i.getDamageBlockModifier());
+
+        }
+        damageTakenModifier = 1.0 - temp;
+    }
+    public double getDamageTakenModifier(){
+        return damageTakenModifier;
+    }
     /**
      * @return a list of buildings that the character is currently in range of/getting support
      * and buffs from
