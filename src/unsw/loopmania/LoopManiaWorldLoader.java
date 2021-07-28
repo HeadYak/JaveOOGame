@@ -49,9 +49,51 @@ public abstract class LoopManiaWorldLoader {
         for (int i = 0; i < jsonEntities.length(); i++) {
             loadEntity(world, jsonEntities.getJSONObject(i), orderedPath);
         }
-
+        GoalManager goals = new GoalManager();
+        world.setGoals(goals);
+        JSONObject jsonGoals = json.getJSONObject("goal-condition");
+        loadGoal(world, jsonGoals, goals.getGoals());
+        world.setGoals(goals);
         return world;
     }
+
+    private void loadGoal(LoopManiaWorld world, JSONObject json, GoalComposite parent) {
+    	String goalType = json.getString("goal");
+    	if (goalType.equals("AND")) {
+    	    // checks for goals that must all be completed at the same time
+    		GoalAnd andComposite = new GoalAnd();
+    		JSONArray subGoals = json.getJSONArray("subgoals");
+            for (int i = 0; i < subGoals.length(); i++) {
+                loadGoal(world, subGoals.getJSONObject(i), andComposite);
+            }
+            parent.add(andComposite);
+    	} else if (goalType.equals("OR")) {
+    	    // checks for goals where only one needs to be completed
+    		GoalOr orComposite = new GoalOr();
+       		JSONArray subGoals = json.getJSONArray("subgoals");
+            for (int i = 0; i < subGoals.length(); i++) {
+                loadGoal(world, subGoals.getJSONObject(i), orComposite);
+            }
+            parent.add(orComposite);
+    	} else {
+    	    // adds goals to the goal list
+    		switch(goalType) {
+    		case "xp":
+    			GoalXp xpGoal = new GoalXp(world, json.getInt("quantity"));
+    			parent.add(xpGoal);
+    			break;
+    		case "gold":
+    			GoalGold goldGoal = new GoalGold(world, json.getInt("quantity"));
+    			parent.add(goldGoal);
+    			break;
+    		case "cycles":
+    			GoalLoops loopGoal = new GoalLoops(world, json.getInt("quantity"));
+    			parent.add(loopGoal);
+    			break;
+    		}
+    	}
+		
+	}
 
     /**
      * load an entity into the world
