@@ -2,7 +2,7 @@ package unsw.loopmania;
 
 public class GoalLeaf implements Goal {
 
-	protected LoopManiaWorld world;
+	private LoopManiaWorld world;
 	
 	/**
 	 * Creates a goal componenet with a pointer to the world

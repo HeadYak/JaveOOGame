@@ -13,7 +13,7 @@ public class GoalGold extends GoalLeaf {
      */
     @Override
     public Boolean completed() {
-        if (world.getCharacter().getGold() >= gold) {
+        if (super.getWorld().getCharacter().getGold() >= gold) {
             return true;
         } else {
             return false;
