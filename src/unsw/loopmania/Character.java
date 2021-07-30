@@ -323,13 +323,4 @@ public class Character extends MovingEntity {
     public int getHp() {
         return hp;
     }
-
-    /**
-     * sets the hp of the character
-     * @param health
-     */
-    @Override
-    public void setHp(int health) {
-        hp = health;
-    }
 }
