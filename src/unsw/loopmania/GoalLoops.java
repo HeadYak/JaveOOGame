@@ -13,7 +13,7 @@ public class GoalLoops extends GoalLeaf {
      */
     @Override
     public Boolean completed() {
-        if (world.getLoops() >= loops) {
+        if (super.getWorld().getLoops() >= loops) {
             return true;
         } else {
             return false;

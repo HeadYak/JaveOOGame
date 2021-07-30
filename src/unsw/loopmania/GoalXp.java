@@ -13,7 +13,7 @@ public class GoalXp extends GoalLeaf {
      */
     @Override
     public Boolean completed() {
-        if (world.getCharacter().getXp() >= xp) {
+        if (super.getWorld().getCharacter().getXp() >= xp) {
             return true;
         } else {
             return false;
