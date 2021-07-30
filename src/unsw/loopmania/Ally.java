@@ -1,5 +1,6 @@
 package unsw.loopmania;
 
+import unsw.loopmania.enemies.BasicEnemy;
 import unsw.loopmania.movement.MoveClockwise;
 
 public class Ally extends MovingEntity {
@@ -17,4 +18,12 @@ public class Ally extends MovingEntity {
         setMoveBehaviour(new MoveClockwise());
     }
 
+    /**
+     * Attacks enemy (set damage)
+     * @param enemy enemy ally is attacking
+     */
+    public void attack(BasicEnemy enemy) {
+        int damage = getDmg() * 4;
+        enemy.setHp(enemy.getHp() - damage);
+    }
 }
