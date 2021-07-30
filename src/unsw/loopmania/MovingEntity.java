@@ -114,7 +114,7 @@ public abstract class MovingEntity extends Entity {
      * @param hp new hp of moving entity
      */
     public void setHp(int hp) {
-        this.hp = hp;
+        this.hp = Math.max(hp, 0);
     }
 
     /**
