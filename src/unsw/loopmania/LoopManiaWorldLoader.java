@@ -90,6 +90,10 @@ public abstract class LoopManiaWorldLoader {
     			GoalLoops loopGoal = new GoalLoops(world, json.getInt("quantity"));
     			parent.add(loopGoal);
     			break;
+            case "bosses":
+    			GoalBoss bossGoal = new GoalBoss(world);
+    			parent.add(bossGoal);
+    			break;
     		}
     	}
 		
