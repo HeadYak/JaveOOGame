@@ -120,7 +120,7 @@ public class BattleManager {
 
         for (Ally ally : allies) {
             if (ally.getHp() > 0) {
-                ally.setHp(ally.getHp() - enemyDmg);
+                ally.setHp((int) (ally.getHp() - enemyDmg*character.getDamageTakenModifier()));
                 break;
             }
         }
