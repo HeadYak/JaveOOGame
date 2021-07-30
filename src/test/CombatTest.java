@@ -60,7 +60,7 @@ public class CombatTest {
         // Simulating battle manually to test each component of battle is
         // working correctly
         BattleManager bm = world.getBattleManager();
-        // bm.lowerCrit(BasicEnemy.class, 1);
+        bm.setCritMode(1);
 
         // Update battle manager with potential enemy and character
         bm.update(world);
@@ -110,7 +110,7 @@ public class CombatTest {
         // Simulating battle manually to test each component of battle is
         // working correctly
         BattleManager bm = world.getBattleManager();
-        // bm.lowerCrit(BasicEnemy.class, 1);
+        bm.setCritMode(1);
 
         // Update battle manager with potential enemy and character
         bm.update(world);
@@ -159,7 +159,7 @@ public class CombatTest {
         // Simulating battle manually to test each component of battle is
         // working correctly
         BattleManager bm = world.getBattleManager();
-        // bm.lowerCrit(BasicEnemy.class, 1);
+        bm.setCritMode(1);
 
         // Update battle manager with potential enemy and character
         bm.update(world);
@@ -230,7 +230,7 @@ public class CombatTest {
         // Simulating battle manually to test each component of battle is
         // working correctly
         BattleManager bm = world.getBattleManager();
-        /// bm.lowerCrit(BasicEnemy.class, 1);
+        bm.setCritMode(1);
 
         // Update battle manager with potential enemy and do single tick of
         // battle
@@ -276,7 +276,7 @@ public class CombatTest {
         // Simulating battle manually to test each component of battle is
         // working correctly
         BattleManager bm = world.getBattleManager();
-        /// bm.lowerCrit(BasicEnemy.class, 1);
+        bm.setCritMode(1);
 
         // Update battle manager with potential enemy and do single tick of
         // battle
@@ -321,7 +321,7 @@ public class CombatTest {
         // Simulating battle manually to test each component of battle is
         // working correctly
         BattleManager bm = world.getBattleManager();
-        /// bm.lowerCrit(BasicEnemy.class, 1);
+        bm.setCritMode(1);
 
         // Update battle manager with potential enemy and do single tick of
         // battle
@@ -368,7 +368,7 @@ public class CombatTest {
         // Simulating battle manually to test each component of battle is
         // working correctly
         BattleManager bm = world.getBattleManager();
-        // bm.lowerCrit(BasicEnemy.class, 1);
+        bm.setCritMode(1);
 
         // Update battle manager with potential enemy and do single tick of
         // battle

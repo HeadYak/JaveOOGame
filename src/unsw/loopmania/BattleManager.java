@@ -159,6 +159,12 @@ public class BattleManager {
     //     return critsEnabled;
     // }
 
+    /**
+     * Function that sets crit mode for testing purposes
+     * @param critMode 0: default behaviour
+     * @param critMode 1: crits disabled
+     * @param critMode 2: always crits
+     */
     public void setCritMode(int critMode) {
         this.critMode = critMode;
     }
