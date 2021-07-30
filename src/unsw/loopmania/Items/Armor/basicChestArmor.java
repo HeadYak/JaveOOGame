@@ -6,7 +6,7 @@ public class basicChestArmor extends ChestArmor  {
     public basicChestArmor(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
 
-        setBlockBehaviour(new ChestArmorDamageBlock());
+        setBlockBehaviour(new ChestDamageBlock(new noDamageBlock()));
         // blockBehaviourType = new ChestArmorDamageBlock();
         setItemValue(10);
     }

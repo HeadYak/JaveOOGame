@@ -14,13 +14,18 @@ import unsw.loopmania.Character;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.Items.Item;
-import unsw.loopmania.Items.Armor.BlockBehaviour;
+// import unsw.loopmania.Items.Armor.BlockBehaviour;
 import unsw.loopmania.Items.Armor.Helmet;
+import unsw.loopmania.Items.Armor.HelmetDamageBlock;
+import unsw.loopmania.Items.Armor.ShieldDamageBlock;
 import unsw.loopmania.Items.Armor.basicChestArmor;
 import unsw.loopmania.Items.Armor.basicHelmet;
+import unsw.loopmania.Items.Armor.noDamageBlock;
 import unsw.loopmania.Items.Weapons.Sword;
 import unsw.loopmania.Items.Weapons.Weapon;
-
+import unsw.loopmania.Items.Armor.Armor;
+import unsw.loopmania.Items.Armor.ArmorBlock;
+import unsw.loopmania.Items.Armor.ChestDamageBlock;
 /**
  * this class is a dummy class demonstrating how to setup tests for the project
  * you should setup additional test classes in a similar fashion, aiming to achieve high coverage.
@@ -65,9 +70,6 @@ public class ItemTest {
         assertEquals(c.getWeapon(), newsword);
         // System.out.println(c.getWeapon());
     }
-
-
-
     @Test
     public void swordgoldValueTest(){
         
@@ -116,10 +118,23 @@ public class ItemTest {
     public void characterHelmetBlockTest(){
         SimpleIntegerProperty x = new SimpleIntegerProperty();
         SimpleIntegerProperty y = new SimpleIntegerProperty();
-        Helmet newhelmet = new basicHelmet(x, y);
 
-        assertTrue(newhelmet.getBlockType() instanceof BlockBehaviour);
+        ArmorBlock test = new ShieldDamageBlock(new HelmetDamageBlock(new ChestDamageBlock(new noDamageBlock())));
 
+        System.out.println(test.getPercentDamageBlocked());
+        assertEquals(test.getPercentDamageBlocked(), 0.64);
+
+        ArmorBlock test1 =  new HelmetDamageBlock(new ChestDamageBlock(new noDamageBlock()));
+
+        assertEquals(test1.getPercentDamageBlocked(), 0.55);
+
+        ArmorBlock test2 = new ChestDamageBlock(new noDamageBlock());
+
+        assertEquals(test2.getPercentDamageBlocked(), 0.5);
+
+        ArmorBlock test3 = new noDamageBlock();
+
+        assertEquals(test3.getPercentDamageBlocked(), 0);
     }
 
 
@@ -139,45 +154,45 @@ public class ItemTest {
 
     }
 
-    @Test
-    public void characterHelmetArmorBlockTest(){
-        SimpleIntegerProperty x = new SimpleIntegerProperty();
-        SimpleIntegerProperty y = new SimpleIntegerProperty();
+    // @Test
+    // public void characterHelmetArmorBlockTest(){
+    //     SimpleIntegerProperty x = new SimpleIntegerProperty();
+    //     SimpleIntegerProperty y = new SimpleIntegerProperty();
         
-        basicChestArmor newChestArmor = new basicChestArmor(x, y);
+    //     basicChestArmor newChestArmor = new basicChestArmor(x, y);
 
-        assertTrue(newChestArmor.getBlockType() instanceof BlockBehaviour);
+    //     assertTrue(newChestArmor.getBlockType() instanceof BlockBehaviour);
 
-    }
+    // }
 
-    @Test
-    public void characterArmorDamageReductionTest(){
-        SimpleIntegerProperty x = new SimpleIntegerProperty();
-        SimpleIntegerProperty y = new SimpleIntegerProperty();
-        basicChestArmor newChestArmor = new basicChestArmor(x, y);
+    // @Test
+    // public void characterArmorDamageReductionTest(){
+    //     SimpleIntegerProperty x = new SimpleIntegerProperty();
+    //     SimpleIntegerProperty y = new SimpleIntegerProperty();
+    //     basicChestArmor newChestArmor = new basicChestArmor(x, y);
         
 
-        assertEquals(newChestArmor.getDamageTakenModifier(), 0.5);
+    //     assertEquals(newChestArmor.getDamageTakenModifier(), 0.5);
 
 
-        basicHelmet newHelmet = new basicHelmet(x, y);
+    //     basicHelmet newHelmet = new basicHelmet(x, y);
 
-        assertEquals(newHelmet.getDamageTakenModifier(), 0.9);
+    //     assertEquals(newHelmet.getDamageTakenModifier(), 0.9);
 
 
-    }
+    // }
 
-    @Test
-    public void testingPairs(){
-        List<Pair<Integer, Integer>> tempPath = new ArrayList<Pair<Integer, Integer>>();
-        Pair<Integer, Integer> pathtile = new Pair<>(0, 0);
+    // @Test
+    // public void testingPairs(){
+    //     List<Pair<Integer, Integer>> tempPath = new ArrayList<Pair<Integer, Integer>>();
+    //     Pair<Integer, Integer> pathtile = new Pair<>(0, 0);
 
-        tempPath.add(pathtile);
-        LoopManiaWorld d = new LoopManiaWorld(1, 2, tempPath);
+    //     tempPath.add(pathtile);
+    //     LoopManiaWorld d = new LoopManiaWorld(1, 2, tempPath);
 
-        List<Pair<Integer, Integer>> temp = d.getPath();
-        Pair<Integer, Integer> testpair = new Pair<>(0, 0);
-        System.out.println(!temp.contains(testpair));
-    }
+    //     List<Pair<Integer, Integer>> temp = d.getPath();
+    //     Pair<Integer, Integer> testpair = new Pair<>(0, 0);
+    //     System.out.println(!temp.contains(testpair));
+    // }
 
 }

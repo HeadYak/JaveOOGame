@@ -6,7 +6,8 @@ public class basicHelmet extends Helmet {
 
     public basicHelmet(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
-        setBlockBehaviour(new HelmetDamageBlock());
+        setBlockBehaviour(new HelmetDamageBlock(new noDamageBlock()));
+        setItemValue(10);
     }
 
     // public Double getDamageTakenModifier() {

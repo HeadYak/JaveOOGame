@@ -15,7 +15,6 @@ public class CampfireCard extends Card {
         super(x, y);
         setAllowedTiles(new onlyPathTiles());
         // allowedTilesList = new onlyPathTiles();
-        //TODO Auto-generated constructor stub
     }
 
     @Override

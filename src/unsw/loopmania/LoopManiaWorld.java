@@ -46,6 +46,7 @@ public class LoopManiaWorld {
      */
     private int height;
     private int loops;
+    private GoalManager goals;
     /**
      * generic entitites - i.e. those which don't have dedicated fields
      */
@@ -95,6 +96,7 @@ public class LoopManiaWorld {
         cardEntities = new ArrayList<>();
         unequippedInventoryItems = new ArrayList<Item>();
         this.orderedPath = orderedPath;
+        this.goals = null;
         buildingEntities = new ArrayList<Building>();
         defeatedEnemies = new ArrayList<BasicEnemy>();
         loops = 0;
@@ -117,7 +119,9 @@ public class LoopManiaWorld {
         battleManager = new BattleManager(character);
     }
 
-    
+    public void setGoals(GoalManager goals) {
+        this.goals = goals;
+    }
 
     public List<Pair<Integer, Integer>> getPath(){
         return orderedPath;
@@ -459,6 +463,23 @@ public class LoopManiaWorld {
         for (BasicEnemy enemy : killList) {
             killEnemy(enemy);
         }
+        if (goals != null) {
+            if (goals.update()) {
+                win();
+            }
+        }
+
+        if (character.getHp() <= 0) {
+            lose();
+        }
+    }
+
+    public void win() {
+        //TODO implement a way to change to win screen
+    }
+
+    public void lose() {
+        //TODO implement a way to change to game over screen
     }
 
     /**
