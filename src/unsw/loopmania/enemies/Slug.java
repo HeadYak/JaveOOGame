@@ -3,6 +3,10 @@ package unsw.loopmania.enemies;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.movement.MoveRandomly;
 
+import java.util.List;
+
+import unsw.loopmania.Character;
+
 public class Slug extends BasicEnemy {
 
     /**
@@ -23,5 +27,14 @@ public class Slug extends BasicEnemy {
         // Slug behaviours
         setMoveBehaviour(new MoveRandomly());
     }
-    
+
+    /**
+     * Overridden implementation of abstract method critAttack to simply
+     * multiply damage by 2
+     */
+    @Override
+    public void critAttack(Character player, List<BasicEnemy> battleEnemies) {
+        int damage = player.getDmg() * 2;
+        player.setHp(player.getHp() - damage);
+    }
 }

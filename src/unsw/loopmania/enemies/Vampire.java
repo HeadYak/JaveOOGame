@@ -1,6 +1,10 @@
 package unsw.loopmania.enemies;
 
+import java.util.List;
+import java.util.Random;
+
 import unsw.loopmania.LoopManiaWorld;
+import unsw.loopmania.Character;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.Buildings.Building;
 import unsw.loopmania.Buildings.Campfire;
@@ -12,6 +16,7 @@ public class Vampire extends BasicEnemy {
     private boolean isMovingClockwise;
     private boolean isBuffed;
     private int buffDuration;
+    private int buffDmg;
 
     /**
      * Constructor for Vampire
@@ -22,7 +27,7 @@ public class Vampire extends BasicEnemy {
 
         // Vampire stats
         setMoveSpeed(2);
-        setCritChance(0.1);
+        setCritChance(0.2);
         setBattleRadius(2);
         setSupportRadius(3);
         setHp(300);
@@ -30,6 +35,7 @@ public class Vampire extends BasicEnemy {
         isMovingClockwise = false;
         isBuffed = false;
         buffDuration = 0;
+        buffDmg = 0;
 
         // Behaviours
         setMoveBehaviour(new MoveAntiClockwise());
@@ -110,4 +116,43 @@ public class Vampire extends BasicEnemy {
         }
     }
     
+    /**
+     * Overridden implementation of attack to add buff damage
+     */
+    @Override
+    public void attack(Character player) {
+        super.attack(player);
+
+        // If buffed, deal extra buff damage
+        if (isBuffed) {
+            player.setHp(player.getHp() - buffDmg);
+            buffDuration -= 1;
+        }
+
+        // Set isBuffed to false if buff duration has ended
+        if (isBuffed && buffDuration == 0) {
+            isBuffed = false;
+            buffDmg = 0;
+        }
+    }
+
+    /**
+     * Overridden implementation of abstract method critAttack that buffs
+     * vampire if critting
+     */
+    @Override
+    public void critAttack(Character player, List<BasicEnemy> battleEnemies) {
+        int damage = (getDmg() * 4) * 2;
+
+        // Buffing vampire: sets isBuffed to true, add randomised rounds
+        // between 1-5 inclusive and damage between 5-15 inclusive
+        isBuffed = true;
+        buffDuration += new Random().nextInt(5) + 1;
+        buffDmg += new Random().nextInt(11) + 5;
+
+        damage += (getDmg() * 4) * 2;
+        damage += buffDmg;
+
+        player.setHp(player.getHp() - damage);
+    }
 }
