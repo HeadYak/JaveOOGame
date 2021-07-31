@@ -76,7 +76,7 @@ public class BattleManager {
         // int partyDmg for battle log if wanted
 
         // Deal character's base dmg/weapon dmg
-        if (randomRoll() < weapon.getCritChance() * 100) {
+        if (weapon != null && randomRoll() < weapon.getCritChance() * 100) {
             BasicEnemy trancedEnemy = character.critAttack(battleEnemies);
 
             // Add tranced ally if it exists due to staff crit

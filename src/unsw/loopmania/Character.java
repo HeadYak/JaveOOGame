@@ -19,7 +19,6 @@ import unsw.loopmania.Buildings.*;
  * represents the main character in the backend of the game world
  */
 public class Character extends MovingEntity {
-    private int hp;
     private int maxHp;
     private boolean buffed;
     private int gold;
@@ -37,7 +36,7 @@ public class Character extends MovingEntity {
 
     public Character(PathPosition position) {
         super(position);
-        hp = 300;
+        setHp(300);
         maxHp = 300;
         damageTakenModifier = 1.0;
         setDmg(5);
@@ -194,11 +193,11 @@ public class Character extends MovingEntity {
      * @param health
      */
     public void regen(int health) {
-        if (health + hp > maxHp) {
-            hp = maxHp;
+        if (health + getHp() > maxHp) {
+            setHp(maxHp);
         }
         else {
-            hp += health;
+            setHp(getHp() + health);
         }
     }
 
@@ -318,14 +317,6 @@ public class Character extends MovingEntity {
     }
 
     /**
-     * @return current hp of the character
-     */
-    @Override
-    public int getHp() {
-        return hp;
-    }
-
-    /**
      * Attacks player using player + weapon damage
      * @param enemy enemy to be attacked
      */
@@ -335,9 +326,19 @@ public class Character extends MovingEntity {
         if (equippedWeapon != null) {
             equippedWeapon.attack(enemy);
 
+            // Attack again if buffed
+            if (buffed) {
+                equippedWeapon.attack(enemy);
+            }
+
         // No weapon, deal base damage instead
         } else {
             int damage = getDmg() * 4;
+
+            // If character is buffed, multiply damage by 2
+            if (buffed) {
+                damage *= 2;
+            }
             enemy.setHp(enemy.getHp() - damage);
         }
     }
@@ -352,6 +353,12 @@ public class Character extends MovingEntity {
         
         // Character has an equipped weapon
         if (equippedWeapon != null) {
+
+            // If buffed, attack without crit effects
+            if (buffed) {
+                equippedWeapon.rawCritAttack(target);
+            }
+
             return equippedWeapon.critAttack(battleEnemies);
         
         // No weapon, deal base crit damage instead

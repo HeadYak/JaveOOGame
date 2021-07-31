@@ -27,6 +27,15 @@ public class FOTW extends Weapon{
         // }
     }
 
+    @Override
+    public void rawCritAttack(BasicEnemy enemy) {
+        super.rawCritAttack(enemy);
+
+        // if (enemy instanceof BossEnemy) {
+        //     enemy.setHp(enemy.getHp() - (getDamageValue() * 4 * 2 * 3));
+        // }
+    }
+
 
     /**
      * Overridden implementation of abstract method critAttack that simply
