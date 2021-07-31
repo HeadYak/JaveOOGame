@@ -12,6 +12,7 @@ import org.junit.Test;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
+import unsw.loopmania.Buildings.HeroCastle;
 import unsw.loopmania.Items.Weapons.Staff;
 import unsw.loopmania.Items.Weapons.Stake;
 import unsw.loopmania.Items.Weapons.Sword;
@@ -44,6 +45,12 @@ public class CritTest {
         Character playerChar = new Character(charP);
         world.setCharacter(playerChar);
 
+        // Set a Hero Castle where character spawns
+        SimpleIntegerProperty cX = new SimpleIntegerProperty(playerChar.getX());
+        SimpleIntegerProperty cY = new SimpleIntegerProperty(playerChar.getY());
+        HeroCastle heroCastle = new HeroCastle(cX, cY);
+        world.addBuilding(heroCastle);
+
         // Create new slug on same tile as player
         Slug slug = new Slug(charP);
         world.addEnemy(slug);
@@ -58,20 +65,22 @@ public class CritTest {
         // Do a single tick of battle
         bm.runTickBattle();
 
-        // Check that the damage done by character and slug are the correct
-        // behaviour
+        // Check that player has no crit damage
         int newCharHp = 300 - (slug.getDmg() * 4 * 2);
         assertEquals(playerChar.getHp(), newCharHp);
-        int newSlugHp = 100 - (playerChar.getDmg() * 4 * 2);
+        int newSlugHp = slug.getMaxHp() - (playerChar.getDmg() * 4);
         assertEquals(slug.getHp(), newSlugHp);
 
         // Kill slug and regen character
-        bm.battle();
+        world.runTickMoves();
         playerChar.regen(playerChar.getMaxHp());
+
+        // Character's new position
+        PathPosition nextCharP = new PathPosition(1, path);
 
         // Equip all weapons and test that they are working as intended against
         // modified slug with 10000 hp and 0 dmg
-        Slug trainingDummy = new Slug(charP);
+        Slug trainingDummy = new Slug(nextCharP);
         trainingDummy.setMaxHp(10000);
         trainingDummy.setHp(10000);
         trainingDummy.setDmg(0);
@@ -88,8 +97,7 @@ public class CritTest {
 
         bm.runTickBattle();
 
-        int dummyHp = 10000 -
-                ((playerChar.getDmg() + sword.getDamageValue()) * 8);
+        int dummyHp = 10000 - (sword.getDamageValue() * 8);
         assertEquals(trainingDummy.getHp(), dummyHp);
 
         // Stake:
@@ -98,22 +106,20 @@ public class CritTest {
 
         bm.runTickBattle();
 
-        dummyHp -= ((playerChar.getDmg() + stake.getDamageValue()) * 8);
+        dummyHp -= (stake.getDamageValue() * 8);
         assertEquals(trainingDummy.getHp(), dummyHp);
 
         // Staff (does no damage):
         Staff staff = new Staff(x, y);
         playerChar.setWeapon(staff);
 
-        // Anduril:
-        // TODO:
-
         bm.runTickBattle();
 
         assertEquals(trainingDummy.getHp(), dummyHp);
-        
-        // Kill dummy
-        bm.battle();
+
+
+        // Anduril:
+        // TODO:
     }
 
     @Test
@@ -145,8 +151,7 @@ public class CritTest {
         bm.runTickBattle();
 
         // Check that the vampire received expected damage (extra 2x dmg)
-        int newVampireHp = 300 -
-                ((playerChar.getDmg() + stake.getDamageValue()) * 8);
+        int newVampireHp = 300 - (stake.getDamageValue() * 8);
         assertEquals(vampire.getHp(), newVampireHp);
 
         vampire.setHp(300);
@@ -155,9 +160,10 @@ public class CritTest {
         // Set crit chance to 100%
         bm.setCritMode(2);
 
+        bm.runTickBattle();
+
         // Check that the vampire received expected damage (extra 4x dmg)
-        newVampireHp = 300 -
-                ((playerChar.getDmg() + stake.getDamageValue()) * 16);
+        newVampireHp = 300 - (stake.getDamageValue() * 16);
         assertEquals(vampire.getHp(), newVampireHp);
     }
 
@@ -173,11 +179,9 @@ public class CritTest {
         world.setCharacter(playerChar);
 
         // Give character two allies
-        Ally ally1 = new Ally(charP);
-        Ally ally2 = new Ally(charP);
-        playerChar.recruitAlly(ally1);
-        playerChar.recruitAlly(ally2);
-        assertEquals(playerChar.getAllyList().size(), 2);
+        Ally ally = new Ally(charP);
+        playerChar.recruitAlly(ally);
+        assertEquals(playerChar.getAllyList().size(), 1);
 
         // Create new zombie on same tile as player
         Zombie zombie = new Zombie(charP, playerChar);
@@ -196,12 +200,13 @@ public class CritTest {
         // Do a single tick of battle
         bm.runTickBattle();
 
-        // Check that the character received expected damage (extra 2x dmg)
-        int newCharHp = 300 - (zombie.getDmg() * 8);
+        // Check that the character received expected damage (extra 2x dmg) and
+        // the extra zombie converted from ally
+        int newCharHp = 300 - (zombie.getDmg() * 8) - (zombie.getDmg() * 8);
         assertEquals(playerChar.getHp(), newCharHp);
 
         // Check that the allies has reduced to 1
-        assertEquals(playerChar.getAllyList().size(), 1);
+        assertEquals(playerChar.getAllyList().size(), 0);
 
         // Check that there are two zombies
         assertEquals(bm.getBattleEnemies().size(), 2);
@@ -233,8 +238,11 @@ public class CritTest {
         assertTrue(vampire.getBuffDmg() >= 5 &&
                 vampire.getBuffDuration() <= 15);
 
+        System.out.println(vampire.getBuffDmg());
+
         // Check that the character received expected damage range (extra 2x dmg)
-        int newCharHp = 300 - (vampire.getDmg() * 8) - (vampire.getBuffDmg());
+        int newCharHp = playerChar.getMaxHp() - (vampire.getDmg() * 8) -
+                (vampire.getBuffDmg());
         assertEquals(playerChar.getHp(), newCharHp);
     }
 

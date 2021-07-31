@@ -11,6 +11,7 @@ public class Ally extends MovingEntity {
         // Ally stats
         setMoveSpeed(1);
         setCritChance(0);
+        setMaxHp(100);
         setHp(100);
         setDmg(5);
 

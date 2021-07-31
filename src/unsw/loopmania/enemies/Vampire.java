@@ -31,6 +31,7 @@ public class Vampire extends BasicEnemy {
         setBattleRadius(2);
         setSupportRadius(3);
         setHp(300);
+        setMaxHp(300);
         setDmg(8);
         isMovingClockwise = false;
         isBuffed = false;
@@ -104,6 +105,14 @@ public class Vampire extends BasicEnemy {
     }
 
     /**
+     * Setter for buff damage
+     * @param buffDmg the amount of damage buffDmg will inflict
+     */
+    public void setBuffDmg(int buffDmg) {
+        this.buffDmg = buffDmg;
+    }
+
+    /**
      * Overridden method that moves vampire as usual, and then checks if it
      * is in the range of a campfire
      */
@@ -159,7 +168,6 @@ public class Vampire extends BasicEnemy {
         buffDuration += new Random().nextInt(5) + 1;
         buffDmg += new Random().nextInt(11) + 5;
 
-        damage += (getDmg() * 4) * 2;
         damage += buffDmg;
 
         player.setHp(player.getHp() - damage);

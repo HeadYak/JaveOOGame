@@ -33,6 +33,11 @@ public abstract class MovingEntity extends Entity {
     private int hp;
 
     /**
+     * entity's current max hp
+     */
+    private int maxHp;
+
+    /**
      * entity's current dmg
      */
     private int dmg;
@@ -115,6 +120,22 @@ public abstract class MovingEntity extends Entity {
      */
     public void setHp(int hp) {
         this.hp = Math.max(hp, 0);
+    }
+
+    /**
+     * Getter for moving entity's max hp
+     * @return the current max hp of moving entity
+     */
+    public int getMaxHp() {
+        return maxHp;
+    }
+
+    /**
+     * Setter for moving entity's max hp
+     * @param maxHp new max hp of moving entity
+     */
+    public void setMaxHp(int maxHp) {
+        this.maxHp = maxHp;
     }
 
     /**

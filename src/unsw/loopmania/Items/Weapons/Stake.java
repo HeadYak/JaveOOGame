@@ -48,7 +48,6 @@ public class Stake extends Weapon {
     public BasicEnemy critAttack(List<BasicEnemy> battleEnemies) {
         BasicEnemy target = battleEnemies.get(0);
         int damage = (getDamageValue() * 4) * 2;
-        target.setHp(target.getHp() - damage);
 
         if (target instanceof Vampire) {
             damage *= 2;

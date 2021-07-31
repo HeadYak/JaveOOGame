@@ -28,6 +28,7 @@ public class Zombie extends BasicEnemy {
         setBattleRadius(1);
         setSupportRadius(2);
         setHp(200);
+        setMaxHp(200);
         setDmg(5);
         detectionRadius = 5;
         countdown = 1;
@@ -104,8 +105,6 @@ public class Zombie extends BasicEnemy {
             player.getAllyList().remove(0);
             battleEnemies.add(new Zombie(getPosition(), player));
         }
-
-        damage += (getDmg() * 4) * 2;
 
         player.setHp(player.getHp() - damage);
     }

@@ -62,6 +62,17 @@ public class BattleManager {
         while (battleEnemies.size() > 0 && character.getHp() > 0) {
             runTickBattle();
         }
+
+        // Go through tranced allies, remove them and add them to defeated
+        Iterator<Ally> allyIter = allies.iterator();
+        while (allyIter.hasNext()) {
+            Ally ally = allyIter.next();
+
+            if (ally instanceof TrancedAlly) {
+                defeated.add(trancedEnemies.get(ally));
+                allies.remove(ally);
+            }
+        }
         
         return defeated;
     }
@@ -91,11 +102,18 @@ public class BattleManager {
             character.attack(target);
         }
 
-        // Deal ally damage (update in case of trance)
+        // Deal ally damage (update target in case of trance)
         allies = character.getAllyList();
-        target = battleEnemies.get(0);
-        for (Ally ally : allies) {
-            ally.attack(target);
+        if (battleEnemies.size() > 0) {
+            target = battleEnemies.get(0);
+        } else {
+            target = null;
+        }
+        
+        if (target != null) {
+            for (Ally ally : allies) {
+                ally.attack(target);
+            }
         }
 
         // Iterate through allies in search of tranced allies
@@ -116,12 +134,14 @@ public class BattleManager {
         }
 
         // Defeat enemy if hp is less than 0
-        if (target.getHp() <= 0) {
+        if (target != null && target.getHp() <= 0) {
             defeated.add(battleEnemies.remove(0));
         }
 
         // Deal each enemy's damage
-        for (BasicEnemy enemy : battleEnemies) {
+        for (int i = 0; i < battleEnemies.size(); i++) {
+            BasicEnemy enemy = battleEnemies.get(0);
+
             if (randomRoll() < enemy.getCritChance() * 100) {
                 enemy.critAttack(character, battleEnemies);
             } else {

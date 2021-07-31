@@ -19,7 +19,6 @@ import unsw.loopmania.Buildings.*;
  * represents the main character in the backend of the game world
  */
 public class Character extends MovingEntity {
-    private int maxHp;
     private boolean buffed;
     private int gold;
     private ArrayList<Ally> allyList;
@@ -37,7 +36,7 @@ public class Character extends MovingEntity {
     public Character(PathPosition position) {
         super(position);
         setHp(300);
-        maxHp = 300;
+        setMaxHp(300);
         damageTakenModifier = 1.0;
         setDmg(5);
         setMoveSpeed(1);
@@ -181,20 +180,13 @@ public class Character extends MovingEntity {
     }
 
     /**
-     * @return the max hp of teh character
-     */
-    public int getMaxHp() {
-        return maxHp;
-    }
-
-    /**
      * restores health to the character, if restoration makes that the character heals over his max hp
      * it will set his hp back to maxhp
      * @param health
      */
     public void regen(int health) {
-        if (health + getHp() > maxHp) {
-            setHp(maxHp);
+        if (health + getHp() > getMaxHp()) {
+            setHp(getMaxHp());
         }
         else {
             setHp(getHp() + health);
@@ -351,21 +343,11 @@ public class Character extends MovingEntity {
     public BasicEnemy critAttack(List<BasicEnemy> battleEnemies) {
         BasicEnemy target = battleEnemies.get(0);
         
-        // Character has an equipped weapon
-        if (equippedWeapon != null) {
-
-            // If buffed, attack without crit effects
-            if (buffed) {
-                equippedWeapon.rawCritAttack(target);
-            }
-
-            return equippedWeapon.critAttack(battleEnemies);
-        
-        // No weapon, deal base crit damage instead
-        } else {
-            int damage = (getDmg() * 4) * 2;
-            target.setHp(target.getHp() - damage);
-            return null;
+        // If buffed, attack without crit effects
+        if (buffed) {
+            equippedWeapon.rawCritAttack(target);
         }
+
+        return equippedWeapon.critAttack(battleEnemies);
     }
 }
