@@ -18,6 +18,7 @@ import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.Character;
 import unsw.loopmania.GoalAnd;
+import unsw.loopmania.GoalBoss;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -108,6 +109,28 @@ public class GoalTest {
         goalManager.getGoals().add(goals);
         d.setGoals(goalManager);
         assertTrue(goalManager.update());
+    }
+
+    @Test
+    public void BossGoalTest(){
+        List<Pair<Integer, Integer>> tempPath = new ArrayList<Pair<Integer, Integer>>();
+
+        Pair<Integer, Integer> pathtile = new Pair<>(0, 0);
+
+        tempPath.add(pathtile);
+
+        LoopManiaWorld d = new LoopManiaWorld(1, 2, tempPath);
+        GoalManager goalManager = new GoalManager();
+        GoalComposite goals = new GoalComposite();
+        GoalBoss bossGoal = new GoalBoss(d);
+        goals.add(bossGoal);
+        goalManager.getGoals().add(goals);
+        d.setGoals(goalManager);
+
+        assertFalse(goalManager.update());
+        d.allBossKilled();
+        assertTrue(goalManager.update());
+        
     }
 
     @Test
