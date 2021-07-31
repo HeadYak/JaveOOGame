@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import unsw.loopmania.Items.Item;
+import unsw.loopmania.Items.HealthPotion;
 import unsw.loopmania.Items.Armor.Armor;
 import unsw.loopmania.Items.Armor.ChestArmor;
 import unsw.loopmania.Items.Armor.Helmet;
@@ -51,6 +52,20 @@ public class Character extends MovingEntity {
     }
 
     /**
+     * 
+     * @param inventory passes in the characters inventory and attempts to use a health potion. If a potion is used it is deleted from the characters inventory
+     */
+    public void useHealthPotion(ArrayList<Item> inventory){
+        for (Item i : this.getInventory()) {
+            if(i instanceof HealthPotion){
+                this.setHp(this.getMaxHp());
+                // this.hp = maxHp;
+                inventory.remove(i);
+                break;
+            }
+        }
+    }
+    /**
      * @returns the Helmet that is currently equiped by the character
      */
     public void updateEquippedArmors(){
@@ -80,7 +95,10 @@ public class Character extends MovingEntity {
      * @param newHelmet
      */
     public void setHelmet(Helmet newHelmet){
-        addToInventory(equippedHelmet);
+        if(equippedHelmet != null){
+            addToInventory(equippedHelmet); 
+        }
+        // addToInventory(equippedHelmet);
         equippedHelmet = newHelmet;
         updateEquippedArmors();
 
@@ -91,7 +109,10 @@ public class Character extends MovingEntity {
     }
 
     public void setShield(Shield newshield){
-        addToInventory(equippedShield);
+        if(equippedShield != null){
+            addToInventory(equippedShield);
+        }
+        // addToInventory(equippedShield);
         equippedShield = newshield;
         updateEquippedArmors();
     }
@@ -175,7 +196,10 @@ public class Character extends MovingEntity {
      * @param newWeapon
      */
     public void setWeapon(Weapon newWeapon){
-        addToInventory(equippedWeapon);
+        if(equippedWeapon != null){
+            addToInventory(equippedWeapon);
+        }
+        // addToInventory(equippedWeapon);
         this.equippedWeapon = newWeapon;
     }
 

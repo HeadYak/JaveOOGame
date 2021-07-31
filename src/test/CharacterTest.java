@@ -13,6 +13,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.Character;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
+import unsw.loopmania.Items.HealthPotion;
 import unsw.loopmania.Items.Item;
 // import unsw.loopmania.Items.Armor.BlockBehaviour;
 import unsw.loopmania.Items.Armor.ChestArmor;
@@ -179,6 +180,16 @@ public class CharacterTest {
         assertEquals(c.getDamageTakenModifier(), 0.64,0.01);
 
         System.out.println(c.getDamageTakenModifier());
+
+        HealthPotion potion = new HealthPotion(x, y);
+
+        c.addToInventory(potion);
+
+        for(Item i:c.getInventory()){
+            if(i instanceof HealthPotion){
+                System.out.println("YOYO");
+            }
+        }
 
     }
 
