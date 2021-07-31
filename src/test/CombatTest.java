@@ -492,11 +492,6 @@ public class CombatTest {
     }
 
     @Test
-    public void testCrits() {
-        
-    }
-
-    @Test
     public void testPlayerDefeat() {
         PathPosition charP = new PathPosition(0, path);
         Character playerChar = new Character(charP);

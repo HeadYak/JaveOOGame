@@ -306,4 +306,132 @@ public class CritTest {
     public void testElanMuskeCrits() {
 
     }
+
+    @Test
+    public void testDmgFromSlugConsistency() {
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
+        // Create new slug on same tile as player
+        Slug slug = new Slug(charP);
+        world.addEnemy(slug);
+
+        // Simulate battle manually to test each component of battle is working
+        // correctly and allow crit chance to be set to default
+        BattleManager bm = world.getBattleManager();
+        bm.update(world);
+        
+        // Loop 1000 times checking both slug's and character's dmg are
+        // consistent given character is unequipped
+        double crit = 0;
+
+        for (int i = 0; i < 1000; i++) {
+            playerChar.regen(playerChar.getMaxHp());
+            slug.setHp(slug.getMaxHp());
+            bm.runTickBattle();
+
+            // Check that the slug is dealing consistent damage
+            assertEquals(slug.getHp(), slug.getMaxHp() -
+                    playerChar.getDmg() * 4);
+            assertTrue(playerChar.getHp() == playerChar.getMaxHp() -
+                    slug.getDmg() * 4 || playerChar.getHp() ==
+                    playerChar.getMaxHp() - slug.getDmg() * 8);
+
+            if (playerChar.getHp() == playerChar.getMaxHp() -
+                    slug.getDmg() * 8) {
+                crit++;
+            }
+        }
+
+        System.out.println("Slug critical strike chance: "
+                + crit/1000 * 100 + "%");
+    }
+
+    @Test
+    public void testDmgFromZombieConsistency() {
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
+        // Create new zombie on same tile as player
+        Zombie zombie = new Zombie(charP, playerChar);
+        world.addEnemy(zombie);
+
+        // Simulate battle manually to test each component of battle is working
+        // correctly and allow crit chance to be set to default
+        BattleManager bm = world.getBattleManager();
+        bm.update(world);
+
+        // Loop 1000 times checking both zombie's and character's dmg are
+        // consistent given character is unequipped
+        double crit = 0;
+
+        for (int i = 0; i < 1000; i++) {
+            playerChar.regen(playerChar.getMaxHp());
+            zombie.setHp(zombie.getMaxHp());
+            bm.runTickBattle();
+
+            // Check that the zombie is dealing consistent damage
+            assertEquals(zombie.getHp(), zombie.getMaxHp() -
+                    playerChar.getDmg() * 4);
+            assertTrue(playerChar.getHp() == playerChar.getMaxHp() -
+                    zombie.getDmg() * 4 || playerChar.getHp() ==
+                    playerChar.getMaxHp() - zombie.getDmg() * 8);
+
+            if (playerChar.getHp() == playerChar.getMaxHp() -
+                    zombie.getDmg() * 8) {
+                crit++;
+            }
+        }
+
+        System.out.println("Zombie critical strike chance: "
+                + crit/1000 * 100 + "%");
+    }
+
+    @Test
+    public void testDmgFromVampireConsistency() {
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
+        // Create new vampire on same tile as player
+        Vampire vampire = new Vampire(charP, world);
+        world.addEnemy(vampire);
+
+        // Simulate battle manually to test each component of battle is working
+        // correctly and allow crit chance to be set to default
+        BattleManager bm = world.getBattleManager();
+        bm.update(world);
+
+        // Loop 1000 times checking both zombie's and character's dmg are
+        // consistent given character is unequipped
+        double crit = 0;
+
+        for (int i = 0; i < 1000; i++) {
+            playerChar.regen(playerChar.getMaxHp());
+            vampire.setHp(vampire.getMaxHp());
+            bm.runTickBattle();
+
+            // Check that the vampire is dealing consistent damage
+            assertEquals(vampire.getHp(), vampire.getMaxHp() -
+                    playerChar.getDmg() * 4);
+            assertTrue(playerChar.getHp() == playerChar.getMaxHp() -
+                    vampire.getDmg() * 4 || playerChar.getHp() ==
+                    playerChar.getMaxHp() - vampire.getDmg() * 8 -
+                    vampire.getBuffDmg());
+
+            
+            if (playerChar.getHp() == playerChar.getMaxHp() -
+                    vampire.getDmg() * 8 - vampire.getBuffDmg()) {
+                crit++;
+            }
+
+            vampire.setBuffDuration(0);
+            vampire.setBuffDmg(0);
+        }
+
+        System.out.println("Vampire critical strike chance: "
+                + crit/1000 * 100 + "%");
+    }
 }
