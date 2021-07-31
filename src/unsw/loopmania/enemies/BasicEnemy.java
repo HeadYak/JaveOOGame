@@ -22,6 +22,11 @@ public abstract class BasicEnemy extends MovingEntity {
     private int supportRadius;
 
     /**
+     * enemy's's support radius
+     */
+    private int weight;
+
+    /**
      * Create a basic enemy
      * @param position represents the current position in the path
      */
@@ -59,6 +64,22 @@ public abstract class BasicEnemy extends MovingEntity {
      */
     public void setSupportRadius(int supportRadius) {
         this.supportRadius = supportRadius;
+    }
+
+    /**
+     * Getter for enemy's weight
+     * @return the weight
+     */
+    public int getWeight() {
+        return weight;
+    }
+
+    /**
+     * Setter for enemy's weight
+     * @param supportRadius new weight to be set
+     */
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
 
     /**

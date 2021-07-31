@@ -17,10 +17,10 @@ import unsw.loopmania.Buildings.Campfire;
 import unsw.loopmania.Buildings.HeroCastle;
 import unsw.loopmania.Buildings.Tower;
 import unsw.loopmania.Ally;
-import unsw.loopmania.BattleManager;
 import unsw.loopmania.Items.HealthPotion;
 import unsw.loopmania.Items.Weapons.Stake;
 import unsw.loopmania.Items.Weapons.Sword;
+import unsw.loopmania.battles.BattleManager;
 import unsw.loopmania.enemies.*;
 import unsw.loopmania.Character;
 

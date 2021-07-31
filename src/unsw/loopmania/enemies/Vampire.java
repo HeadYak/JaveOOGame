@@ -33,6 +33,7 @@ public class Vampire extends BasicEnemy {
         setHp(300);
         setMaxHp(300);
         setDmg(8);
+        setWeight(3);
         isMovingClockwise = false;
         isBuffed = false;
         buffDuration = 0;

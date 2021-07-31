@@ -1,4 +1,4 @@
-package unsw.loopmania;
+package unsw.loopmania.battles;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,6 +6,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import unsw.loopmania.Ally;
+import unsw.loopmania.Character;
+import unsw.loopmania.LoopManiaWorld;
+import unsw.loopmania.PathPosition;
+import unsw.loopmania.TrancedAlly;
 import unsw.loopmania.Items.Weapons.Weapon;
 import unsw.loopmania.enemies.BasicEnemy;
 

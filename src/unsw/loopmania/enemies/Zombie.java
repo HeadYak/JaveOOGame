@@ -30,6 +30,7 @@ public class Zombie extends BasicEnemy {
         setHp(200);
         setMaxHp(200);
         setDmg(5);
+        setWeight(2);
         detectionRadius = 5;
         countdown = 1;
 
