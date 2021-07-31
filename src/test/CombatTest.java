@@ -18,6 +18,7 @@ import unsw.loopmania.Buildings.HeroCastle;
 import unsw.loopmania.Buildings.Tower;
 import unsw.loopmania.Ally;
 import unsw.loopmania.BattleManager;
+import unsw.loopmania.Items.HealthPotion;
 import unsw.loopmania.Items.Weapons.Stake;
 import unsw.loopmania.Items.Weapons.Sword;
 import unsw.loopmania.enemies.*;
@@ -45,6 +46,7 @@ public class CombatTest {
         PathPosition charP = new PathPosition(0, path);
         Character playerChar = new Character(charP);
         world.setCharacter(playerChar);
+
 
         // Equip character with sword
         SimpleIntegerProperty x = new SimpleIntegerProperty();
@@ -131,12 +133,24 @@ public class CombatTest {
                 sword.getDamageValue()) * 4);
         assertEquals(zombie.getHp(), newZombieHp);
 
+
         // Complete battle
         bm.battle();
 
         // Test that combat has occurred by checking that the zombie is now dead
         // NOTE: Mathematically impossible for zombie to win
         assertTrue(world.getEnemies().get(0).getHp() <= 0);
+
+        HealthPotion potion = new HealthPotion(x, y);
+
+        playerChar.addToInventory(potion);
+
+
+        playerChar.useHealthPotion(playerChar.getInventory());
+
+        assertEquals(playerChar.getHp(), playerChar.getMaxHp());
+
+
     }
 
     @Test
