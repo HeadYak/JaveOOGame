@@ -10,6 +10,7 @@ import unsw.loopmania.Items.Armor.ChestArmor;
 import unsw.loopmania.Items.Armor.Helmet;
 import unsw.loopmania.Items.Armor.Shield;
 import unsw.loopmania.Items.Weapons.Weapon;
+import unsw.loopmania.enemies.BasicEnemy;
 import unsw.loopmania.movement.MoveClockwise;
 import unsw.loopmania.Buildings.*;
 
@@ -19,8 +20,6 @@ import unsw.loopmania.Buildings.*;
  * represents the main character in the backend of the game world
  */
 public class Character extends MovingEntity {
-    private int hp;
-    private int maxHp;
     private boolean buffed;
     private int gold;
     private ArrayList<Ally> allyList;
@@ -37,8 +36,8 @@ public class Character extends MovingEntity {
 
     public Character(PathPosition position) {
         super(position);
-        hp = 300;
-        maxHp = 300;
+        setHp(300);
+        setMaxHp(300);
         damageTakenModifier = 1.0;
         setDmg(5);
         setMoveSpeed(1);
@@ -204,23 +203,16 @@ public class Character extends MovingEntity {
     }
 
     /**
-     * @return the max hp of teh character
-     */
-    public int getMaxHp() {
-        return maxHp;
-    }
-
-    /**
      * restores health to the character, if restoration makes that the character heals over his max hp
      * it will set his hp back to maxhp
      * @param health
      */
     public void regen(int health) {
-        if (health + hp > maxHp) {
-            hp = maxHp;
+        if (health + getHp() > getMaxHp()) {
+            setHp(getMaxHp());
         }
         else {
-            hp += health;
+            setHp(getHp() + health);
         }
     }
 
@@ -340,19 +332,45 @@ public class Character extends MovingEntity {
     }
 
     /**
-     * @return current hp of the character
+     * Attacks player using player + weapon damage
+     * @param enemy enemy to be attacked
      */
-    @Override
-    public int getHp() {
-        return hp;
+    public void attack(BasicEnemy enemy) {
+        
+        // Character has an equipped weapon
+        if (equippedWeapon != null) {
+            equippedWeapon.attack(enemy);
+
+            // Attack again if buffed
+            if (buffed) {
+                equippedWeapon.attack(enemy);
+            }
+
+        // No weapon, deal base damage instead
+        } else {
+            int damage = getDmg() * 4;
+
+            // If character is buffed, multiply damage by 2
+            if (buffed) {
+                damage *= 2;
+            }
+            enemy.setHp(enemy.getHp() - damage);
+        }
     }
 
     /**
-     * sets the hp of the character
-     * @param health
+     * Attacks using a crit attack
+     * @param player player's character to be attacked 
+     * @param battleEnemies list of all enemies currently in battle
      */
-    @Override
-    public void setHp(int health) {
-        hp = health;
+    public BasicEnemy critAttack(List<BasicEnemy> battleEnemies) {
+        BasicEnemy target = battleEnemies.get(0);
+        
+        // If buffed, attack without crit effects
+        if (buffed) {
+            equippedWeapon.rawCritAttack(target);
+        }
+
+        return equippedWeapon.critAttack(battleEnemies);
     }
 }
