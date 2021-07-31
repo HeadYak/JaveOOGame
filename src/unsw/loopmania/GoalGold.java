@@ -19,4 +19,9 @@ public class GoalGold extends GoalLeaf {
             return false;
         }
     }
+
+    @Override
+    public String toString() {
+        return "Acquire " + gold + " Gold";
+    }
 }

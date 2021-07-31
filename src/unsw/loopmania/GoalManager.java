@@ -18,4 +18,9 @@ public class GoalManager {
     public Boolean update() {
         return goals.completed();
     }
+
+    @Override
+    public String toString() {
+        return "Goals: " + goals.toString();
+    }
 }

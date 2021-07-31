@@ -120,6 +120,10 @@ public class LoopManiaWorld {
         this.goals = goals;
     }
 
+    public String goalString() {
+        return goals.toString();
+    }
+
     public List<Pair<Integer, Integer>> getPath(){
         return orderedPath;
     }
