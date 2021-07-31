@@ -19,4 +19,9 @@ public class GoalXp extends GoalLeaf {
             return false;
         }
     }
+
+    @Override
+    public String toString() {
+        return "Acquire " + xp + " XP";
+    }
 }

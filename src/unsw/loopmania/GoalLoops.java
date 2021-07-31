@@ -19,4 +19,9 @@ public class GoalLoops extends GoalLeaf {
             return false;
         }
     }
+
+    @Override
+    public String toString() {
+        return "Complete " + loops + " Loops";
+    }
 }

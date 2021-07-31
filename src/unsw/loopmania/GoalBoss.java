@@ -13,4 +13,9 @@ public class GoalBoss extends GoalLeaf {
     public Boolean completed() {
         return super.getWorld().getAllBossKilled();
     }
+
+    @Override
+    public String toString() {
+        return "Kill All Bosses";
+    }
 }
