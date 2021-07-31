@@ -112,7 +112,7 @@ public class GoalTest {
         GoalComposite goals = new GoalComposite();
         goalManager.getGoals().add(goals);
         d.setGoals(goalManager);
-        assertTrue(goalManager.update());
+        assertFalse(goalManager.update());
         assertEquals("Goals: None", goalManager.toString());
     }
 
