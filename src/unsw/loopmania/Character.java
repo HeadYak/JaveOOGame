@@ -51,6 +51,11 @@ public class Character extends MovingEntity {
         setMoveBehaviour(new MoveClockwise());
         setMoveSpeed(1);
     }
+
+    /**
+     * 
+     * @param inventory passes in the characters inventory and attempts to use a health potion. If a potion is used it is deleted from the characters inventory
+     */
     public void useHealthPotion(ArrayList<Item> inventory){
         for (Item i : this.getInventory()) {
             if(i instanceof HealthPotion){

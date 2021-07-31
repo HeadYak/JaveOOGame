@@ -143,13 +143,15 @@ public class CombatTest {
 
         HealthPotion potion = new HealthPotion(x, y);
 
-        playerChar.addToInventory(potion);
 
+        assertEquals(playerChar.getInventory().size(),0);
+        playerChar.addToInventory(potion);
+        assertEquals(playerChar.getInventory().size(), 1);
 
         playerChar.useHealthPotion(playerChar.getInventory());
 
         assertEquals(playerChar.getHp(), playerChar.getMaxHp());
-
+        assertEquals(playerChar.getInventory().size(), 0);
 
     }
 
