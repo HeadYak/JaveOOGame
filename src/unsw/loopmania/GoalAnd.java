@@ -28,4 +28,22 @@ public class GoalAnd extends GoalComposite{
     public void add(Goal g) {
         goals.add(g);
     }
+
+    @Override
+    public String toString() {
+        if (goals == null) {
+			return "None";
+		}
+        String s = "(";
+        int i = 1;
+        for (Goal goal : goals) {
+            s += goal.toString();
+            if (i != goals.size()) {
+                s += " AND ";
+            }
+            i++;
+        }
+        s += ")";
+        return s;
+    }
 }

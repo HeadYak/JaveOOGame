@@ -5,21 +5,16 @@ public class GoalComposite implements Goal {
 	private Goal goals;
 	
 	/**
-	 * A goal composite stores other goal composites or goal leaves and 
-	 * this composite is only complete when all subgoals are completed and follow
-	 * this composite's composition rule
+	 * A goal composite stores other goals 
+	 * completed when 
 	 * @param composition
 	 */
 	public GoalComposite() {
 	}
 	
 	/**
-	 * Uses the composite pattern to check all subgoals within this goal
-	 * to return a boolean value of whether or not it is fulfilled.
-	 * The composition of this class determines whether ALL (AND) goals need
-	 * to be completed, or AT LEAST ONE (OR) goal needs to be completed
-	 * 
-	 * If there are no goals set, automatically return true
+	 * returns true if no goals are set. otherwise checks if all AND
+	 * goals are completed or one Or goal is completed
 	 */
 	public Boolean completed() {
 	    if (goals == null) return true;
@@ -30,4 +25,11 @@ public class GoalComposite implements Goal {
 		goals = g;
 	}
 
+	@Override
+    public String toString() {
+		if (goals == null) {
+			return "None";
+		}
+		return goals.toString();
+    }
 }
