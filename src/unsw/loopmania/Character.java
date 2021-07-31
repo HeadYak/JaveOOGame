@@ -58,7 +58,8 @@ public class Character extends MovingEntity {
     public void useHealthPotion(ArrayList<Item> inventory){
         for (Item i : this.getInventory()) {
             if(i instanceof HealthPotion){
-                this.hp = maxHp;
+                this.setHp(this.getMaxHp());
+                // this.hp = maxHp;
                 inventory.remove(i);
                 break;
             }
