@@ -16,11 +16,11 @@ import unsw.loopmania.Buildings.HeroCastle;
 import unsw.loopmania.Items.Weapons.Staff;
 import unsw.loopmania.Items.Weapons.Stake;
 import unsw.loopmania.Items.Weapons.Sword;
+import unsw.loopmania.battles.BattleManager;
 import unsw.loopmania.enemies.Slug;
 import unsw.loopmania.enemies.Vampire;
 import unsw.loopmania.enemies.Zombie;
 import unsw.loopmania.Ally;
-import unsw.loopmania.BattleManager;
 import unsw.loopmania.Character;
 
 public class CritTest {

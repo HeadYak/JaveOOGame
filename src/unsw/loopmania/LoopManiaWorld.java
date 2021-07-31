@@ -4,6 +4,7 @@ import unsw.loopmania.Items.Armor.basicChestArmor;
 import unsw.loopmania.Items.Armor.basicHelmet;
 import unsw.loopmania.Items.Weapons.Stake;
 import unsw.loopmania.Items.Weapons.Sword;
+import unsw.loopmania.battles.BattleManager;
 import unsw.loopmania.Items.Weapons.Staff;
 import unsw.loopmania.enemies.BasicEnemy;
 import unsw.loopmania.enemies.Slug;
