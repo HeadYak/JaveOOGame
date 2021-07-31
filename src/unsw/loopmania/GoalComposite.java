@@ -6,18 +6,17 @@ public class GoalComposite implements Goal {
 	
 	/**
 	 * A goal composite stores other goals 
-	 * completed when 
 	 * @param composition
 	 */
 	public GoalComposite() {
 	}
 	
 	/**
-	 * returns true if no goals are set. otherwise checks if all AND
-	 * goals are completed or one Or goal is completed
+	 * returns false if no goals are set this allows for endless mode to occur
+	 * otherwise checks if all AND goals are completed or one Or goal is completed
 	 */
 	public Boolean completed() {
-	    if (goals == null) return true;
+	    if (goals == null) return false;
 	    return goals.completed();
 	}
 	
