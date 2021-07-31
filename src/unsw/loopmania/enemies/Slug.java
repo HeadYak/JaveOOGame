@@ -34,7 +34,7 @@ public class Slug extends BasicEnemy {
      */
     @Override
     public void critAttack(Character player, List<BasicEnemy> battleEnemies) {
-        int damage = player.getDmg() * 2;
+        int damage = (getDmg() * 4) * 2;
         player.setHp(player.getHp() - damage);
     }
 }

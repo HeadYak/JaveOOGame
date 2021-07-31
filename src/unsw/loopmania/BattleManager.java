@@ -1,14 +1,13 @@
 package unsw.loopmania;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
 import unsw.loopmania.Items.Weapons.Weapon;
-import unsw.loopmania.Items.Weapons.Stake;
 import unsw.loopmania.enemies.BasicEnemy;
-import unsw.loopmania.enemies.Vampire;
 
 public class BattleManager {
     private Character character;
@@ -17,6 +16,7 @@ public class BattleManager {
     private List<BasicEnemy> battleEnemies;
     private List<BasicEnemy> supportEnemies;
     private List<BasicEnemy> defeated;
+    private HashMap<TrancedAlly, BasicEnemy> trancedEnemies;
 
     /**
      * Constructor for the Battle Manager
@@ -28,6 +28,7 @@ public class BattleManager {
         battleEnemies = new ArrayList<BasicEnemy>();
         supportEnemies = new ArrayList<BasicEnemy>();
         defeated = new ArrayList<BasicEnemy>();
+        trancedEnemies = new HashMap<>();
         critMode = 0;
     }
 
@@ -72,12 +73,20 @@ public class BattleManager {
     public void runTickBattle() {
         Weapon weapon = character.getWeapon();
         BasicEnemy target = battleEnemies.get(0);
-        boolean weaponEquipped = false;
         // int partyDmg for battle log if wanted
 
-        // Deal character's base dmg + weapon dmg
+        // Deal character's base dmg/weapon dmg
         if (randomRoll() < weapon.getCritChance() * 100) {
-            character.critAttack(target);
+            BasicEnemy trancedEnemy = character.critAttack(battleEnemies);
+
+            // Add tranced ally if it exists due to staff crit
+            if (trancedEnemy != null) {
+                TrancedAlly trancedAlly =
+                        new TrancedAlly(character.getPosition());
+                trancedEnemies.put(trancedAlly, trancedEnemy);
+                allies.add(trancedAlly);
+            }
+        
         } else {
             character.attack(target);
         }
@@ -87,6 +96,23 @@ public class BattleManager {
         target = battleEnemies.get(0);
         for (Ally ally : allies) {
             ally.attack(target);
+        }
+
+        // Iterate through allies in search of tranced allies
+        Iterator<Ally> trancedIter = allies.iterator();
+        while (trancedIter.hasNext()) {
+            Ally ally = trancedIter.next();
+
+            // Find tranced allies and check if their trance duration has run
+            // out
+            if (ally instanceof TrancedAlly) {
+                TrancedAlly clone = (TrancedAlly) ally;
+                
+                if (clone.getTranceDuration() == 0) {
+                    trancedIter.remove();
+                    battleEnemies.add(trancedEnemies.get(clone));
+                }
+            }
         }
 
         // Defeat enemy if hp is less than 0
@@ -153,11 +179,6 @@ public class BattleManager {
     public List<BasicEnemy> getSupportEnemies() {
         return supportEnemies;
     }
-
-    // Likely do not need
-    // public boolean isCritsEnabled() {
-    //     return critsEnabled;
-    // }
 
     /**
      * Function that sets crit mode for testing purposes

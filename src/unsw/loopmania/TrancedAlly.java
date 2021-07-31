@@ -18,6 +18,9 @@ public class TrancedAlly extends Ally {
         super.attack(enemy);
         tranceDuration -= 1;
     }
-    
+
+    public int getTranceDuration() {
+        return tranceDuration;
+    }
     
 }

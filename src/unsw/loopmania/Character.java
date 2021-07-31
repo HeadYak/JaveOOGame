@@ -9,6 +9,7 @@ import unsw.loopmania.Items.Armor.ChestArmor;
 import unsw.loopmania.Items.Armor.Helmet;
 import unsw.loopmania.Items.Armor.Shield;
 import unsw.loopmania.Items.Weapons.Weapon;
+import unsw.loopmania.enemies.BasicEnemy;
 import unsw.loopmania.movement.MoveClockwise;
 import unsw.loopmania.Buildings.*;
 
@@ -322,5 +323,42 @@ public class Character extends MovingEntity {
     @Override
     public int getHp() {
         return hp;
+    }
+
+    /**
+     * Attacks player using player + weapon damage
+     * @param enemy enemy to be attacked
+     */
+    public void attack(BasicEnemy enemy) {
+        
+        // Character has an equipped weapon
+        if (equippedWeapon != null) {
+            equippedWeapon.attack(enemy);
+
+        // No weapon, deal base damage instead
+        } else {
+            int damage = getDmg() * 4;
+            enemy.setHp(enemy.getHp() - damage);
+        }
+    }
+
+    /**
+     * Attacks using a crit attack
+     * @param player player's character to be attacked 
+     * @param battleEnemies list of all enemies currently in battle
+     */
+    public BasicEnemy critAttack(List<BasicEnemy> battleEnemies) {
+        BasicEnemy target = battleEnemies.get(0);
+        
+        // Character has an equipped weapon
+        if (equippedWeapon != null) {
+            return equippedWeapon.critAttack(battleEnemies);
+        
+        // No weapon, deal base crit damage instead
+        } else {
+            int damage = (getDmg() * 4) * 2;
+            target.setHp(target.getHp() - damage);
+            return null;
+        }
     }
 }

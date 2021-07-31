@@ -94,6 +94,15 @@ public class Vampire extends BasicEnemy {
         this.isMovingClockwise = isMovingClockwise;
     }
 
+    
+    /**
+     * Getter for buff damage
+     * @return the amount of damage buffDmg is currently inflicting
+     */
+    public int getBuffDmg() {
+        return buffDmg;
+    }
+
     /**
      * Overridden method that moves vampire as usual, and then checks if it
      * is in the range of a campfire
