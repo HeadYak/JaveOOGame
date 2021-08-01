@@ -24,6 +24,7 @@ public class Character extends MovingEntity {
     private int gold;
     private ArrayList<Ally> allyList;
     private Boolean isSupported;
+    private boolean isStunned;
     private Weapon equippedWeapon;
     private ArrayList<Item> inventory;
     private int xp;
@@ -330,6 +331,22 @@ public class Character extends MovingEntity {
      */
     public Boolean getIsSupported() {
         return isSupported;
+    }
+
+    /**
+     * Getter for isStunned
+     * @return whether character is stunned or not
+     */
+    public boolean isStunned() {
+        return isStunned;
+    }
+
+    /**
+     * Setter for isStunned
+     * @param isStunned whether character is to be stunned or not
+     */
+    public void setStunned(boolean isStunned) {
+        this.isStunned = isStunned;
     }
 
     /**

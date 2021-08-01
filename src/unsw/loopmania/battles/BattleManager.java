@@ -91,8 +91,12 @@ public class BattleManager {
         BasicEnemy target = battleEnemies.get(0);
         // int partyDmg for battle log if wanted
 
+        // If character is stunned, skip turn and unstun
+        if (character.isStunned()) {
+            character.setStunned(false);
+
         // Deal character's base dmg/weapon dmg
-        if (weapon != null && randomRoll() < weapon.getCritChance() * 100) {
+        } else if (weapon != null && randomRoll() < weapon.getCritChance() * 100) {
             BasicEnemy trancedEnemy = character.critAttack(battleEnemies);
 
             // Add tranced ally if it exists due to staff crit
