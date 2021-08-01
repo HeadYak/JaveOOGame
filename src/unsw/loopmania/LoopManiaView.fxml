@@ -175,16 +175,16 @@
          <Font size="26.0" />
       </font>
    </Text>
-   <Text fx:id="battleLog" fill="WHITE" layoutX="270.0" layoutY="604.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="503.7839660644531">
-      <font>
-         <Font size="22.0" />
-      </font>
-   </Text>
    <ImageView fx:id="text_box" fitHeight="150.0" fitWidth="522.0" layoutX="261.0" layoutY="570.0" pickOnBounds="true">
       <image>
          <Image url="@../../images/story_box.png" />
       </image>
    </ImageView>
+   <Text fx:id="battleLog" fill="WHITE" layoutX="270.0" layoutY="599.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="503.7839660644531">
+      <font>
+         <Font size="19.0" />
+      </font>
+   </Text>
    <ImageView fitHeight="35.0" fitWidth="33.0" layoutX="20.0" layoutY="325.0" pickOnBounds="true" preserveRatio="true">
       <image>
          <Image url="@../../images/Icon05.png" />
@@ -205,4 +205,9 @@
          <Font size="26.0" />
       </font>
    </Text>
+   <ImageView fitHeight="29.0" fitWidth="135.0" layoutX="860.0" layoutY="360.0" onMouseClicked="#useHPot" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../../images/hp_button.png" />
+      </image>
+   </ImageView>
 </AnchorPane>

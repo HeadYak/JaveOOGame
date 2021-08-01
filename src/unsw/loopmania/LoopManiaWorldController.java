@@ -28,6 +28,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.control.Button;
 import javafx.util.Duration;
 import unsw.loopmania.Buildings.Barracks;
 import unsw.loopmania.Buildings.Building;
@@ -41,6 +42,8 @@ import unsw.loopmania.enemies.BasicEnemy;
 import unsw.loopmania.enemies.Slug;
 import unsw.loopmania.enemies.Vampire;
 import unsw.loopmania.enemies.Zombie;
+import unsw.loopmania.enemies.Doggie;
+import unsw.loopmania.enemies.ElanMuske;
 import unsw.loopmania.Cards.BarracksCard;
 import unsw.loopmania.Cards.CampfireCard;
 import unsw.loopmania.Cards.TowerCard;
@@ -167,6 +170,7 @@ public class LoopManiaWorldController {
     @FXML
     private Text dogeCoinValue;
 
+
     // all image views including tiles, character, enemies, cards... even though cards in separate gridpane...
     private List<ImageView> entityImages;
 
@@ -214,6 +218,12 @@ public class LoopManiaWorldController {
     private Image oneRingImage;
     private Image andruilImage;
     private Image treeStumpImage;
+
+    // Equipped Inventory Placeholder Images
+    private Image swordSlotImage;
+    private Image helmetSlotImage;
+    private Image shieldSlotImage;
+    private Image armourSlotImage;
 
     /**
      * the image currently being dragged, if there is one, otherwise null.
@@ -290,13 +300,13 @@ public class LoopManiaWorldController {
         shieldImage = new Image((new File("src/images/shield.png")).toURI().toString());
         helmetImage = new Image((new File("src/images/helmet.png")).toURI().toString());
         goldImage = new Image((new File("src/imagess/gold.png")).toURI().toString());
-        healthPotionImage = new Image((new File("src/images/healthPotion.png")).toURI().toString());
+        healthPotionImage = new Image((new File("src/images/health_potion.png")).toURI().toString());
         doggieCoinImage = new Image((new File("src/images/doggiecoin.png")).toURI().toString());
 
         // Rare Items Images
         oneRingImage = new Image((new File("src/images/ring.png")).toURI().toString());
         andruilImage = new Image((new File("src/images/fotw.png")).toURI().toString());
-        treeStumpImage = new Image((new File("src/images/tree_stump.png")).toURI().toString());
+        treeStumpImage = new Image((new File("src/images/treeStump.png")).toURI().toString());
 
         currentlyDraggedImage = null;
         currentlyDraggedType = null;
@@ -345,8 +355,16 @@ public class LoopManiaWorldController {
                 unequippedInventory.add(emptySlotView, x, y);
             }
         }
-        // unequippedInventory.getType()
 
+        // Equipped Item slots
+        ImageView swordSlotView = new ImageView(swordSlotImage);
+        equippedItems.add(swordSlotView, 0, 0);
+        ImageView helmetSlotView = new ImageView(helmetSlotImage);
+        equippedItems.add(helmetSlotView, 1, 0);
+        ImageView shieldSlotView = new ImageView(shieldSlotImage);
+        equippedItems.add(shieldSlotView, 2, 0);
+        ImageView armourSlotView = new ImageView(armourSlotImage);
+        equippedItems.add(armourSlotView, 3, 0);
 
         // create the draggable icon
         draggedEntity = new DragIcon();
@@ -368,9 +386,9 @@ public class LoopManiaWorldController {
             List<BasicEnemy> defeatedEnemies = world.getDefeatedEnemies();
             for (BasicEnemy e: defeatedEnemies){
                 reactToEnemyDefeat(e);
-                /*if (e != null) {
-                    battleLog.setText(world.getLastSummary().printMe());
-                }*/
+                if (e != null) {
+                    battleLog.setText(world.getLastSummary().printConclusion());
+                }
             }
             world.clearDefeatedEnemies();
             List<BasicEnemy> newEnemies = world.possiblySpawnEnemies();
@@ -605,35 +623,48 @@ public class LoopManiaWorldController {
     private void reactToEnemyDefeat(BasicEnemy enemy){
         if (enemy instanceof Vampire) {
             Random rand = new Random();
-            if (rand.nextInt(4) == 1) {
+            if (rand.nextInt(6) == 1) {
                 loadStaff();
             }
-            if (rand.nextInt(4) == 2) {
-                loadChestArmour();
-            }
-            if (rand.nextInt(4) == 3) {
-                loadBarracksCard();
-            }
-            loadFOTW();
-        } else if (enemy instanceof Zombie) {
-            Random rand = new Random();
-            if (rand.nextInt(6) == 0) {
-                loadStake();
-            }
-            if (rand.nextInt(6) == 1) {
-                loadHealthPotion();
-            }
             if (rand.nextInt(6) == 2) {
-                loadVillageCard();
+                loadChestArmour();
             }
             if (rand.nextInt(6) == 3) {
-                loadCampfireCard();
+                loadBarracksCard();
             }
             if (rand.nextInt(6) == 4) {
-                loadVampireCard();
+                loadOneRing();
             }
             if (rand.nextInt(6) == 5) {
+                loadTreeStump();
+            }
+            loadFOTW();
+            loadTowerCard();
+        } else if (enemy instanceof Zombie) {
+            Random rand = new Random();
+            if (rand.nextInt(8) == 0) {
+                loadStake();
+            }
+            if (rand.nextInt(8) == 1) {
+                loadHealthPotion();
+            }
+            if (rand.nextInt(8) == 2) {
+                loadVillageCard();
+            }
+            if (rand.nextInt(8) == 3) {
+                loadCampfireCard();
+            }
+            if (rand.nextInt(8) == 4) {
+                loadVampireCard();
+            }
+            if (rand.nextInt(8) == 5) {
                 loadChestArmour();
+            }
+            if (rand.nextInt(8) == 6) {
+                loadHelmet();
+            }
+            if (rand.nextInt(8) == 7) {
+                loadTrapCard();
             }
         } else if (enemy instanceof Slug) {
             Random rand = new Random();
@@ -668,6 +699,7 @@ public class LoopManiaWorldController {
                 loadStaff();
             }
                 loadVillageCard();
+                loadHealthPotion();
         } else {
             Random rand = new Random();
             if (rand.nextInt(2) == 0) {
@@ -950,7 +982,7 @@ public class LoopManiaWorldController {
      * @param helmet
      */
     private void onLoad(TreeStump treeStump) {
-        ImageView view = new ImageView(oneRingImage);
+        ImageView view = new ImageView(treeStumpImage);
         addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
         addEntity(treeStump, view);
         unequippedInventory.getChildren().add(view);
@@ -966,6 +998,17 @@ public class LoopManiaWorldController {
         ImageView view = new ImageView(andruilImage);
         addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
         addEntity(fotw, view);
+        unequippedInventory.getChildren().add(view);
+    }
+
+    /**
+     * load a health potion into the GUI
+     * @param healthPotion
+     */
+    private void onLoad(HealthPotion healthPotion){
+        ImageView view = new ImageView(healthPotionImage);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
+        addEntity(healthPotion, view);
         unequippedInventory.getChildren().add(view);
     }
 
@@ -986,7 +1029,7 @@ public class LoopManiaWorldController {
             ImageView view = new ImageView(slugImage);
             addEntity(enemy, view);
             squares.getChildren().add(view);
-        }/* else if (enemy instanceof Doggie) {
+        } else if (enemy instanceof Doggie) {
             ImageView view = new ImageView(doggieImage);
             addEntity(enemy, view);
             squares.getChildren().add(view);
@@ -994,7 +1037,7 @@ public class LoopManiaWorldController {
             ImageView view = new ImageView(elanMuskeImage);
             addEntity(enemy, view);
             squares.getChildren().add(view);
-        }*/ else {
+        } else {
             ImageView view = new ImageView(slugImage);
             addEntity(enemy, view);
             squares.getChildren().add(view);
@@ -1028,6 +1071,26 @@ public class LoopManiaWorldController {
     private void onLoad(Slug slug) {
         ImageView view = new ImageView(slugImage);
         addEntity(slug, view);
+        squares.getChildren().add(view);
+    }
+
+    /**
+     * load a doggie into the GUI
+     * @param doggie
+     */
+    private void onLoad(Doggie doggie) {
+        ImageView view = new ImageView(doggieImage);
+        addEntity(doggie, view);
+        squares.getChildren().add(view);
+    }
+
+    /**
+     * load an Elan Muske into the GUI
+     * @param slug
+     */
+    private void onLoad(ElanMuske elanMuske) {
+        ImageView view = new ImageView(elanMuskeImage);
+        addEntity(elanMuske, view);
         squares.getChildren().add(view);
     }
 
@@ -1141,15 +1204,7 @@ public class LoopManiaWorldController {
         squares.getChildren().add(view);
     }
 
-    /**
-     * load a health potion into the GUI
-     * @param healthPotion
-     */
-    private void onLoad(HealthPotion healthPotion){
-        ImageView view = new ImageView(healthPotionImage);
-        addEntity(healthPotion, view);
-        squares.getChildren().add(view);
-    }
+    
 
     /**
      * add drag event handlers for dropping into gridpanes, dragging over the background, dropping over the background.
@@ -1475,6 +1530,11 @@ public class LoopManiaWorldController {
     private void switchLoseScreen() throws IOException {
         pause();
         loseScreenSwitcher.switchMenu();
+    }
+
+    @FXML
+    private void useHPot() {
+        world.useHPotion();
     }
 
 
