@@ -564,7 +564,7 @@ public class LoopManiaWorld {
         removeUnequippedInventoryItem(item);
         if (item instanceof Sword) {
 
-        } else if (item instanceof )
+        } //else if (item instanceof )
         //return item;
     }
     
