@@ -118,9 +118,11 @@ public class HeroCastle extends Building{
 
     /**
      * @param world
+     * @return null
      * performs the buildings action on every new loop
      */
     @Override
-    public void newLoop(LoopManiaWorld world) {
+    public BasicEnemy newLoop(LoopManiaWorld world) {
+        return null;
     }
 }

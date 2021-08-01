@@ -69,6 +69,7 @@ public class LoopManiaWorld {
     private BattleManager battleManager;
 
     private List<BasicEnemy> defeatedEnemies;
+    private List<BasicEnemy> buildingSpawns;
     private Boolean allBossKilled;
 
     /**
@@ -97,6 +98,7 @@ public class LoopManiaWorld {
         defeatedEnemies = new ArrayList<BasicEnemy>();
         loops = 0;
         allBossKilled = false;
+        buildingSpawns = new ArrayList<BasicEnemy>();
     }
 
     public int getWidth() {
@@ -106,7 +108,9 @@ public class LoopManiaWorld {
     public int getHeight() {
         return height;
     }
-
+    public List<BasicEnemy> getBuildingSpawns() {
+        return buildingSpawns;
+    }
     /**
      * set the character. This is necessary because it is loaded as a special entity out of the file
      * @param character the character
@@ -419,6 +423,7 @@ public class LoopManiaWorld {
      * run moves which occur with every tick without needing to spawn anything immediately
      */
     public void runTickMoves(){
+        buildingSpawns = new ArrayList<BasicEnemy>();
         defeatedEnemies.clear();
         character.performMove();
 
@@ -434,7 +439,10 @@ public class LoopManiaWorld {
         if (heroCastle.getX() == character.getX() && heroCastle.getY() == character.getY()) {
             newLoop();
             for (Building b: buildingEntities) {
-                b.newLoop(this);
+                BasicEnemy newEnemy = b.newLoop(this);
+                if (newEnemy != null) {
+                    buildingSpawns.add(newEnemy);
+                }
             }
         }
 
