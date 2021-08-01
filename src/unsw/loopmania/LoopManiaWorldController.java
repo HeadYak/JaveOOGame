@@ -50,11 +50,17 @@ import unsw.loopmania.Cards.VillageCard;
 import unsw.loopmania.Cards.ZombiePitCard;
 import unsw.loopmania.Items.Weapons.Stake;
 import unsw.loopmania.Items.Weapons.Sword;
+import unsw.loopmania.Items.DogeCoin;
 import unsw.loopmania.Items.HealthPotion;
 import unsw.loopmania.Items.Item;
 import unsw.loopmania.Items.Armor.Armor;
 import unsw.loopmania.Items.Armor.Helmet;
+import unsw.loopmania.Items.Armor.TreeStump;
 import unsw.loopmania.Items.Armor.basicChestArmor;
+import unsw.loopmania.Items.Armor.basicHelmet;
+import unsw.loopmania.Items.Armor.basicShield;
+import unsw.loopmania.Items.Ring.OneRing;
+import unsw.loopmania.Items.Weapons.FOTW;
 import unsw.loopmania.Items.Weapons.Staff;
 
 import java.util.EnumMap;
@@ -156,7 +162,10 @@ public class LoopManiaWorldController {
     private ImageView text_box;
 
     @FXML
-    private Text text_box_text;
+    private Text battleLog;
+
+    @FXML
+    private Text dogeCoinValue;
 
     // all image views including tiles, character, enemies, cards... even though cards in separate gridpane...
     private List<ImageView> entityImages;
@@ -286,7 +295,7 @@ public class LoopManiaWorldController {
 
         // Rare Items Images
         oneRingImage = new Image((new File("src/images/ring.png")).toURI().toString());
-        andruilImage = new Image((new File("src/images/andruil_flame_of_the_west.png")).toURI().toString());
+        andruilImage = new Image((new File("src/images/fotw.png")).toURI().toString());
         treeStumpImage = new Image((new File("src/images/tree_stump.png")).toURI().toString());
 
         currentlyDraggedImage = null;
@@ -359,6 +368,9 @@ public class LoopManiaWorldController {
             List<BasicEnemy> defeatedEnemies = world.getDefeatedEnemies();
             for (BasicEnemy e: defeatedEnemies){
                 reactToEnemyDefeat(e);
+                /*if (e != null) {
+                    battleLog.setText(world.getLastSummary().printMe());
+                }*/
             }
             world.clearDefeatedEnemies();
             List<BasicEnemy> newEnemies = world.possiblySpawnEnemies();
@@ -398,6 +410,11 @@ public class LoopManiaWorldController {
         gold.setText(String.valueOf(world.getCharacter().getGold()));
         loops.setText(String.valueOf(world.getLoops()));
         goals.setText(world.goalString());
+        try {
+            dogeCoinValue.setText(String.valueOf(world.getDogeCoinValue()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -521,18 +538,18 @@ public class LoopManiaWorldController {
     /**
      * load a shield from the world, and pair it with an image in the GUI
      */
-    // private void loadShield(){
-    //     // start by getting first available coordinates
-    //     Shield shield = world.addUnequippedShield();
-    //     onLoad(shield);
-    // }
+    private void loadShield(){
+        // start by getting first available coordinates
+        basicShield shield = world.addUnequippedShield();
+        onLoad(shield);
+    }
 
     /**
      * load a helmet from the world, and pair it with an image in the GUI
      */
     private void loadHelmet(){
         // start by getting first available coordinates
-        Helmet helmet = world.addUnequippedHelmet();
+        basicHelmet helmet = world.addUnequippedHelmet();
         onLoad(helmet);
     }
 
@@ -543,6 +560,42 @@ public class LoopManiaWorldController {
         // start by getting first available coordinates
         HealthPotion healthPotion = world.addHealthPotion();
         onLoad(healthPotion);
+    }
+
+    /**
+     * load a doggie coin from the world, and pair it with an image in the GUI
+     */
+    private void loadDoggieCoin(){
+        // start by getting first available coordinates
+        DogeCoin dogeCoin = world.addDogeCoin();
+        onLoad(dogeCoin);
+    }
+
+    /**
+     * load a oneRing from the world, and pair it with an image in the GUI
+     */
+    private void loadOneRing(){
+        // start by getting first available coordinates
+        OneRing oneRing = world.addOneRing();
+        onLoad(oneRing);
+    }
+
+    /**
+     * load a oneRing from the world, and pair it with an image in the GUI
+     */
+    private void loadTreeStump(){
+        // start by getting first available coordinates
+        TreeStump treeStump = world.addTreeStump();
+        onLoad(treeStump);
+    }
+
+    /**
+     * load a FOTW from the world, and pair it with an image in the GUI
+     */
+    private void loadFOTW(){
+        // start by getting first available coordinates
+        FOTW fotw = world.addFOTW();
+        onLoad(fotw);
     }
     
     /**
@@ -561,6 +614,7 @@ public class LoopManiaWorldController {
             if (rand.nextInt(4) == 3) {
                 loadBarracksCard();
             }
+            loadFOTW();
         } else if (enemy instanceof Zombie) {
             Random rand = new Random();
             if (rand.nextInt(6) == 0) {
@@ -577,6 +631,9 @@ public class LoopManiaWorldController {
             }
             if (rand.nextInt(6) == 4) {
                 loadVampireCard();
+            }
+            if (rand.nextInt(6) == 5) {
+                loadChestArmour();
             }
         } else if (enemy instanceof Slug) {
             Random rand = new Random();
@@ -611,8 +668,6 @@ public class LoopManiaWorldController {
                 loadStaff();
             }
                 loadVillageCard();
-                loadCampfireCard();
-                loadVampireCard();
         } else {
             Random rand = new Random();
             if (rand.nextInt(2) == 0) {
@@ -829,7 +884,7 @@ public class LoopManiaWorldController {
      * and load the image into the unequippedInventory GridPane.
      * @param armour
      */
-    private void onLoad(Armor armour) {
+    private void onLoad(basicChestArmor armour) {
         ImageView view = new ImageView(armourImage);
         addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
         addEntity(armour, view);
@@ -842,12 +897,12 @@ public class LoopManiaWorldController {
      * and load the image into the unequippedInventory GridPane.
      * @param shield
      */
-    /*private void onLoad(Shield shield) {
+    private void onLoad(basicShield shield) {
         ImageView view = new ImageView(shieldImage);
         addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
         addEntity(shield, view);
         unequippedInventory.getChildren().add(view);
-    }*/
+    }
     
     /**
      * load a helmet into the GUI.
@@ -855,10 +910,62 @@ public class LoopManiaWorldController {
      * and load the image into the unequippedInventory GridPane.
      * @param helmet
      */
-    private void onLoad(Helmet helmet) {
+    private void onLoad(basicHelmet helmet) {
         ImageView view = new ImageView(helmetImage);
         addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
         addEntity(helmet, view);
+        unequippedInventory.getChildren().add(view);
+    }
+
+    /**
+     * load doggie coin into the GUI.
+     * Particularly, we must connect to the drag detection event handler,
+     * and load the image into the unequippedInventory GridPane.
+     * @param helmet
+     */
+    private void onLoad(DogeCoin dogeCoin) {
+        ImageView view = new ImageView(doggieCoinImage);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
+        addEntity(dogeCoin, view);
+        unequippedInventory.getChildren().add(view);
+    }
+
+    /**
+     * load oneRing into the GUI.
+     * Particularly, we must connect to the drag detection event handler,
+     * and load the image into the unequippedInventory GridPane.
+     * @param helmet
+     */
+    private void onLoad(OneRing oneRing) {
+        ImageView view = new ImageView(oneRingImage);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
+        addEntity(oneRing, view);
+        unequippedInventory.getChildren().add(view);
+    }
+
+    /**
+     * load tree stump into the GUI.
+     * Particularly, we must connect to the drag detection event handler,
+     * and load the image into the unequippedInventory GridPane.
+     * @param helmet
+     */
+    private void onLoad(TreeStump treeStump) {
+        ImageView view = new ImageView(oneRingImage);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
+        addEntity(treeStump, view);
+        unequippedInventory.getChildren().add(view);
+    }
+
+    /**
+     * load fotw into the GUI.
+     * Particularly, we must connect to the drag detection event handler,
+     * and load the image into the unequippedInventory GridPane.
+     * @param helmet
+     */
+    private void onLoad(FOTW fotw) {
+        ImageView view = new ImageView(andruilImage);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
+        addEntity(fotw, view);
         unequippedInventory.getChildren().add(view);
     }
 

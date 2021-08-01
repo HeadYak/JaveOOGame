@@ -1,9 +1,13 @@
 package unsw.loopmania;
 import unsw.loopmania.Items.*;
+import unsw.loopmania.Items.Armor.TreeStump;
 import unsw.loopmania.Items.Armor.basicChestArmor;
 import unsw.loopmania.Items.Armor.basicHelmet;
+import unsw.loopmania.Items.Armor.basicShield;
+import unsw.loopmania.Items.Ring.OneRing;
 import unsw.loopmania.Items.Weapons.Stake;
 import unsw.loopmania.Items.Weapons.Sword;
+import unsw.loopmania.Items.Weapons.FOTW;
 import unsw.loopmania.battles.BattleLog;
 import unsw.loopmania.battles.BattleManager;
 import unsw.loopmania.battles.Summary;
@@ -483,6 +487,102 @@ public class LoopManiaWorld {
         return healthPotion; 
     }
 
+    public basicShield addUnequippedShield(){
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+        if (firstAvailableSlot == null) {
+            // eject the oldest unequipped item and replace it... oldest item is that at
+            // beginning of items
+            // TODO = give some cash/experience rewards for the discarding of the oldest
+            // sword
+            removeItemByPositionInUnequippedInventoryItems(0);
+            firstAvailableSlot = getFirstAvailableSlotForItem();
+        }
+
+        // now we insert the new sword, as we know we have at least made a slot
+        // available...
+        basicShield shield = new basicShield(new SimpleIntegerProperty(firstAvailableSlot.getValue0()),
+                new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        unequippedInventoryItems.add(shield);
+        return shield; 
+    }
+
+    public DogeCoin addDogeCoin(){
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+        if (firstAvailableSlot == null) {
+            // eject the oldest unequipped item and replace it... oldest item is that at
+            // beginning of items
+            // TODO = give some cash/experience rewards for the discarding of the oldest
+            // sword
+            removeItemByPositionInUnequippedInventoryItems(0);
+            firstAvailableSlot = getFirstAvailableSlotForItem();
+        }
+
+        // now we insert the new sword, as we know we have at least made a slot
+        // available...
+        DogeCoin dogeCoin = new DogeCoin(new SimpleIntegerProperty(firstAvailableSlot.getValue0()),
+                new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        unequippedInventoryItems.add(dogeCoin);
+        return dogeCoin; 
+    }
+
+    public OneRing addOneRing(){
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+        if (firstAvailableSlot == null) {
+            // eject the oldest unequipped item and replace it... oldest item is that at
+            // beginning of items
+            // TODO = give some cash/experience rewards for the discarding of the oldest
+            // sword
+            removeItemByPositionInUnequippedInventoryItems(0);
+            firstAvailableSlot = getFirstAvailableSlotForItem();
+        }
+
+        // now we insert the new sword, as we know we have at least made a slot
+        // available...
+        OneRing oneRing = new OneRing(new SimpleIntegerProperty(firstAvailableSlot.getValue0()),
+                new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        unequippedInventoryItems.add(oneRing);
+        return oneRing; 
+    }
+
+    public TreeStump addTreeStump(){
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+        if (firstAvailableSlot == null) {
+            // eject the oldest unequipped item and replace it... oldest item is that at
+            // beginning of items
+            // TODO = give some cash/experience rewards for the discarding of the oldest
+            // sword
+            removeItemByPositionInUnequippedInventoryItems(0);
+            firstAvailableSlot = getFirstAvailableSlotForItem();
+        }
+
+        // now we insert the new sword, as we know we have at least made a slot
+        // available...
+        TreeStump treeStump = new TreeStump(new SimpleIntegerProperty(firstAvailableSlot.getValue0()),
+                new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        unequippedInventoryItems.add(treeStump);
+        return treeStump; 
+    }
+
+    public FOTW addFOTW(){
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+        if (firstAvailableSlot == null) {
+            // eject the oldest unequipped item and replace it... oldest item is that at
+            // beginning of items
+            // TODO = give some cash/experience rewards for the discarding of the oldest
+            // sword
+            removeItemByPositionInUnequippedInventoryItems(0);
+            firstAvailableSlot = getFirstAvailableSlotForItem();
+        }
+
+        // now we insert the new sword, as we know we have at least made a slot
+        // available...
+        FOTW fotw = new FOTW(new SimpleIntegerProperty(firstAvailableSlot.getValue0()),
+                new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        unequippedInventoryItems.add(fotw);
+        return fotw; 
+    }
+    
+
     /**
      * run moves which occur with every tick without needing to spawn anything immediately
      */
@@ -562,10 +662,16 @@ public class LoopManiaWorld {
     public void removeUnequippedInventoryItemByCoordinates(int x, int y){
         Item item = getUnequippedInventoryItemEntityByCoordinates(x, y);
         removeUnequippedInventoryItem(item);
-        if (item instanceof Sword) {
-
-        } //else if (item instanceof )
-        //return item;
+        /*if (item instanceof Sword || item instanceof Stake || item instanceof Staff || item instanceof FOTW) {
+            character.setWeapon(item);
+        } else if (item instanceof basicChestArmor) {
+            character.setChestArmor(item);
+        } else if (item instanceof basicHelmet) {
+            character.setHelmet(item);
+        } else if (item instanceof basicShield) {
+            character.setShield(item);
+        } */
+        
     }
     
     /**
@@ -636,7 +742,6 @@ public class LoopManiaWorld {
      * move all enemies
      */
     private void moveBasicEnemies() {
-        // TODO = expand to more types of enemy
         for (BasicEnemy e: enemies){
             e.performMove();
         }
@@ -670,7 +775,7 @@ public class LoopManiaWorld {
             }
 
             return dogeValue+number;
-        }
+        } 
 
     }
 
@@ -678,7 +783,6 @@ public class LoopManiaWorld {
         try {
             dogeValue = getDogeCoinValue();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

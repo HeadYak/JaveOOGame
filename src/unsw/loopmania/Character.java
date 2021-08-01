@@ -97,12 +97,12 @@ public class Character extends MovingEntity {
      * replaces the Helmet worn by the character
      * @param newHelmet
      */
-    public void setHelmet(Helmet newHelmet){
+    public void setHelmet(Item newHelmet){
         if(equippedHelmet != null){
             addToInventory(equippedHelmet); 
         }
         // addToInventory(equippedHelmet);
-        equippedHelmet = newHelmet;
+        equippedHelmet = (Helmet) newHelmet;
         updateEquippedArmors();
 
     }
@@ -111,12 +111,12 @@ public class Character extends MovingEntity {
         return equippedShield;
     }
 
-    public void setShield(Shield newshield){
+    public void setShield(Item newshield){
         if(equippedShield != null){
             addToInventory(equippedShield);
         }
         // addToInventory(equippedShield);
-        equippedShield = newshield;
+        equippedShield = (Shield) newshield;
         updateEquippedArmors();
     }
 
@@ -131,9 +131,9 @@ public class Character extends MovingEntity {
      * replaces the ChestArmor currently equiped by the character
      * @param newChestArmor
      */
-    public void setChestArmor(ChestArmor newChestArmor){
+    public void setChestArmor(Item newChestArmor){
         addToInventory(equippedChestArmor);
-        equippedChestArmor = newChestArmor;
+        equippedChestArmor = (ChestArmor) newChestArmor;
         updateEquippedArmors();
     }
 
@@ -198,12 +198,12 @@ public class Character extends MovingEntity {
      * replaces the weapon equiped by the character
      * @param newWeapon
      */
-    public void setWeapon(Weapon newWeapon){
+    public void setWeapon(Item newWeapon){
         if(equippedWeapon != null){
             addToInventory(equippedWeapon);
         }
         // addToInventory(equippedWeapon);
-        this.equippedWeapon = newWeapon;
+        this.equippedWeapon = (Weapon) newWeapon;
     }
 
     /**
