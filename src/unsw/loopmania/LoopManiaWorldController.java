@@ -306,7 +306,7 @@ public class LoopManiaWorldController {
         // Rare Items Images
         oneRingImage = new Image((new File("src/images/ring.png")).toURI().toString());
         andruilImage = new Image((new File("src/images/fotw.png")).toURI().toString());
-        treeStumpImage = new Image((new File("src/images/tree_stump.png")).toURI().toString());
+        treeStumpImage = new Image((new File("src/images/treeStump.png")).toURI().toString());
 
         currentlyDraggedImage = null;
         currentlyDraggedType = null;
