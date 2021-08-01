@@ -75,7 +75,7 @@ public class EnemiesSpawnTest {
 
         // Test that zombie has correct properties
         assertEquals(zombie.getMoveSpeed(), 0.5);
-        assertEquals(zombie.getCritChance(), 0.3);
+        assertEquals(zombie.getCritChance(), 0.1);
         assertEquals(zombie.getBattleRadius(), 1);
         assertEquals(zombie.getSupportRadius(), 2);
         assertEquals(zombie.getDetectionRadius(), 5);
