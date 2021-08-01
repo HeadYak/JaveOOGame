@@ -597,7 +597,10 @@ public class LoopManiaWorld {
 
             int number = random.nextInt(5000);
 
-
+            if(elandefeated){
+                return dogeValue+number/3;
+            }
+            
             return dogeValue+number;
         }
 
