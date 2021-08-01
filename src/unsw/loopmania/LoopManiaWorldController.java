@@ -623,35 +623,48 @@ public class LoopManiaWorldController {
     private void reactToEnemyDefeat(BasicEnemy enemy){
         if (enemy instanceof Vampire) {
             Random rand = new Random();
-            if (rand.nextInt(4) == 1) {
+            if (rand.nextInt(6) == 1) {
                 loadStaff();
             }
-            if (rand.nextInt(4) == 2) {
-                loadChestArmour();
-            }
-            if (rand.nextInt(4) == 3) {
-                loadBarracksCard();
-            }
-            loadFOTW();
-        } else if (enemy instanceof Zombie) {
-            Random rand = new Random();
-            if (rand.nextInt(6) == 0) {
-                loadStake();
-            }
-            if (rand.nextInt(6) == 1) {
-                loadHealthPotion();
-            }
             if (rand.nextInt(6) == 2) {
-                loadVillageCard();
+                loadChestArmour();
             }
             if (rand.nextInt(6) == 3) {
-                loadCampfireCard();
+                loadBarracksCard();
             }
             if (rand.nextInt(6) == 4) {
-                loadVampireCard();
+                loadOneRing();
             }
             if (rand.nextInt(6) == 5) {
+                loadTreeStump();
+            }
+            loadFOTW();
+            loadTowerCard();
+        } else if (enemy instanceof Zombie) {
+            Random rand = new Random();
+            if (rand.nextInt(8) == 0) {
+                loadStake();
+            }
+            if (rand.nextInt(8) == 1) {
+                loadHealthPotion();
+            }
+            if (rand.nextInt(8) == 2) {
+                loadVillageCard();
+            }
+            if (rand.nextInt(8) == 3) {
+                loadCampfireCard();
+            }
+            if (rand.nextInt(8) == 4) {
+                loadVampireCard();
+            }
+            if (rand.nextInt(8) == 5) {
                 loadChestArmour();
+            }
+            if (rand.nextInt(8) == 6) {
+                loadHelmet();
+            }
+            if (rand.nextInt(8) == 7) {
+                loadTrapCard();
             }
         } else if (enemy instanceof Slug) {
             Random rand = new Random();
@@ -969,7 +982,7 @@ public class LoopManiaWorldController {
      * @param helmet
      */
     private void onLoad(TreeStump treeStump) {
-        ImageView view = new ImageView(oneRingImage);
+        ImageView view = new ImageView(treeStumpImage);
         addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
         addEntity(treeStump, view);
         unequippedInventory.getChildren().add(view);
