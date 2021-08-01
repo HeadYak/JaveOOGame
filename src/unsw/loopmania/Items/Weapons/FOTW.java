@@ -4,6 +4,7 @@ import java.util.List;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.enemies.BasicEnemy;
+import unsw.loopmania.enemies.Boss;
 
 public class FOTW extends Weapon{
 
@@ -11,7 +12,7 @@ public class FOTW extends Weapon{
         super(x, y);
         setItemValue(50);
         setDamageValue(30);
-        setCritChance(0.2);
+        setCritChance(0.1);
         //TODO Auto-generated constructor stub
     }
 
@@ -22,18 +23,11 @@ public class FOTW extends Weapon{
     public void attack(BasicEnemy enemy) {
         super.attack(enemy);
 
-        // if (enemy instanceof BossEnemy) {
-        //     enemy.setHp(enemy.getHp() - (getDamageValue() * 4));
-        // }
-    }
-
-    @Override
-    public void rawCritAttack(BasicEnemy enemy) {
-        super.rawCritAttack(enemy);
-
-        // if (enemy instanceof BossEnemy) {
-        //     enemy.setHp(enemy.getHp() - (getDamageValue() * 4 * 2 * 3));
-        // }
+        // Attack an additional two times against bosses
+        if (enemy instanceof Boss) {
+            enemy.setHp(enemy.getHp() - (getDamageValue() * 4));
+            enemy.setHp(enemy.getHp() - (getDamageValue() * 4));
+        }
     }
 
 
@@ -46,9 +40,9 @@ public class FOTW extends Weapon{
         BasicEnemy target = battleEnemies.get(0);
         int damage = (getDamageValue() * 4) * 2;
 
-        // if (enemy instanceof BossEnemy) {
-        //     damage *= 3;
-        // }
+        if (target instanceof Boss) {
+            damage *= 3;
+        }
 
         target.setHp(target.getHp() - damage);
         return null;

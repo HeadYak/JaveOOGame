@@ -4,16 +4,28 @@ import unsw.loopmania.Items.Armor.basicChestArmor;
 import unsw.loopmania.Items.Armor.basicHelmet;
 import unsw.loopmania.Items.Weapons.Stake;
 import unsw.loopmania.Items.Weapons.Sword;
+import unsw.loopmania.battles.BattleLog;
+import unsw.loopmania.battles.BattleManager;
+import unsw.loopmania.battles.Summary;
 import unsw.loopmania.Items.Weapons.Staff;
 import unsw.loopmania.enemies.BasicEnemy;
+import unsw.loopmania.enemies.Doggie;
+import unsw.loopmania.enemies.ElanMuske;
 import unsw.loopmania.enemies.Slug;
 import unsw.loopmania.Buildings.*;
 import unsw.loopmania.Cards.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import java.lang.Math; 
+import java.util.regex.Pattern;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.Math;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.javatuples.Pair;
 
@@ -67,10 +79,21 @@ public class LoopManiaWorld {
     private List<Building> buildingEntities;
 
     private BattleManager battleManager;
+    private int dogeValue;
+
 
     private List<BasicEnemy> defeatedEnemies;
     private List<BasicEnemy> buildingSpawns;
     private Boolean allBossKilled;
+
+    private Summary lastSummary;
+    private BattleLog lastLog;
+
+    // Boss-related booleans
+    private boolean doggieSpawned;
+    private boolean doggieDefeated;
+    private boolean elanMuskeSpawned;
+    private boolean elanMuskeDefeated;
 
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse them
@@ -99,6 +122,10 @@ public class LoopManiaWorld {
         loops = 0;
         allBossKilled = false;
         buildingSpawns = new ArrayList<BasicEnemy>();
+        doggieSpawned = false;
+        doggieDefeated = false;
+        elanMuskeSpawned = false;
+        elanMuskeDefeated = false;
     }
 
     public int getWidth() {
@@ -108,9 +135,11 @@ public class LoopManiaWorld {
     public int getHeight() {
         return height;
     }
+
     public List<BasicEnemy> getBuildingSpawns() {
         return buildingSpawns;
     }
+
     /**
      * set the character. This is necessary because it is loaded as a special entity out of the file
      * @param character the character
@@ -122,6 +151,30 @@ public class LoopManiaWorld {
 
     public void setGoals(GoalManager goals) {
         this.goals = goals;
+    }
+
+    /**
+     * Getter for log containing last battle summary
+     * @return last battle summary
+     */
+    public Summary getLastSummary() {
+        return lastSummary;
+    }
+
+    /**
+     * Getter for log containing last battle log
+     * @return last battle log
+     */
+    public BattleLog getLastLog() {
+        return lastLog;
+    }
+
+    /**
+     * Getter for elanMuskeDefeated boolean
+     * @return whether elan muske has been defeated or not
+     */
+    public boolean isElanMuskeDefeated() {
+        return elanMuskeDefeated;
     }
 
     public String goalString() {
@@ -157,6 +210,36 @@ public class LoopManiaWorld {
             spawningEnemies.add(enemy);
         }
         return spawningEnemies;
+    }
+    /**
+     * Spawns bosses if they satisfy spawn conditions
+     */
+    public void possiblySpawnBosses() {
+        Pair<Integer, Integer> pos = getBossEnemySpawnPosition();
+
+        // Spawning Doggie
+        if (!doggieSpawned && loops == 20) {
+            int indexInPath = orderedPath.indexOf(pos);
+            PathPosition doggieP = new PathPosition(indexInPath, orderedPath);
+            Doggie doggie = new Doggie(doggieP);
+            enemies.add(doggie);
+            buildingSpawns.add(doggie);
+
+            doggieSpawned = true;
+        }
+
+        pos = getBossEnemySpawnPosition();
+
+        // Spawning Elan Muske
+        if (!elanMuskeSpawned && loops >= 40 && character.getXp() >= 10000) {
+            int indexInPath = orderedPath.indexOf(pos);
+            PathPosition elanP = new PathPosition(indexInPath, orderedPath);
+            ElanMuske elan = new ElanMuske(elanP);
+            enemies.add(elan);
+            buildingSpawns.add(elan);
+
+            elanMuskeSpawned = true;
+        }
     }
 
     /**
@@ -428,6 +511,7 @@ public class LoopManiaWorld {
         }
 
         moveBasicEnemies();
+        possiblySpawnBosses();
         
         // Checks for trap damage
         for (Building b: buildingEntities) {
@@ -558,6 +642,46 @@ public class LoopManiaWorld {
         }
     }
 
+    public int getDogeCoinValue() throws IOException{
+        URL u = new URL("https://api.coindesk.com/v1/bpi/currentprice/BTC.json");
+        try (InputStream in = u.openStream()) {
+            String newString = new String(in.readAllBytes(), StandardCharsets.UTF_8);
+
+            String[] arr = newString.split("\"");
+
+            String regex = "(?<=[\\d])(,)(?=[\\d])";
+            Pattern p = Pattern.compile(regex);
+            String str = arr[29];
+            Matcher m = p.matcher(str);
+            str = m.replaceAll("");
+
+            String substr = str.split("\\.")[0];
+
+            int dogeValue = Integer.parseInt(substr);
+
+
+            Random random = new Random();
+
+
+            int number = random.nextInt(5000);
+
+            if(elanMuskeDefeated) {
+                return (dogeValue+number)/3;
+            }
+
+            return dogeValue+number;
+        }
+
+    }
+
+    public void setDogeCoinValue(){
+        try {
+            dogeValue = getDogeCoinValue();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
     /**
      * get a randomly generated position which could be used to spawn an enemy
      * @return null if random choice is that wont be spawning an enemy or it isn't possible, or random coordinate pair if should go ahead
@@ -586,6 +710,29 @@ public class LoopManiaWorld {
             return spawnPosition;
         }
         return null;
+    }
+
+    /**
+     * Method that gets the enemy boss spawn position
+     * @return Position boss can spawn in
+     */
+    private Pair<Integer, Integer> getBossEnemySpawnPosition() {
+        List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
+        int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
+
+        // inclusive start and exclusive end of range set to 5 spaces
+        int startNotAllowed = (indexPosition - 5 + orderedPath.size())%orderedPath.size();
+        int endNotAllowed = (indexPosition + 6)%orderedPath.size();
+
+        // note terminating condition has to be != rather than < since wrap around...
+        for (int i=endNotAllowed; i!=startNotAllowed; i=(i+1)%orderedPath.size()){
+            orderedPathSpawnCandidates.add(orderedPath.get(i));
+        }
+
+        // choose random choice
+        Random rand = new Random();
+        Pair<Integer, Integer> spawnPosition = orderedPathSpawnCandidates.get(rand.nextInt(orderedPathSpawnCandidates.size()));
+        return spawnPosition;
     }
 
     /**

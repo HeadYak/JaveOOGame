@@ -28,19 +28,6 @@ public class Stake extends Weapon {
     }
 
     /**
-     * Overridden implementation of method rawCritAttack to account for vampire
-     * check
-     */
-    @Override
-    public void rawCritAttack(BasicEnemy enemy) {
-        super.rawCritAttack(enemy);
-
-        if (enemy instanceof Vampire) {
-            enemy.setHp(enemy.getHp() - (getDamageValue() * 4 * 2));
-        }
-    }
-
-    /**
      * Overridden implementation of abstract method critAttack to simply
      * multiply damage by 2
      */

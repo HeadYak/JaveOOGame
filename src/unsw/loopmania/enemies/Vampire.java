@@ -33,6 +33,7 @@ public class Vampire extends BasicEnemy {
         setHp(300);
         setMaxHp(300);
         setDmg(8);
+        setWeight(3);
         isMovingClockwise = false;
         isBuffed = false;
         buffDuration = 0;
@@ -144,7 +145,7 @@ public class Vampire extends BasicEnemy {
         // If buffed, deal extra buff damage
         if (isBuffed) {
             player.setHp(player.getHp() - buffDmg);
-            buffDuration -= 1;
+            buffDuration--;
         }
 
         // Set isBuffed to false if buff duration has ended
@@ -160,16 +161,22 @@ public class Vampire extends BasicEnemy {
      */
     @Override
     public void critAttack(Character player, List<BasicEnemy> battleEnemies) {
-        int damage = (getDmg() * 4) * 2;
+        int damage = getDmg() * 4 * 2;
+
+        // If already buffed and buffDuration was not about to end
+        if (isBuffed && buffDuration != 0) {
+            buffDuration--;
+        }
 
         // Buffing vampire: sets isBuffed to true, add randomised rounds
         // between 1-5 inclusive and damage between 5-15 inclusive
+
         isBuffed = true;
         buffDuration += new Random().nextInt(5) + 1;
         buffDmg += new Random().nextInt(11) + 5;
 
         damage += buffDmg;
-
+        damage = (int) (damage * player.getDamageTakenModifier());
         player.setHp(player.getHp() - damage);
     }
 }

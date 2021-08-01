@@ -2,14 +2,17 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.javatuples.Pair;
 import org.junit.jupiter.api.Test;
 
 import unsw.loopmania.GoalComposite;
 import unsw.loopmania.GoalGold;
+import unsw.loopmania.GoalLeaf;
 import unsw.loopmania.GoalLoops;
 import unsw.loopmania.GoalManager;
 import unsw.loopmania.GoalOr;
@@ -114,6 +117,28 @@ public class GoalTest {
         d.setGoals(goalManager);
         assertFalse(goalManager.update());
         assertEquals("Goals: None", goalManager.toString());
+        goalManager = new GoalManager();
+        GoalOr goalOr = new GoalOr();
+        goalManager.getGoals().add(goalOr);
+        assertEquals("Goals: None", goalManager.toString());
+        goalManager = new GoalManager();
+        GoalAnd goalAnd = new GoalAnd();
+        goalManager.getGoals().add(goalAnd);
+        assertEquals("Goals: None", goalManager.toString());
+
+    }
+
+    @Test
+    public void goalLeafTest() {
+        List<Pair<Integer, Integer>> tempPath = new ArrayList<Pair<Integer, Integer>>();
+
+        Pair<Integer, Integer> pathtile = new Pair<>(0, 0);
+
+        tempPath.add(pathtile);
+
+        LoopManiaWorld d = new LoopManiaWorld(1, 2, tempPath);
+        GoalLeaf leaf = new GoalLeaf(d);
+        assertFalse(leaf.completed());
     }
 
     @Test
@@ -136,7 +161,14 @@ public class GoalTest {
         d.allBossKilled();
         assertTrue(goalManager.update());
         assertEquals("Goals: (Kill All Bosses)", goalManager.toString());
+
+        try {
+            System.out.println(d.getDogeCoinValue());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         
+
     }
 
     @Test
