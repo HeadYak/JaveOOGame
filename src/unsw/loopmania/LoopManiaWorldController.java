@@ -244,6 +244,10 @@ public class LoopManiaWorldController {
      */
     private MenuSwitcher mainMenuSwitcher;
 
+    private MenuSwitcher winScreenSwitcher;
+
+    private MenuSwitcher loseScreenSwitcher;
+
     /**
      * @param world world object loaded from file
      * @param initialEntities the initial JavaFX nodes (ImageViews) which should be loaded into the GUI
@@ -358,10 +362,26 @@ public class LoopManiaWorldController {
             }
             world.clearDefeatedEnemies();
             List<BasicEnemy> newEnemies = world.possiblySpawnEnemies();
+            newEnemies.addAll(world.getBuildingSpawns());
             for (BasicEnemy newEnemy: newEnemies){
                 onLoad(newEnemy);
             }
-            updateStats();   
+            updateStats();
+            if (world.goals()) {
+                try {
+                    switchWinScreen();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            if (world.getCharacter().getHp() <= 0) {
+                try {
+                    switchLoseScreen();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            } 
+
             printThreadingNotes("HANDLED TIMER");
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -377,6 +397,8 @@ public class LoopManiaWorldController {
         currentEXP.setText(String.valueOf(world.getCharacter().getXp()));
         gold.setText(String.valueOf(world.getCharacter().getGold()));
         loops.setText(String.valueOf(world.getLoops()));
+        goals.setText(world.goalString());
+
     }
 
     /**
@@ -1305,9 +1327,17 @@ public class LoopManiaWorldController {
     }
 
     public void setMainMenuSwitcher(MenuSwitcher mainMenuSwitcher){
-        // TODO = possibly set other menu switchers
         this.mainMenuSwitcher = mainMenuSwitcher;
     }
+
+    public void setWinScreenSwitcher(MenuSwitcher winScreenSwitcher){
+        this.winScreenSwitcher = winScreenSwitcher;
+    }
+
+    public void setLoseScreenSwitcher(MenuSwitcher loseScreenSwitcher){
+        this.loseScreenSwitcher = loseScreenSwitcher;
+    }
+
 
     /**
      * this method is triggered when click button to go to main menu in FXML
@@ -1319,6 +1349,28 @@ public class LoopManiaWorldController {
         pause();
         mainMenuSwitcher.switchMenu();
     }
+
+    /**
+     * this method is triggered when all goals are met
+     * @throws IOException
+     */
+    @FXML
+    private void switchWinScreen() throws IOException {
+        pause();
+        winScreenSwitcher.switchMenu();
+    }
+    
+    /**
+     * this method is triggered when character hp <= =
+     * @throws IOException
+     */
+    @FXML
+    private void switchLoseScreen() throws IOException {
+        pause();
+        loseScreenSwitcher.switchMenu();
+    }
+
+
 
     /**
      * Set a node in a GridPane to have its position track the position of an

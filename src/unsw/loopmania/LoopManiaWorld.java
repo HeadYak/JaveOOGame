@@ -1,6 +1,5 @@
 package unsw.loopmania;
 import unsw.loopmania.Items.*;
-import unsw.loopmania.Items.Armor.ChestArmor;
 import unsw.loopmania.Items.Armor.basicChestArmor;
 import unsw.loopmania.Items.Armor.basicHelmet;
 import unsw.loopmania.Items.Weapons.Stake;
@@ -10,7 +9,6 @@ import unsw.loopmania.enemies.BasicEnemy;
 import unsw.loopmania.enemies.Slug;
 import unsw.loopmania.Buildings.*;
 import unsw.loopmania.Cards.*;
-import unsw.loopmania.BattleManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -19,10 +17,7 @@ import java.lang.Math;
 
 import org.javatuples.Pair;
 
-import javafx.beans.property.Property;
 import javafx.beans.property.SimpleIntegerProperty;
-// import unsw.loopmania.Buildings.Trap;
-import unsw.loopmania.Buildings.VampireCastleBuilding;
 
 /**
  * A backend world.
@@ -46,6 +41,7 @@ public class LoopManiaWorld {
      */
     private int height;
     private int loops;
+    private GoalManager goals;
     /**
      * generic entitites - i.e. those which don't have dedicated fields
      */
@@ -73,6 +69,8 @@ public class LoopManiaWorld {
     private BattleManager battleManager;
 
     private List<BasicEnemy> defeatedEnemies;
+    private List<BasicEnemy> buildingSpawns;
+    private Boolean allBossKilled;
 
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse them
@@ -95,9 +93,12 @@ public class LoopManiaWorld {
         cardEntities = new ArrayList<>();
         unequippedInventoryItems = new ArrayList<Item>();
         this.orderedPath = orderedPath;
+        this.goals = null;
         buildingEntities = new ArrayList<Building>();
         defeatedEnemies = new ArrayList<BasicEnemy>();
         loops = 0;
+        allBossKilled = false;
+        buildingSpawns = new ArrayList<BasicEnemy>();
     }
 
     public int getWidth() {
@@ -107,7 +108,9 @@ public class LoopManiaWorld {
     public int getHeight() {
         return height;
     }
-
+    public List<BasicEnemy> getBuildingSpawns() {
+        return buildingSpawns;
+    }
     /**
      * set the character. This is necessary because it is loaded as a special entity out of the file
      * @param character the character
@@ -117,7 +120,13 @@ public class LoopManiaWorld {
         battleManager = new BattleManager(character);
     }
 
-    
+    public void setGoals(GoalManager goals) {
+        this.goals = goals;
+    }
+
+    public String goalString() {
+        return goals.toString();
+    }
 
     public List<Pair<Integer, Integer>> getPath(){
         return orderedPath;
@@ -394,7 +403,8 @@ public class LoopManiaWorld {
     /**
      * run moves which occur with every tick without needing to spawn anything immediately
      */
-    public void runTickMoves() {
+    public void runTickMoves(){
+        buildingSpawns = new ArrayList<BasicEnemy>();
         defeatedEnemies.clear();
         character.performMove();
 
@@ -410,7 +420,10 @@ public class LoopManiaWorld {
         if (heroCastle.getX() == character.getX() && heroCastle.getY() == character.getY()) {
             newLoop();
             for (Building b: buildingEntities) {
-                b.newLoop(this);
+                BasicEnemy newEnemy = b.newLoop(this);
+                if (newEnemy != null) {
+                    buildingSpawns.add(newEnemy);
+                }
             }
         }
 
@@ -440,7 +453,22 @@ public class LoopManiaWorld {
         for (BasicEnemy enemy : killList) {
             killEnemy(enemy);
         }
+        /*if (goals != null) {
+            if (goals.update()) {
+                win();
+            }
+        }
+
+        if (character.getHp() <= 0) {
+            lose();
+        }*/
     }
+
+    public Boolean goals() {
+        return goals.update();
+    }
+
+
 
     /**
      * remove an item by x,y coordinates
@@ -710,5 +738,12 @@ public class LoopManiaWorld {
         defeatedEnemies.clear();
     }
 
+    public Boolean getAllBossKilled() {
+        return allBossKilled;
+    }
+
+    public void allBossKilled() {
+        allBossKilled = true;
+    }
     
 }

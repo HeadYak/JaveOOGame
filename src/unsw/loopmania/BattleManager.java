@@ -1,19 +1,22 @@
 package unsw.loopmania;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import unsw.loopmania.Items.Weapons.Weapon;
 import unsw.loopmania.enemies.BasicEnemy;
 
 public class BattleManager {
     private Character character;
-    private int totalEnemyHp;
-    private int alliesHp;
+    private int critMode;
     private List<Ally> allies;
     private List<BasicEnemy> battleEnemies;
     private List<BasicEnemy> supportEnemies;
     private List<BasicEnemy> defeated;
+    private HashMap<TrancedAlly, BasicEnemy> trancedEnemies;
 
     /**
      * Constructor for the Battle Manager
@@ -25,13 +28,15 @@ public class BattleManager {
         battleEnemies = new ArrayList<BasicEnemy>();
         supportEnemies = new ArrayList<BasicEnemy>();
         defeated = new ArrayList<BasicEnemy>();
+        trancedEnemies = new HashMap<>();
+        critMode = 0;
     }
 
     /**
      * Function that updates what enemies we are battling
      * @param world
      */
-    public void update(LoopManiaWorld world) {
+    public synchronized void update(LoopManiaWorld world) {
         // Loop through enemies in world and add them to lists
         for (BasicEnemy enemy : world.getEnemies()) {
             int br = enemy.getBattleRadius();
@@ -40,7 +45,6 @@ public class BattleManager {
 
             if (enemyP.distanceToCharacter(character) <= br) {
                 battleEnemies.add(enemy);
-                totalEnemyHp += enemy.getHp();
             } else if (enemyP.distanceToCharacter(character) <= sr) {
                 supportEnemies.add(enemy);
             }
@@ -55,119 +59,133 @@ public class BattleManager {
      */
     public List<BasicEnemy> battle() {
 
-        while (totalEnemyHp > 0 && character.getHp() > 0) {
+        while (battleEnemies.size() > 0 && character.getHp() > 0) {
             runTickBattle();
         }
-        /*
-        for (BasicEnemy e : battleEnemies) {
-            if (e.getHp() <= 0) {
-                defeated.add(e);
-            }
-        }
-        for (BasicEnemy e : supportEnemies) {
-            if (e.getHp() <= 0) {
-                defeated.add(e);
-            }
-        }
-        */
-        return defeated;
 
+        // Go through tranced allies, remove them and add them to defeated
+        Iterator<Ally> allyIter = allies.iterator();
+        while (allyIter.hasNext()) {
+            Ally ally = allyIter.next();
+
+            if (ally instanceof TrancedAlly) {
+                defeated.add(trancedEnemies.get(ally));
+                allies.remove(ally);
+            }
+        }
+        
+        return defeated;
     }
     
     /**
      * Function that runs a single turn of a battle
      * @return the total enemy hp after battle has finished
      */
-    public void runTickBattle() {
+    public synchronized void runTickBattle() {
         Weapon weapon = character.getWeapon();
-        int enemyDmg = 0;
-        int characterDmg = 0;
-        int weaponDmg = 0;
+        BasicEnemy target = battleEnemies.get(0);
+        // int partyDmg for battle log if wanted
 
-        // No weapon
-        if (weapon != null) {
-            weaponDmg = weapon.getDamageValue();
+        // Deal character's base dmg/weapon dmg
+        if (weapon != null && randomRoll() < weapon.getCritChance() * 100) {
+            BasicEnemy trancedEnemy = character.critAttack(battleEnemies);
+
+            // Add tranced ally if it exists due to staff crit
+            if (trancedEnemy != null) {
+                TrancedAlly trancedAlly =
+                        new TrancedAlly(character.getPosition());
+                trancedEnemies.put(trancedAlly, trancedEnemy);
+                allies.add(trancedAlly);
+            }
+        
+        } else {
+            character.attack(target);
         }
 
-        characterDmg = (character.getDmg() + weaponDmg) * 4;
-
-        // Character is buffed
-        if (character.getBuffStatus()) {
-            characterDmg *= 2;
+        // Deal ally damage (update target in case of trance)
+        allies = character.getAllyList();
+        if (battleEnemies.size() > 0) {
+            target = battleEnemies.get(0);
+        } else {
+            target = null;
         }
-
-        // Checking for allies and adding damage
-        for (Ally ally : allies) {
-            if (ally.getHp() > 0) {
-                characterDmg += ally.getDmg() * 4;
+        
+        if (target != null) {
+            for (Ally ally : allies) {
+                ally.attack(target);
             }
         }
 
-        // Getting total enemy dmg
-        for (BasicEnemy enemy : battleEnemies) {
-            if (enemy.getHp() > 0) {
-                enemyDmg += enemy.getDmg() * 4;
-            }
-        }
-        for (BasicEnemy enemy : supportEnemies) {
-            if (enemy.getHp() > 0) {
-                enemyDmg += enemy.getDmg() * 2;
-            }
-        }
+        // Iterate through allies in search of tranced allies
+        Iterator<Ally> trancedIter = allies.iterator();
+        while (trancedIter.hasNext()) {
+            Ally ally = trancedIter.next();
 
-        // Applying damage to character and first ally
-        character.setHp(character.getHp() - enemyDmg);
-
-        for (Ally ally : allies) {
-            if (ally.getHp() > 0) {
-                ally.setHp(ally.getHp() - enemyDmg);
-                break;
-            }
-        }
-        List<BasicEnemy> remove = new ArrayList<BasicEnemy>();
-
-        // Applying damage to first enemy
-        for (BasicEnemy enemy : battleEnemies) {
-            if (enemy.getHp() > 0) {
-                enemy.setHp(enemy.getHp() - characterDmg);
-
-                // Subtract from totalEnemyHp
-                if (enemy.getHp() <= 0) {
-                    totalEnemyHp -= (characterDmg + enemy.getHp());
-                    remove.add(enemy);
-                    defeated.add(enemy);
-                } else {
-                    totalEnemyHp -= characterDmg;
+            // Find tranced allies and check if their trance duration has run
+            // out
+            if (ally instanceof TrancedAlly) {
+                TrancedAlly clone = (TrancedAlly) ally;
+                
+                if (clone.getTranceDuration() == 0) {
+                    trancedIter.remove();
+                    battleEnemies.add(trancedEnemies.get(clone));
                 }
-                break;
             }
         }
 
-        for (BasicEnemy e : remove) {
-            battleEnemies.remove(e);
+        // Defeat enemy if hp is less than 0
+        if (target != null && target.getHp() <= 0) {
+            defeated.add(battleEnemies.remove(0));
         }
-        remove = new ArrayList<BasicEnemy>();
 
-        // Doing tower damage if it is in the battle -100 TO ALL
+        // Deal each enemy's damage
+        for (int i = 0; i < battleEnemies.size(); i++) {
+            BasicEnemy enemy = battleEnemies.get(0);
+
+            if (randomRoll() < enemy.getCritChance() * 100) {
+                enemy.critAttack(character, battleEnemies);
+            } else {
+                enemy.attack(character);
+            }
+        }
+
+        // Deal support enemy's damage
+        for (BasicEnemy enemy : supportEnemies) {
+            enemy.supportAttack(character);
+        }
+
+        // Deal tower damage if in range (-100 to all)
         if (character.getIsSupported()) {
             for (BasicEnemy enemy : battleEnemies) {
-                if (enemy.getHp() > 0) {
-                    enemy.setHp(enemy.getHp() - 100);
-
-                    // Subtract from totalEnemyHp
-                    if (enemy.getHp() <= 0) {
-                        totalEnemyHp -= (100 + enemy.getHp());
-                        defeated.add(enemy);
-                        remove.add(enemy);
-                    } else {
-                        totalEnemyHp -= 100;
-                    }
-                }
+                enemy.setHp(enemy.getHp() - 100);
+            }
+            for (BasicEnemy enemy : supportEnemies) {
+                enemy.setHp(enemy.getHp() - 100);
             }
         }
-        for (BasicEnemy e : remove) {
-            battleEnemies.remove(e);
+
+        // Loop through enemies and remove all defeated enemies due to tower
+        Iterator<BasicEnemy> battleIter = battleEnemies.iterator();
+        Iterator<BasicEnemy> supportIter = supportEnemies.iterator();
+
+        while (battleIter.hasNext()) {
+            BasicEnemy enemy = battleIter.next();
+
+            if (enemy.getHp() <= 0) {
+                battleIter.remove();
+                defeated.add(enemy);
+            }
         }
+
+        while (supportIter.hasNext()) {
+            BasicEnemy enemy = supportIter.next();
+
+            if (enemy.getHp() <= 0) {
+                supportIter.remove();
+                defeated.add(enemy);
+            }
+        }
+
     }
 
     public List<Ally> getAllies() {
@@ -181,5 +199,35 @@ public class BattleManager {
     public List<BasicEnemy> getSupportEnemies() {
         return supportEnemies;
     }
+
+    /**
+     * Function that sets crit mode for testing purposes
+     * @param critMode 0: default behaviour
+     * @param critMode 1: crits disabled
+     * @param critMode 2: always crits
+     */
+    public void setCritMode(int critMode) {
+        this.critMode = critMode;
+    }
     
+    /**
+     * Does a random roll between 0-99 inclusive
+     * @return the roll value
+     */
+    public int randomRoll() {
+        Random random = new Random();
+
+        // Default behaviour during game
+        if (critMode == 0) {
+            return random.nextInt(100);
+
+        // If crits have been disabled for testing
+        } else if (critMode == 1) {
+            return 100;
+        
+        // If crits have been set to certain for testing
+        } else {
+            return -1;
+        }
+    }
 }

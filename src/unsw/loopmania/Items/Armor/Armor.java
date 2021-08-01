@@ -5,21 +5,20 @@ import unsw.loopmania.Items.Item;
 
 public abstract class Armor extends Item {
     
-    private BlockBehaviour blockBehaviourType;
+    private ArmorBlock armorBlockType;
 
     public Armor(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
-        //TODO Auto-generated constructor stub
     }
-    public void setBlockBehaviour(BlockBehaviour newBlockBehaviourType){
-        blockBehaviourType = newBlockBehaviourType;
+    public void setBlockBehaviour(ArmorBlock newArmorBlockType){
+        armorBlockType = newArmorBlockType;
     }
 
-    public BlockBehaviour getBlockType(){
-        return blockBehaviourType;
+    public ArmorBlock getArmorBlockType(){
+        return armorBlockType;
     }
     
-    public Double getDamageTakenModifier() {
-        return getBlockType().getDamageTakenModifier();
+    public Double getDamageBlockModifier() {
+        return armorBlockType.getPercentDamageBlocked();
     }
 }
