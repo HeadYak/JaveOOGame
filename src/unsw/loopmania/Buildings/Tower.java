@@ -81,9 +81,11 @@ public class Tower extends Building implements Support{
 
     /**
      * @param world
+     * @return null
      * performs the buildings action on every new loop
      */
     @Override
-    public void newLoop(LoopManiaWorld world) {
+    public BasicEnemy newLoop(LoopManiaWorld world) {
+        return null;
     }
 }

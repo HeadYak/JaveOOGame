@@ -74,10 +74,11 @@ public class Barracks extends Building{
 
     /**
      * @param world
-     * @param character
+     * @return null
      * performs the buildings action on every new loop
      */
     @Override
-    public void newLoop(LoopManiaWorld world) {
+    public BasicEnemy newLoop(LoopManiaWorld world) {
+        return null;
     }
 }
