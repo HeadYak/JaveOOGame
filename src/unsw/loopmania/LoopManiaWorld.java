@@ -531,34 +531,28 @@ public class LoopManiaWorld {
 
         // Fight enemies
         battleManager.update(this);
-        if (battleManager.getBattleEnemies().size() != 0) {
-            List<BasicEnemy> killList = new ArrayList<BasicEnemy>();
-            killList = battleManager.battle();
-            lastLog = battleManager.getFinalBattleLog();
-            lastSummary = battleManager.getFinalSummaryLog();
-            defeatedEnemies = killList;
-            for (BasicEnemy enemy : killList) {
-                killEnemy(enemy);
-            }
-            if (goals != null) {
-                if (goals.update()) {
-                    win();
-                }
-            }
-    
-            if (character.getHp() <= 0) {
-                lose();
+        List<BasicEnemy> killList = new ArrayList<BasicEnemy>();
+        killList = battleManager.battle();
+        defeatedEnemies = killList;
+        for (BasicEnemy enemy : killList) {
+            killEnemy(enemy);
+        }
+        /*if (goals != null) {
+            if (goals.update()) {
+                win();
             }
         }
+
+        if (character.getHp() <= 0) {
+            lose();
+        }*/
     }
 
-    public void win() {
-        //TODO implement a way to change to win screen
+    public Boolean goals() {
+        return goals.update();
     }
 
-    public void lose() {
-        //TODO implement a way to change to game over screen
-    }
+
 
     /**
      * remove an item by x,y coordinates
@@ -568,6 +562,9 @@ public class LoopManiaWorld {
     public void removeUnequippedInventoryItemByCoordinates(int x, int y){
         Item item = getUnequippedInventoryItemEntityByCoordinates(x, y);
         removeUnequippedInventoryItem(item);
+        if (item instanceof Sword) {
+
+        } //else if (item instanceof )
         //return item;
     }
     

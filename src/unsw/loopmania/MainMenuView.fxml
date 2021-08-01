@@ -42,7 +42,7 @@
             <Font name="Tempus Sans ITC" size="26.0" />
          </font>
       </Button>
-      <ImageView fitHeight="56.0" fitWidth="352.0" layoutX="136.0" layoutY="570.0" onMousePressed="#switchToGame" pickOnBounds="true">
+      <ImageView fitHeight="56.0" fitWidth="352.0" layoutX="136.0" layoutY="570.0" pickOnBounds="true">
          <image>
             <Image url="@../../images/button_asset.png" />
          </image>
@@ -52,7 +52,7 @@
             <Font name="Tempus Sans ITC" size="26.0" />
          </font>
       </Button>
-      <ImageView fitHeight="56.0" fitWidth="352.0" layoutX="512.0" layoutY="570.0" onMousePressed="#switchToGame" pickOnBounds="true">
+      <ImageView fitHeight="56.0" fitWidth="352.0" layoutX="512.0" layoutY="570.0" pickOnBounds="true">
          <image>
             <Image url="@../../images/button_asset.png" />
          </image>
@@ -62,7 +62,7 @@
             <Font name="Tempus Sans ITC" size="26.0" />
          </font>
       </Button>
-      <ImageView fitHeight="56.0" fitWidth="687.0" layoutX="155.0" layoutY="254.0" onMousePressed="#switchToGame" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="56.0" fitWidth="687.0" layoutX="155.0" layoutY="254.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../images/button_asset.png" />
          </image>
@@ -72,7 +72,7 @@
             <Font name="Tempus Sans ITC" size="26.0" />
          </font>
       </Button>
-      <ImageView fitHeight="56.0" fitWidth="687.0" layoutX="157.0" layoutY="332.0" onMousePressed="#switchToGame" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="56.0" fitWidth="687.0" layoutX="157.0" layoutY="332.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../images/button_asset.png" />
          </image>
@@ -82,7 +82,7 @@
             <Font name="Tempus Sans ITC" size="26.0" />
          </font>
       </Button>
-      <ImageView fitHeight="56.0" fitWidth="687.0" layoutX="157.0" layoutY="403.0" onMousePressed="#switchToGame" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="56.0" fitWidth="687.0" layoutX="157.0" layoutY="403.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../images/button_asset.png" />
          </image>
@@ -92,7 +92,7 @@
             <Font name="Tempus Sans ITC" size="26.0" />
          </font>
       </Button>
-      <ImageView fitHeight="56.0" fitWidth="687.0" layoutX="157.0" layoutY="476.0" onMousePressed="#switchToGame" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="56.0" fitWidth="687.0" layoutX="157.0" layoutY="476.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../images/button_asset.png" />
          </image>
