@@ -51,6 +51,7 @@ import unsw.loopmania.Cards.ZombiePitCard;
 import unsw.loopmania.Items.Weapons.Stake;
 import unsw.loopmania.Items.Weapons.Sword;
 import unsw.loopmania.Items.HealthPotion;
+import unsw.loopmania.Items.Item;
 import unsw.loopmania.Items.Armor.Armor;
 import unsw.loopmania.Items.Armor.Helmet;
 import unsw.loopmania.Items.Armor.basicChestArmor;
@@ -70,9 +71,6 @@ import java.io.IOException;
  */
 enum DRAGGABLE_TYPE{
     CARD,
-    PATH_CARD,
-    PATH_ADJACENT_CARD,
-    NON_PATH_CARD,
     ITEM
 }
 
@@ -131,7 +129,7 @@ public class LoopManiaWorldController {
     private GridPane unequippedInventory;
     
     /**
-     *  Stats related: HP, EXP, Gold
+     *  Stats related: HP, EXP, Gold, Loops, Goals
      */
     @FXML
     private Text currentHP;
@@ -150,6 +148,15 @@ public class LoopManiaWorldController {
 
     @FXML
     private Text loops;
+
+    @FXML
+    private Text goals;
+
+    @FXML
+    private ImageView text_box;
+
+    @FXML
+    private Text text_box_text;
 
     // all image views including tiles, character, enemies, cards... even though cards in separate gridpane...
     private List<ImageView> entityImages;
@@ -172,6 +179,8 @@ public class LoopManiaWorldController {
     private Image slugImage;
     private Image zombieImage;
     private Image vampireImage;
+    private Image doggieImage;
+    private Image elanMuskeImage;
 
     // Building Images
     private Image basicBuildingImage;
@@ -192,7 +201,10 @@ public class LoopManiaWorldController {
     private Image helmetImage;
     private Image goldImage;
     private Image healthPotionImage;
+    private Image doggieCoinImage;
     private Image oneRingImage;
+    private Image andruilImage;
+    private Image treeStumpImage;
 
     /**
      * the image currently being dragged, if there is one, otherwise null.
@@ -244,6 +256,9 @@ public class LoopManiaWorldController {
         slugImage = new Image((new File("src/images/pipo_slug.png")).toURI().toString());
         zombieImage = new Image((new File("src/images/zombie.png")).toURI().toString());
         vampireImage = new Image((new File("src/images/vampire.png")).toURI().toString());
+        doggieImage = new Image((new File("src/images/doggie.png")).toURI().toString());
+        elanMuskeImage = new Image((new File("src/images/ElanMuske.png")).toURI().toString());
+
 
         // Building Images
         vampireCastleImage = new Image((new File("src/images/vampire_castle.png")).toURI().toString());
@@ -263,7 +278,12 @@ public class LoopManiaWorldController {
         helmetImage = new Image((new File("src/images/helmet.png")).toURI().toString());
         goldImage = new Image((new File("src/imagess/gold.png")).toURI().toString());
         healthPotionImage = new Image((new File("src/images/healthPotion.png")).toURI().toString());
+        doggieCoinImage = new Image((new File("src/images/doggiecoin.png")).toURI().toString());
+
+        // Rare Items Images
         oneRingImage = new Image((new File("src/images/ring.png")).toURI().toString());
+        andruilImage = new Image((new File("src/images/andruil_flame_of_the_west.png")).toURI().toString());
+        treeStumpImage = new Image((new File("src/images/tree_stump.png")).toURI().toString());
 
         currentlyDraggedImage = null;
         currentlyDraggedType = null;
@@ -274,13 +294,12 @@ public class LoopManiaWorldController {
         anchorPaneRootSetOnDragDropped = new EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>>(DRAGGABLE_TYPE.class);
         gridPaneNodeSetOnDragEntered = new EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>>(DRAGGABLE_TYPE.class);
         gridPaneNodeSetOnDragExited = new EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>>(DRAGGABLE_TYPE.class);
-    }
+    } 
 
     @FXML
     public void initialize() {
         // TODO = load more images/entities during initialization
-        
-        Image pathTilesImage = new Image((new File("src/images/32x32GrassAndDirtPath.png")).toURI().toString());
+        Image pathTilesImage = new Image((new File("src/images/new_map.png")).toURI().toString());
         Image inventorySlotImage = new Image((new File("src/images/equipment_slot.png")).toURI().toString());
         Rectangle2D imagePart = new Rectangle2D(0, 0, 32, 32);
         
@@ -343,10 +362,22 @@ public class LoopManiaWorldController {
             for (BasicEnemy newEnemy: newEnemies){
                 onLoad(newEnemy);
             }
+            updateStats();   
             printThreadingNotes("HANDLED TIMER");
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
+    }
+
+    /**
+     * Updates HP, EXP, Gold, Loops on front-end
+     */
+    public void updateStats() {
+        currentHP.setText(String.valueOf(world.getCharacter().getHp()));
+        maxHP.setText(String.valueOf(world.getCharacter().getMaxHp()));
+        currentEXP.setText(String.valueOf(world.getCharacter().getXp()));
+        gold.setText(String.valueOf(world.getCharacter().getGold()));
+        loops.setText(String.valueOf(world.getLoops()));
     }
 
     /**
@@ -558,6 +589,9 @@ public class LoopManiaWorldController {
             if (rand.nextInt(10) == 9) {
                 loadStaff();
             }
+                loadVillageCard();
+                loadCampfireCard();
+                loadVampireCard();
         } else {
             Random rand = new Random();
             if (rand.nextInt(2) == 0) {
@@ -677,6 +711,58 @@ public class LoopManiaWorldController {
         cards.getChildren().add(view);
     }
 
+     /**
+     * load an item into the GUI according to its subclass
+     * @param item
+     */
+    /*private void onLoad(Item item){
+        if (item instanceof Sword) {
+            ImageView view = new ImageView(swordImage);
+            addEntity(item, view);
+            squares.getChildren().add(view);
+        } else if (item instanceof Stake) {
+            ImageView view = new ImageView(stakeImage);
+            addEntity(item, view);
+            squares.getChildren().add(view);
+        } else if (item instanceof Staff) {
+            ImageView view = new ImageView(staffImage);
+            addEntity(item, view);
+            squares.getChildren().add(view);
+        }  else if (item instanceof basicChestArmor) {
+            ImageView view = new ImageView(armourImage);
+            addEntity(item, view);
+            squares.getChildren().add(view);
+        }/*  else if (item instanceof Shield) {
+            ImageView view = new ImageView(shieldImage);
+            addEntity(item, view);
+            squares.getChildren().add(view);
+        }*/ /*else if (item instanceof Helmet) {
+            ImageView view = new ImageView(helmetImage);
+            addEntity(item, view);
+            squares.getChildren().add(view);
+        }  else if (item instanceof HealthPotion) {
+            ImageView view = new ImageView(healthPotionImage);
+            addEntity(item, view);
+            squares.getChildren().add(view);
+        }/*  else if (item instanceof DoggieCoin) {
+            ImageView view = new ImageView(doggieCoinImage);
+            addEntity(item, view);
+            squares.getChildren().add(view);
+        }  else if (item instanceof OneRing) {
+            ImageView view = new ImageView(oneRingImage);
+            addEntity(item, view);
+            squares.getChildren().add(view);
+        }  else if (item instanceof Andruil) {
+            ImageView view = new ImageView(andruilImage);
+            addEntity(item, view);
+            squares.getChildren().add(view);
+        }  else if (item instanceof TreeStump) {
+            ImageView view = new ImageView(treeStumpImage);
+            addEntity(item, view);
+            squares.getChildren().add(view);
+        } 
+    }*/
+    
     /**
      * load a sword into the GUI.
      * Particularly, we must connect to the drag detection event handler,
@@ -772,7 +858,15 @@ public class LoopManiaWorldController {
             ImageView view = new ImageView(slugImage);
             addEntity(enemy, view);
             squares.getChildren().add(view);
-        } else {
+        }/* else if (enemy instanceof Doggie) {
+            ImageView view = new ImageView(doggieImage);
+            addEntity(enemy, view);
+            squares.getChildren().add(view);
+        } else if (enemy instanceof ElanMuske) {
+            ImageView view = new ImageView(elanMuskeImage);
+            addEntity(enemy, view);
+            squares.getChildren().add(view);
+        }*/ else {
             ImageView view = new ImageView(slugImage);
             addEntity(enemy, view);
             squares.getChildren().add(view);
@@ -948,19 +1042,7 @@ public class LoopManiaWorldController {
                  * or simply allow the card/item to return to its slot (the latter is easier, as you won't have to store the last valid drop location!)
                  */
                 if (currentlyDraggedType == draggableType){
-                    /*if (currentlyDraggedImage.getImage().equals(vampireCastleImage)
-                    || currentlyDraggedImage.getImage().equals(zombiePitImage)
-                    || currentlyDraggedImage.getImage().equals(towerImage)) {
-
-
-                    } else if (currentlyDraggedImage.getImage().equals(villageImage)
-                    || currentlyDraggedImage.getImage().equals(barracksImage)
-                    || currentlyDraggedImage.getImage().equals(trapImage)) {
-
-                    } else {
-                        
-                    }*/
-                    
+                    boolean dropSuccess = false;      
                     // problem = event is drop completed is false when should be true...
                     // https://bugs.openjdk.java.net/browse/JDK-8117019
                     // putting drop completed at start not making complete on VLAB...
@@ -969,7 +1051,7 @@ public class LoopManiaWorldController {
                     //If there is an image on the dragboard, read it and use it
                     Dragboard db = event.getDragboard();
                     Node node = event.getPickResult().getIntersectedNode();
-                    if(node != targetGridPane && db.hasImage()){
+                    if (node != targetGridPane && db.hasImage()){
 
                         Integer cIndex = GridPane.getColumnIndex(node);
                         Integer rIndex = GridPane.getRowIndex(node);
@@ -984,24 +1066,45 @@ public class LoopManiaWorldController {
                             case CARD:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                 Building newBuilding = convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
-                                onLoad(newBuilding);
+                                if (newBuilding != null) {
+                                    onLoad(newBuilding);
+                                    dropSuccess = true;
+                                } 
                                 break;
                             case ITEM:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                 // TODO = spawn an item in the new location. The above code for spawning a building will help, it is very similar
+                            
+                                // onLoad(Item);
                                 removeItemByCoordinates(nodeX, nodeY);
                                 targetGridPane.add(image, x, y, 1, 1);
                                 break;
                             default:
                                 break;
                         }
+                        if (dropSuccess) {
+                            draggedEntity.setVisible(false);
+                            draggedEntity.setMouseTransparent(false);
+                            // remove drag event handlers before setting currently dragged image to null
+                            currentlyDraggedImage = null;
+                            currentlyDraggedType = null;
+                            printThreadingNotes("DRAG DROPPED ON GRIDPANE HANDLED");
+                        } else {
+                            //Data dropped
+                            //If there is an image on the dragboard, read it and use it
+                            if (node != targetGridPane && db.hasImage()){
+                                //Places at 0,0 - will need to take coordinates once that is implemented
+                                currentlyDraggedImage.setVisible(true);
+                                draggedEntity.setVisible(false);
+                                draggedEntity.setMouseTransparent(false);
+                                // remove drag event handlers before setting currently dragged image to null
+                                removeDraggableDragEventHandlers(draggableType, targetGridPane);
+                                
+                                currentlyDraggedImage = null;
+                                currentlyDraggedType = null;
+                            }           
+                        }
                         
-                        draggedEntity.setVisible(false);
-                        draggedEntity.setMouseTransparent(false);
-                        // remove drag event handlers before setting currently dragged image to null
-                        currentlyDraggedImage = null;
-                        currentlyDraggedType = null;
-                        printThreadingNotes("DRAG DROPPED ON GRIDPANE HANDLED");
                     }
                 }
                 event.setDropCompleted(true);
@@ -1131,10 +1234,11 @@ public class LoopManiaWorldController {
                     gridPaneNodeSetOnDragEntered.put(draggableType, new EventHandler<DragEvent>() {
                         // TODO = be more selective about whether highlighting changes - if it cannot be dropped in the location, the location shouldn't be highlighted!
                         public void handle(DragEvent event) {
-                            if (currentlyDraggedType == draggableType){
+                            if (currentlyDraggedType == draggableType) {
                             //The drag-and-drop gesture entered the target
                             //show the user that it is an actual gesture target
-                                if(event.getGestureSource() != n && event.getDragboard().hasImage()){
+                                if(event.getGestureSource() != n && event.getDragboard().hasImage()) {
+                                    
                                     n.setOpacity(0.7);
                                 }
                             }

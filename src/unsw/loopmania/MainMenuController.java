@@ -25,4 +25,12 @@ public class MainMenuController {
     private void switchToGame() throws IOException {
         gameSwitcher.switchMenu();
     }
+
+    /**
+     * quit game
+     */
+    @FXML
+    private void quit() {
+        System.exit(0);
+    }
 }

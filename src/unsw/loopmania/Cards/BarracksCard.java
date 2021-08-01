@@ -30,23 +30,34 @@ public class BarracksCard extends Card {
     }
 
     @Override
-    public void placeCard(LoopManiaWorld world, SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        // Pair<SimpleIntegerProperty, SimpleIntegerProperty> cardCoord = new Pair<>(x, y);
-
+    public boolean isCardPlaceable(LoopManiaWorld world, SimpleIntegerProperty x, SimpleIntegerProperty y) {
         List<Pair<Integer, Integer>> validTiles = getValidTilesList(world);
 
-        int tempx = x.get();
-        int tempy = y.get();
+        Pair<Integer, Integer> tempcardCoord = new Pair<>(x.get(), y.get());
+    // public void placeCard(LoopManiaWorld world, SimpleIntegerProperty x, SimpleIntegerProperty y) {
+    //     // Pair<SimpleIntegerProperty, SimpleIntegerProperty> cardCoord = new Pair<>(x, y);
 
-        Pair<Integer, Integer> tempcardCoord = new Pair<>(tempx, tempy);
+    //     List<Pair<Integer, Integer>> validTiles = getValidTilesList(world);
 
-        System.out.println(validTiles);
+    //     int tempx = x.get();
+    //     int tempy = y.get();
+
+    //     Pair<Integer, Integer> tempcardCoord = new Pair<>(tempx, tempy);
+
+    //     System.out.println(validTiles);
         if (validTiles.contains(tempcardCoord)) {
-
-            Barracks newBarracks = new Barracks(x, y);
-            world.addBuilding(newBarracks);
-
+            return true;
+        } else {
+            return false;
         }
+    }
+
+    @Override
+    public void placeCard(LoopManiaWorld world, SimpleIntegerProperty x, SimpleIntegerProperty y) {
+        Pair<SimpleIntegerProperty, SimpleIntegerProperty> cardCoord = new Pair<>(x, y);
+
+        Barracks newBarracks = new Barracks(x, y);
+        world.addBuilding(newBarracks);
 
     }
 
