@@ -131,7 +131,7 @@ public class SummaryBuilder implements LogBuilder {
 
     @Override
     public void setAttackExchange(int playerDmg, int enemyDmg, int targetHp) {
-        hpTracker -= enemyDmg;
+        hpTracker = hpTracker - enemyDmg;
         body.add("PLAYER party dealt " + playerDmg +
                 " to enemies: current target's hp at " + targetHp);
         body.add("ENEMY party dealt " + enemyDmg +
@@ -141,9 +141,9 @@ public class SummaryBuilder implements LogBuilder {
     @Override
     public void setFinalHp(int finalHp) {
         if (finalHp > 0) {
-            conclusion.add("Battle finished with " + finalHp);
+            conclusion.add("Battle finished with " + finalHp + " hp");
         } else {
-            conclusion.add("GAME OVER" + finalHp);
+            conclusion.add("GAME OVER");
         }
     }
 
@@ -177,10 +177,10 @@ public class SummaryBuilder implements LogBuilder {
             i++;
         }
 
-        introduction.add(rewarded);
-        introduction.add("    + " + pots + " health potions");
-        introduction.add("    + " + xp + " xp");
-        introduction.add("    + " + gold + " gold");
+        conclusion.add(rewarded);
+        conclusion.add("    + " + pots + " health potions");
+        conclusion.add("    + " + xp + " xp");
+        conclusion.add("    + " + gold + " gold");
     }
     
     public Summary getResult() {

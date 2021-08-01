@@ -64,8 +64,8 @@ public class BattleManager {
      * @return
      */
     public List<BasicEnemy> battle() {
-        BattleLogBuilder battleLogBuilder = new BattleLogBuilder();
-        SummaryBuilder summaryBuilder = new SummaryBuilder();
+        battleLogBuilder = new BattleLogBuilder();
+        summaryBuilder = new SummaryBuilder();
 
         buildSetup(battleLogBuilder, summaryBuilder);
 
@@ -86,6 +86,7 @@ public class BattleManager {
         }
 
         buildResult(battleLogBuilder, summaryBuilder);
+        System.out.println(summaryBuilder.getResult().printMe());
         return defeated;
     }
     
@@ -115,12 +116,12 @@ public class BattleManager {
                         new TrancedAlly(character.getPosition(), trancedEnemy);
                 allies.add(trancedAlly);
             } else {
-                totalPlayerDmg += targetHpSnapshot - target.getHp();
+                totalPlayerDmg += (targetHpSnapshot - target.getHp());
             }
         
         } else {
             character.attack(target);
-            totalPlayerDmg += targetHpSnapshot - target.getHp();
+            totalPlayerDmg += (targetHpSnapshot - target.getHp());
         }
 
         // Deal ally damage (update target in case of trance)
@@ -138,7 +139,7 @@ public class BattleManager {
                 ally.attack(target);
             }
 
-            totalPlayerDmg += targetHpSnapshot - target.getHp();
+            totalPlayerDmg += (targetHpSnapshot - target.getHp());
             targetHpSnapshot = target.getHp();
         }
 

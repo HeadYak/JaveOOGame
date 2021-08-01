@@ -11,7 +11,12 @@ import unsw.loopmania.Character;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.Buildings.HeroCastle;
+import unsw.loopmania.Buildings.Tower;
+import unsw.loopmania.Items.Armor.basicChestArmor;
+import unsw.loopmania.Items.Weapons.Staff;
 import unsw.loopmania.enemies.Slug;
+import unsw.loopmania.enemies.Vampire;
+import unsw.loopmania.enemies.Zombie;
 
 public class BattleLogTest {
     List<Pair<Integer, Integer>> path = Arrays.asList(
@@ -51,8 +56,39 @@ public class BattleLogTest {
         HeroCastle heroCastle = new HeroCastle(cX, cY);
         world.addBuilding(heroCastle);
 
+        // Equip character
+        SimpleIntegerProperty x = new SimpleIntegerProperty();
+        SimpleIntegerProperty y = new SimpleIntegerProperty();
+
+        Staff staff = new Staff(x, y);
+        playerChar.setWeapon(staff);
+        
+        basicChestArmor armor = new basicChestArmor(x, y);
+        playerChar.setChestArmor(armor);
+
+        // Spawn 2 high health slug to fight
         PathPosition slugP = new PathPosition(0, path);
         Slug slug = new Slug(slugP);
+        slug.setHp(1000);
         world.addEnemy(slug);
+        world.addEnemy(slug);
+
+        // Spawn a zombie and vampire to support the battle
+        PathPosition zombieP = new PathPosition(3, path);
+        Zombie zombie = new Zombie(zombieP, playerChar);
+        world.addEnemy(zombie);
+
+        PathPosition vampireP = new PathPosition(6, path);
+        Vampire vampire = new Vampire(vampireP, world);
+        world.addEnemy(vampire);
+
+        // Spawn a tower in battle
+        x = new SimpleIntegerProperty(1);
+        y = new SimpleIntegerProperty(2);
+        Tower tower = new Tower(x, y);
+        world.addBuilding(tower);
+
+        // Battle
+        world.runTickMoves();
     }
 }

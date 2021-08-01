@@ -56,7 +56,7 @@ public class Summary {
             i++;
         }
 
-        return bodyParts;
+        return bodyParts.trim() + "\n";
     }
 
     /**
