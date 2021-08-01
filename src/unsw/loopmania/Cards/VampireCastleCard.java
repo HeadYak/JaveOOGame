@@ -27,26 +27,23 @@ public class VampireCastleCard extends Card {
     }
 
     @Override
+    public boolean isCardPlaceable(LoopManiaWorld world, SimpleIntegerProperty x, SimpleIntegerProperty y) {
+        List<Pair<Integer, Integer>> validTiles = getValidTilesList(world);
+
+        Pair<Integer, Integer> tempcardCoord = new Pair<>(x.get(), y.get());
+        if (validTiles.contains(tempcardCoord)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
     public void placeCard(LoopManiaWorld world, SimpleIntegerProperty x, SimpleIntegerProperty y) {
         Pair<SimpleIntegerProperty, SimpleIntegerProperty> cardCoord = new Pair<>(x, y);
 
-        List<Pair<Integer, Integer>> validTiles = getValidTilesList(world);
-
-        // System.out.println(cardCoord);
-
-        int tempx = x.get();
-        int tempy = y.get();
-
-        Pair<Integer, Integer> tempcardCoord = new Pair<>(tempx, tempy);
-
-        // System.out.println(validTiles);
-
-        if (validTiles.contains(tempcardCoord)) {
-            System.out.println("Yoyo");
-            VampireCastleBuilding newVampireCastle = new VampireCastleBuilding(x, y);
-            world.addBuilding(newVampireCastle);
-
-        }
+        VampireCastleBuilding newVampireCastle = new VampireCastleBuilding(x, y);
+        world.addBuilding(newVampireCastle);
 
     }
  

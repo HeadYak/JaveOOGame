@@ -166,7 +166,6 @@ public class LoopManiaWorld {
     public VampireCastleCard loadVampireCard(){
         // if adding more cards than have, remove the first card...
         if (cardEntities.size() >= getWidth()){
-            // TODO = give some cash/experience/item rewards for the discarding of the oldest card
             removeCard(0);
             character.addGold(5);
             character.addXp(5);
@@ -179,7 +178,6 @@ public class LoopManiaWorld {
     public ZombiePitCard loadZombieCard() {
         // if adding more cards than have, remove the first card...
         if (cardEntities.size() >= getWidth()) {
-            // TODO = give some cash/experience/item rewards for the discarding of the
             // oldest card
             removeCard(0);
             character.addGold(5);
@@ -195,7 +193,6 @@ public class LoopManiaWorld {
     public CampfireCard loadCampfireCard() {
         // if adding more cards than have, remove the first card...
         if (cardEntities.size() >= getWidth()) {
-            // TODO = give some cash/experience/item rewards for the discarding of the
             // oldest card
             removeCard(0);
             character.addGold(5);
@@ -210,7 +207,6 @@ public class LoopManiaWorld {
     public TowerCard loadTowerCard() {
         // if adding more cards than have, remove the first card...
         if (cardEntities.size() >= getWidth()) {
-            // TODO = give some cash/experience/item rewards for the discarding of the
             // oldest card
             removeCard(0);
             character.addGold(5);
@@ -224,7 +220,6 @@ public class LoopManiaWorld {
 
     public TrapCard loadTrapCard(){
         if (cardEntities.size() >= getWidth()) {
-            // TODO = give some cash/experience/item rewards for the discarding of the
             // oldest card
             removeCard(0);
             character.addGold(5);
@@ -239,7 +234,6 @@ public class LoopManiaWorld {
 
     public VillageCard loadVillageCard() {
         if (cardEntities.size() >= getWidth()) {
-            // TODO = give some cash/experience/item rewards for the discarding of the
             // oldest card
             removeCard(0);
             character.addGold(5);
@@ -253,7 +247,6 @@ public class LoopManiaWorld {
 
     public BarracksCard loadBarracksCard() {
         if (cardEntities.size() >= getWidth()) {
-            // TODO = give some cash/experience/item rewards for the discarding of the
             // oldest card
             removeCard(0);
             character.addGold(5);
@@ -286,7 +279,6 @@ public class LoopManiaWorld {
      * @return a sword to be spawned in the controller as a JavaFX node
      */
     public Sword addUnequippedSword(){
-        // TODO = expand this - we would like to be able to add multiple types of items, apart from swords
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
         if (firstAvailableSlot == null){
             // eject the oldest unequipped item and replace it... oldest item is that at beginning of items
@@ -296,13 +288,14 @@ public class LoopManiaWorld {
         }
         
         // now we insert the new sword, as we know we have at least made a slot available...
-        Sword sword = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        Sword sword = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new 
+        SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        
         unequippedInventoryItems.add(sword);
         return sword;
     }
 
     public Stake addUnequippedStake() {
-        // TODO = expand this - we would like to be able to add multiple types of items,
         // apart from swords
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
         if (firstAvailableSlot == null) {
@@ -342,7 +335,6 @@ public class LoopManiaWorld {
     }
 
     public basicChestArmor addUnequippedChestArmor() {
-        // apart from swords
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
         if (firstAvailableSlot == null) {
             // eject the oldest unequipped item and replace it... oldest item is that at
@@ -362,7 +354,6 @@ public class LoopManiaWorld {
     }
 
     public basicHelmet addUnequippedHelmet() {
-        // apart from swords
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
         if (firstAvailableSlot == null) {
             // eject the oldest unequipped item and replace it... oldest item is that at
@@ -401,19 +392,9 @@ public class LoopManiaWorld {
     }
 
     /**
-     * remove an item by x,y coordinates
-     * @param x x coordinate from 0 to width-1
-     * @param y y coordinate from 0 to height-1
-     */
-    public void removeUnequippedInventoryItemByCoordinates(int x, int y){
-        Entity item = getUnequippedInventoryItemEntityByCoordinates(x, y);
-        removeUnequippedInventoryItem(item);
-    }
-
-    /**
      * run moves which occur with every tick without needing to spawn anything immediately
      */
-    public void runTickMoves(){
+    public void runTickMoves() {
         defeatedEnemies.clear();
         character.performMove();
 
@@ -462,6 +443,17 @@ public class LoopManiaWorld {
     }
 
     /**
+     * remove an item by x,y coordinates
+     * @param x x coordinate from 0 to width-1
+     * @param y y coordinate from 0 to height-1
+     */
+    public void removeUnequippedInventoryItemByCoordinates(int x, int y){
+        Item item = getUnequippedInventoryItemEntityByCoordinates(x, y);
+        removeUnequippedInventoryItem(item);
+        //return item;
+    }
+    
+    /**
      * remove an item from the unequipped inventory
      * @param item item to be removed
      */
@@ -477,8 +469,8 @@ public class LoopManiaWorld {
      * @param y y index from 0 to height-1
      * @return unequipped inventory item at the input position
      */
-    private Entity getUnequippedInventoryItemEntityByCoordinates(int x, int y){
-        for (Entity e: unequippedInventoryItems){
+    public Item getUnequippedInventoryItemEntityByCoordinates(int x, int y){
+        for (Item e: unequippedInventoryItems){
             if ((e.getX() == x) && (e.getY() == y)){
                 return e;
             }
@@ -581,18 +573,23 @@ public class LoopManiaWorld {
                 break;
             }
         }
+
+        // Checks if card is placeable, if so spawns building
+        if (card.isCardPlaceable(this, new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY))) {
+            card.placeCard(this, new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
         
-        // now spawn building
-        card.placeCard(this, new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+            Building newBuilding = card.getBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
 
-        Building newBuilding = card.getBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+            // destroy the card
+            card.destroy();
+            cardEntities.remove(card);
+            shiftCardsDownFromXCoordinate(cardNodeX);
 
-        // destroy the card
-        card.destroy();
-        cardEntities.remove(card);
-        shiftCardsDownFromXCoordinate(cardNodeX);
-
-        return newBuilding;
+            return newBuilding;
+        } else {
+            return null;
+        }
+        
     }
 
     /**
