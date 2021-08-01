@@ -31,7 +31,7 @@ public class GoalOr extends GoalComposite{
 
     @Override
     public String toString() {
-        if (goals == null) {
+        if (goals.size() == 0) {
 			return "None";
 		}
         String s = "(";
