@@ -167,7 +167,7 @@ public class SummaryBuilder implements LogBuilder {
             i++;
         }
 
-        conclusion.add(rewarded);
+        // conclusion.add(rewarded);
         conclusion.add("    + " + xp + " xp");
         conclusion.add("    + " + gold + " gold");
     }

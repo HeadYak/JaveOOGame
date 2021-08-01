@@ -24,7 +24,7 @@ public class Zombie extends BasicEnemy {
 
         // Zombie stats
         setMoveSpeed(0.5);
-        setCritChance(0.3);
+        setCritChance(0.1);
         setBattleRadius(1);
         setSupportRadius(2);
         setHp(200);
