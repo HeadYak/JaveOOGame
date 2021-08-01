@@ -17,6 +17,8 @@ import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.Buildings.Campfire;
 import unsw.loopmania.Buildings.HeroCastle;
+import unsw.loopmania.enemies.Doggie;
+import unsw.loopmania.enemies.ElanMuske;
 import unsw.loopmania.enemies.Slug;
 import unsw.loopmania.enemies.Vampire;
 import unsw.loopmania.enemies.Zombie;
@@ -333,5 +335,69 @@ public class EnemyMovementTest {
         assertFalse(vampire.isMovingClockwise());
         assertEquals(0, vampire.getX());
         assertEquals(1, vampire.getY());
+    }
+
+    @Test
+    public void testDoggieMovement() {
+        PathPosition doggieP = new PathPosition(0, path);
+        Doggie doggie = new Doggie(doggieP);
+        world.addEnemy(doggie);
+
+        // Create a character and place him at (8, 7) - furthest from the doggie
+        PathPosition charP = new PathPosition(16, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
+        // Set a Hero Castle where character spawns
+        SimpleIntegerProperty cX = new SimpleIntegerProperty(playerChar.getX());
+        SimpleIntegerProperty cY = new SimpleIntegerProperty(playerChar.getY());
+        HeroCastle heroCastle = new HeroCastle(cX, cY);
+        world.addBuilding(heroCastle);
+
+        // Test that doggie is on the correct position
+        assertEquals(0, doggie.getX());
+        assertEquals(1, doggie.getY());
+
+        // Simulate the movement of enemies by 1
+        world.runTickMoves();
+
+        // Test that doggie has moved
+        assertEquals(0, doggie.getX());
+        assertNotEquals(1, doggie.getY());
+
+        // Test that doggie has moved to (0, 0) or (0, 2)
+        assertTrue(doggie.getY() == 0 || doggie.getY() == 2);
+    }
+
+    @Test
+    public void testElanMuskeMovement() {
+        PathPosition elanP = new PathPosition(0, path);
+        ElanMuske elan = new ElanMuske(elanP);
+        world.addEnemy(elan);
+
+        // Create a character and place him at (8, 7) - furthest from elan
+        PathPosition charP = new PathPosition(16, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
+        // Set a Hero Castle where character spawns
+        SimpleIntegerProperty cX = new SimpleIntegerProperty(playerChar.getX());
+        SimpleIntegerProperty cY = new SimpleIntegerProperty(playerChar.getY());
+        HeroCastle heroCastle = new HeroCastle(cX, cY);
+        world.addBuilding(heroCastle);
+
+        // Test that elan is on the correct position
+        assertEquals(0, elan.getX());
+        assertEquals(1, elan.getY());
+
+        // Simulate the movement of enemies by 1
+        world.runTickMoves();
+
+        // Test that elan has moved
+        assertEquals(0, elan.getX());
+        assertNotEquals(1, elan.getY());
+
+        // Test that elan has moved to (0, 0) or (0, 2)
+        assertTrue(elan.getY() == 0 || elan.getY() == 2);
     }
 }

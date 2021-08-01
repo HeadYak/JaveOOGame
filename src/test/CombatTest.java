@@ -17,9 +17,14 @@ import unsw.loopmania.Buildings.Campfire;
 import unsw.loopmania.Buildings.HeroCastle;
 import unsw.loopmania.Buildings.Tower;
 import unsw.loopmania.Ally;
-import unsw.loopmania.BattleManager;
+import unsw.loopmania.Items.HealthPotion;
+import unsw.loopmania.Items.Armor.ChestArmor;
+import unsw.loopmania.Items.Armor.basicChestArmor;
+import unsw.loopmania.Items.Ring.OneRing;
+import unsw.loopmania.Items.Weapons.FOTW;
 import unsw.loopmania.Items.Weapons.Stake;
 import unsw.loopmania.Items.Weapons.Sword;
+import unsw.loopmania.battles.BattleManager;
 import unsw.loopmania.enemies.*;
 import unsw.loopmania.Character;
 
@@ -41,6 +46,47 @@ public class CombatTest {
     // world.setRandomSpawnRate() = 0;
 
     @Test
+    public void testBattleWithHands() {
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
+        // Create new slug on same tile as player
+        Slug slug = new Slug(charP);
+        world.addEnemy(slug);
+
+        // Simulating battle manually to test each component of battle is
+        // working correctly
+        BattleManager bm = world.getBattleManager();
+        bm.setCritMode(1);
+
+        // Update battle manager with potential enemy and character
+        bm.update(world);
+        assertEquals(bm.getAllies().size(), 0);
+        assertEquals(bm.getSupportEnemies().size(), 0);
+
+        assertEquals(bm.getBattleEnemies().size(), 1);
+        assertTrue(bm.getBattleEnemies().get(0) instanceof Slug);
+
+        // Do a single tick of battle
+        bm.runTickBattle();
+
+        // Check that the damage done by character and slug are the correct
+        // behaviour
+        int newCharHp = 300 - (slug.getDmg() * 4);
+        assertEquals(playerChar.getHp(), newCharHp);
+        int newSlugHp = 100 - (playerChar.getDmg() * 4);
+        assertEquals(slug.getHp(), newSlugHp);
+
+        // Complete battle
+        bm.battle();
+
+        // Test that combat has occurred by checking that the slug is now dead
+        // NOTE: Mathematically impossible for slug to win
+        assertTrue(world.getEnemies().get(0).getHp() <= 0);
+    }
+
+    @Test
     public void testBattleWithSlug() {
         PathPosition charP = new PathPosition(0, path);
         Character playerChar = new Character(charP);
@@ -60,7 +106,7 @@ public class CombatTest {
         // Simulating battle manually to test each component of battle is
         // working correctly
         BattleManager bm = world.getBattleManager();
-        // bm.lowerCrit(BasicEnemy.class, 1);
+        bm.setCritMode(1);
 
         // Update battle manager with potential enemy and character
         bm.update(world);
@@ -77,8 +123,7 @@ public class CombatTest {
         // behaviour
         int newCharHp = 300 - (slug.getDmg() * 4);
         assertEquals(playerChar.getHp(), newCharHp);
-        int newSlugHp = 100 - ((playerChar.getDmg() +
-                sword.getDamageValue()) * 4);
+        int newSlugHp = 100 - (sword.getDamageValue() * 4);
         assertEquals(slug.getHp(), newSlugHp);
 
         // Complete battle
@@ -110,7 +155,7 @@ public class CombatTest {
         // Simulating battle manually to test each component of battle is
         // working correctly
         BattleManager bm = world.getBattleManager();
-        // bm.lowerCrit(BasicEnemy.class, 1);
+        bm.setCritMode(1);
 
         // Update battle manager with potential enemy and character
         bm.update(world);
@@ -127,9 +172,9 @@ public class CombatTest {
         // behaviour
         int newCharHp = 300 - (zombie.getDmg() * 4);
         assertEquals(playerChar.getHp(), newCharHp);
-        int newZombieHp = 200 - ((playerChar.getDmg() +
-                sword.getDamageValue()) * 4);
+        int newZombieHp = 200 - (sword.getDamageValue() * 4);
         assertEquals(zombie.getHp(), newZombieHp);
+
 
         // Complete battle
         bm.battle();
@@ -137,6 +182,21 @@ public class CombatTest {
         // Test that combat has occurred by checking that the zombie is now dead
         // NOTE: Mathematically impossible for zombie to win
         assertTrue(world.getEnemies().get(0).getHp() <= 0);
+
+
+        //Test health potions after combat
+        HealthPotion potion = new HealthPotion(x, y);
+
+
+        assertEquals(playerChar.getInventory().size(),0);
+        playerChar.addToInventory(potion);
+        assertEquals(playerChar.getInventory().size(), 1);
+
+        playerChar.useHealthPotion(playerChar.getInventory());
+
+        assertEquals(playerChar.getHp(), playerChar.getMaxHp());
+        assertEquals(playerChar.getInventory().size(), 0);
+
     }
 
     @Test
@@ -159,7 +219,7 @@ public class CombatTest {
         // Simulating battle manually to test each component of battle is
         // working correctly
         BattleManager bm = world.getBattleManager();
-        // bm.lowerCrit(BasicEnemy.class, 1);
+        bm.setCritMode(1);
 
         // Update battle manager with potential enemy and character
         bm.update(world);
@@ -176,8 +236,7 @@ public class CombatTest {
         // behaviour
         int newCharHp = 300 - (vampire.getDmg() * 4);
         assertEquals(playerChar.getHp(), newCharHp);
-        int newVampireHp = 300 - ((playerChar.getDmg() +
-                sword.getDamageValue()) * 4);
+        int newVampireHp = 300 - (sword.getDamageValue() * 4);
         assertEquals(vampire.getHp(), newVampireHp);
 
         // Equip a stake
@@ -191,9 +250,145 @@ public class CombatTest {
         // behaviour
         newCharHp = newCharHp - (vampire.getDmg() * 4);
         assertEquals(playerChar.getHp(), newCharHp);
-        newVampireHp = newVampireHp - ((playerChar.getDmg() +
-                stake.getDamageValue()) * 4);
+        newVampireHp = newVampireHp - (stake.getDamageValue() * 8);
         assertEquals(vampire.getHp(), newVampireHp);
+
+        // Complete battle
+        bm.battle();
+
+        // Test that combat has occurred by checking that the slug is now dead
+        // NOTE: Mathematically impossible for slug to win
+        assertTrue(world.getEnemies().get(0).getHp() <= 0);
+    }
+
+    @Test
+    public void testBattleWithDoggie() {
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
+        // Equip character with sword
+        SimpleIntegerProperty x = new SimpleIntegerProperty();
+        SimpleIntegerProperty y = new SimpleIntegerProperty();
+
+        Sword sword = new Sword(x, y);
+        playerChar.setWeapon(sword);
+
+        // Create new doggie on same tile as player
+        Doggie doggie = new Doggie(charP);
+        world.addEnemy(doggie);
+
+        // Simulating battle manually to test each component of battle is
+        // working correctly
+        BattleManager bm = world.getBattleManager();
+        bm.setCritMode(1);
+
+        // Update battle manager with potential enemy and character
+        bm.update(world);
+        assertEquals(bm.getAllies().size(), 0);
+        assertEquals(bm.getSupportEnemies().size(), 0);
+
+        assertEquals(bm.getBattleEnemies().size(), 1);
+        assertTrue(bm.getBattleEnemies().get(0) instanceof Doggie);
+
+        // Do a single tick of battle
+        bm.runTickBattle();
+
+        // Check that the damage done by character and doggie are the correct
+        // behaviour
+        int newCharHp = playerChar.getMaxHp() - (doggie.getDmg() * 4);
+        assertEquals(playerChar.getHp(), newCharHp);
+        int newDoggieHp = doggie.getMaxHp() - (sword.getDamageValue() * 4);
+        assertEquals(doggie.getHp(), newDoggieHp);
+    }
+
+    @Test
+    public void testBattleWithElan() {
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
+        // Equip character with sword
+        SimpleIntegerProperty x = new SimpleIntegerProperty();
+        SimpleIntegerProperty y = new SimpleIntegerProperty();
+
+        Sword sword = new Sword(x, y);
+        playerChar.setWeapon(sword);
+
+        // Create new elan on same tile as player
+        ElanMuske elan = new ElanMuske(charP);
+        world.addEnemy(elan);
+
+        // Simulating battle manually to test each component of battle is
+        // working correctly
+        BattleManager bm = world.getBattleManager();
+        bm.setCritMode(1);
+
+        // Update battle manager with potential enemy and character
+        bm.update(world);
+        assertEquals(bm.getAllies().size(), 0);
+        assertEquals(bm.getSupportEnemies().size(), 0);
+
+        assertEquals(bm.getBattleEnemies().size(), 1);
+        assertTrue(bm.getBattleEnemies().get(0) instanceof ElanMuske);
+
+        // Do a single tick of battle
+        bm.runTickBattle();
+
+        // Check that the damage done by character and doggie are the correct
+        // behaviour
+        int newCharHp = playerChar.getMaxHp() - (elan.getDmg() * 4);
+        assertEquals(playerChar.getHp(), newCharHp);
+        int newElanHp = elan.getMaxHp() - (sword.getDamageValue() * 4);
+        assertEquals(elan.getHp(), newElanHp);
+    }
+
+    @Test
+    public void testBattleWithDifferentEnemies() {
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
+        // Equip character with sword
+        SimpleIntegerProperty x = new SimpleIntegerProperty();
+        SimpleIntegerProperty y = new SimpleIntegerProperty();
+
+        Sword sword = new Sword(x, y);
+        playerChar.setWeapon(sword);
+
+        // Create new slug on same tile as player
+        Slug slug = new Slug(charP);
+        world.addEnemy(slug);
+        
+        // Create new zombie on same tile as player
+        Zombie zombie = new Zombie(charP, playerChar);
+        world.addEnemy(zombie);
+
+        // Simulating battle manually to test each component of battle is
+        // working correctly
+        BattleManager bm = world.getBattleManager();
+        bm.setCritMode(1);
+
+        // Update battle manager with potential enemy and character
+        bm.update(world);
+        assertEquals(bm.getAllies().size(), 0);
+        assertEquals(bm.getSupportEnemies().size(), 0);
+
+        assertEquals(bm.getBattleEnemies().size(), 2);
+        assertTrue(bm.getBattleEnemies().get(0) instanceof Slug);
+        assertTrue(bm.getBattleEnemies().get(1) instanceof Zombie);
+
+        // Do a single tick of battle
+        bm.runTickBattle();
+
+        // Check that the damage done by character and slug are the correct
+        // behaviour
+        int newCharHp = 300 - (slug.getDmg() * 4) - (zombie.getDmg() * 4);
+        assertEquals(playerChar.getHp(), newCharHp);
+        int newSlugHp = 100 - (sword.getDamageValue() * 4);
+        assertEquals(slug.getHp(), newSlugHp);
+        int newZombieHp = 200;
+        assertEquals(zombie.getHp(), newZombieHp);
 
         // Complete battle
         bm.battle();
@@ -230,7 +425,7 @@ public class CombatTest {
         // Simulating battle manually to test each component of battle is
         // working correctly
         BattleManager bm = world.getBattleManager();
-        /// bm.lowerCrit(BasicEnemy.class, 1);
+        bm.setCritMode(1);
 
         // Update battle manager with potential enemy and do single tick of
         // battle
@@ -276,7 +471,7 @@ public class CombatTest {
         // Simulating battle manually to test each component of battle is
         // working correctly
         BattleManager bm = world.getBattleManager();
-        /// bm.lowerCrit(BasicEnemy.class, 1);
+        bm.setCritMode(1);
 
         // Update battle manager with potential enemy and do single tick of
         // battle
@@ -321,7 +516,7 @@ public class CombatTest {
         // Simulating battle manually to test each component of battle is
         // working correctly
         BattleManager bm = world.getBattleManager();
-        /// bm.lowerCrit(BasicEnemy.class, 1);
+        bm.setCritMode(1);
 
         // Update battle manager with potential enemy and do single tick of
         // battle
@@ -330,12 +525,10 @@ public class CombatTest {
 
         // Check that the damage done by character and ally are the correct
         // behaviour as well as ally being damaged
-        int newVampireHp = 300 - ((playerChar.getDmg() +
-                sword.getDamageValue()) * 4) - (ally1.getDmg() * 4) -
-                (ally2.getDmg() * 4);
+        int newVampireHp = 300 - ((sword.getDamageValue() + ally1.getDmg() +
+                ally2.getDmg()) * 4);
         assertEquals(vampire.getHp(), newVampireHp);
-        int newAllyHp = 100 - (vampire.getDmg() * 4);
-        assertEquals(ally1.getHp(), newAllyHp);
+        assertEquals(ally1.getHp(), 100);
         assertEquals(ally2.getHp(), 100);
 
         bm.battle();
@@ -368,7 +561,7 @@ public class CombatTest {
         // Simulating battle manually to test each component of battle is
         // working correctly
         BattleManager bm = world.getBattleManager();
-        // bm.lowerCrit(BasicEnemy.class, 1);
+        bm.setCritMode(1);
 
         // Update battle manager with potential enemy and do single tick of
         // battle
@@ -392,6 +585,10 @@ public class CombatTest {
         Character playerChar = new Character(charP);
         world.setCharacter(playerChar);
 
+        // Disable crits
+        BattleManager bm = world.getBattleManager();
+        bm.setCritMode(1);
+
         // Set a Hero Castle where character spawns
         SimpleIntegerProperty cX = new SimpleIntegerProperty(playerChar.getX());
         SimpleIntegerProperty cY = new SimpleIntegerProperty(playerChar.getY());
@@ -402,8 +599,8 @@ public class CombatTest {
         SimpleIntegerProperty x = new SimpleIntegerProperty();
         SimpleIntegerProperty y = new SimpleIntegerProperty();
 
-        Sword sword = new Sword(x, y);
-        playerChar.setWeapon(sword);
+        Stake stake = new Stake(x, y);
+        playerChar.setWeapon(stake);
 
         // Create vampire that walks to battle with playerChar at the most
         // furthest square
@@ -433,12 +630,29 @@ public class CombatTest {
 
     @Test
     public void testBlockBehaviour() {
-
-    }
-
-    @Test
-    public void testCrits() {
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
         
+        // Create new slug on same tile as player
+        Slug slug = new Slug(charP);
+        world.addEnemy(slug);
+
+        SimpleIntegerProperty x = new SimpleIntegerProperty();
+        SimpleIntegerProperty y = new SimpleIntegerProperty();
+
+        ChestArmor newArmor = new basicChestArmor(x,y);
+
+        playerChar.setChestArmor(newArmor);
+
+        // Get BattleManager and run the battle
+        BattleManager bm = world.getBattleManager();
+        bm.update(world);
+        bm.battle();
+
+        // Test that character is now dead
+        System.out.println(playerChar.getHp());
+        // assertTrue(playerChar.getHp() > 0);
     }
 
     @Test
@@ -460,5 +674,77 @@ public class CombatTest {
         // Test that character is now dead
         assertTrue(playerChar.getHp() <= 0);
 
+    }
+
+
+
+    @Test
+    public void testPlayerDefeatWithRing() {
+
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
+
+        playerChar.setHp(10);
+        // Create new slug on same tile as player
+        Slug slug = new Slug(charP);
+        world.addEnemy(slug);
+
+        SimpleIntegerProperty x = new SimpleIntegerProperty();
+        SimpleIntegerProperty y = new SimpleIntegerProperty();
+
+        OneRing newring = new OneRing(x, y);
+
+        playerChar.addToInventory(newring);
+
+        System.out.println(playerChar.getInventory());
+
+        // Get BattleManager and run the battle
+        BattleManager bm = world.getBattleManager();
+        bm.update(world);
+        bm.battle();
+
+        // Test that character is alive
+        System.out.println(playerChar.getHp());
+        assertTrue(playerChar.getHp() > 0);
+
+    }
+
+    @Test
+    public void testAndurilDmgNoCrit() {
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
+        // Set crits to 0%
+        BattleManager bm = world.getBattleManager();
+        bm.setCritMode(1);
+
+        // Create FOTW
+        SimpleIntegerProperty x = new SimpleIntegerProperty();
+        SimpleIntegerProperty y = new SimpleIntegerProperty();
+
+        FOTW fotw = new FOTW(x, y);
+        playerChar.setWeapon(fotw);
+
+        // Create vampire to fight
+        Vampire vampire = new Vampire(charP, world);
+        world.addEnemy(vampire);
+
+        bm.update(world);
+
+        // Exchange a set of blows and observe FOTW damage
+        bm.runTickBattle();
+        int newVampireHp = vampire.getMaxHp() - (fotw.getDamageValue() * 4);
+        assertEquals(vampire.getHp(), newVampireHp);
+
+        // Regen vampire and crit it this time
+        vampire.setHp(vampire.getMaxHp());
+        bm.setCritMode(2);
+
+        bm.runTickBattle();
+        newVampireHp = vampire.getMaxHp() - (fotw.getDamageValue() * 8);
+        assertEquals(vampire.getHp(), newVampireHp);
     }
 }

@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import unsw.loopmania.Character;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
+import unsw.loopmania.enemies.Doggie;
+import unsw.loopmania.enemies.ElanMuske;
 import unsw.loopmania.enemies.Slug;
 import unsw.loopmania.enemies.Vampire;
 import unsw.loopmania.enemies.Zombie;
@@ -46,6 +48,7 @@ public class EnemiesSpawnTest {
         assertEquals(slug.getBattleRadius(), 1);
         assertEquals(slug.getSupportRadius(), 1);
         assertEquals(slug.getHp(), 100);
+        assertEquals(slug.getMaxHp(), 100);
         assertEquals(slug.getDmg(), 1);
     }
 
@@ -72,12 +75,13 @@ public class EnemiesSpawnTest {
 
         // Test that zombie has correct properties
         assertEquals(zombie.getMoveSpeed(), 0.5);
-        assertEquals(zombie.getCritChance(), 0.1);
+        assertEquals(zombie.getCritChance(), 0.3);
         assertEquals(zombie.getBattleRadius(), 1);
         assertEquals(zombie.getSupportRadius(), 2);
         assertEquals(zombie.getDetectionRadius(), 5);
         assertEquals(zombie.getCountdown(), 1);
         assertEquals(zombie.getHp(), 200);
+        assertEquals(zombie.getMaxHp(), 200);
         assertEquals(zombie.getDmg(), 5);
     }
 
@@ -100,14 +104,68 @@ public class EnemiesSpawnTest {
 
         // Test that zombie has correct properties
         assertEquals(vampire.getMoveSpeed(), 2);
-        assertEquals(vampire.getCritChance(), 0.1);
+        assertEquals(vampire.getCritChance(), 0.2);
         assertEquals(vampire.getBattleRadius(), 2);
         assertEquals(vampire.getSupportRadius(), 3);
         assertFalse(vampire.isMovingClockwise());
         assertFalse(vampire.isBuffed());
         assertEquals(vampire.getBuffDuration(), 0);
         assertEquals(vampire.getHp(), 300);
+        assertEquals(vampire.getMaxHp(), 300);
         assertEquals(vampire.getDmg(), 8);
+    }
+
+    @Test
+    public void testDoggieSpawn() {
+        // Test that there are no enemies
+        assertEquals(world.getEnemies().size(), 0);
+
+        // Spawn a Doggie
+        PathPosition doggieP = new PathPosition(0, path);
+        Doggie doggie = new Doggie(doggieP);
+        world.addEnemy(doggie);
+
+        // Test that there is now 1 enemy
+        assertEquals(world.getEnemies().size(), 1);
+
+        // Test that doggie is on the correct position
+        assertEquals(doggie.getX(), 0);
+        assertEquals(doggie.getY(), 1);
+
+        // Test that doggie has correct properties
+        assertEquals(doggie.getMoveSpeed(), 1);
+        assertEquals(doggie.getCritChance(), 0.1);
+        assertEquals(doggie.getBattleRadius(), 1);
+        assertEquals(doggie.getSupportRadius(), 1);
+        assertEquals(doggie.getHp(), 600);
+        assertEquals(doggie.getMaxHp(), 600);
+        assertEquals(doggie.getDmg(), 15);
+    }
+
+    @Test
+    public void testElanMuskeSpawn() {
+        // Test that there are no enemies
+        assertEquals(world.getEnemies().size(), 0);
+
+        // Spawn an Elan Muske
+        PathPosition elanP = new PathPosition(0, path);
+        ElanMuske elan = new ElanMuske(elanP);
+        world.addEnemy(elan);
+
+        // Test that there is now 1 enemy
+        assertEquals(world.getEnemies().size(), 1);
+
+        // Test that elan is on the correct position
+        assertEquals(elan.getX(), 0);
+        assertEquals(elan.getY(), 1);
+
+        // Test that elan has correct properties
+        assertEquals(elan.getMoveSpeed(), 1);
+        assertEquals(elan.getCritChance(), 0.1);
+        assertEquals(elan.getBattleRadius(), 1);
+        assertEquals(elan.getSupportRadius(), 1);
+        assertEquals(elan.getHp(), 1000);
+        assertEquals(elan.getDmg(), 20);
     }
 
     @Test

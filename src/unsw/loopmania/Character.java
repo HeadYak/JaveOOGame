@@ -4,9 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import unsw.loopmania.Items.Item;
+import unsw.loopmania.Items.HealthPotion;
+import unsw.loopmania.Items.Armor.Armor;
 import unsw.loopmania.Items.Armor.ChestArmor;
 import unsw.loopmania.Items.Armor.Helmet;
+import unsw.loopmania.Items.Armor.Shield;
+import unsw.loopmania.Items.Ring.OneRing;
+import unsw.loopmania.Items.Weapons.Staff;
 import unsw.loopmania.Items.Weapons.Weapon;
+import unsw.loopmania.enemies.BasicEnemy;
 import unsw.loopmania.movement.MoveClockwise;
 import unsw.loopmania.Buildings.*;
 
@@ -16,23 +22,26 @@ import unsw.loopmania.Buildings.*;
  * represents the main character in the backend of the game world
  */
 public class Character extends MovingEntity {
-    private int hp;
-    private int maxHp;
     private boolean buffed;
     private int gold;
     private ArrayList<Ally> allyList;
     private Boolean isSupported;
+    private boolean isStunned;
     private Weapon equippedWeapon;
     private ArrayList<Item> inventory;
     private int xp;
     private Helmet equippedHelmet;
     private ChestArmor equippedChestArmor;
     private List<Building> inRange;
+    private Shield equippedShield;
+    private double damageTakenModifier;
+    private List<Armor> eqiuppedArmors;
 
     public Character(PathPosition position) {
         super(position);
-        hp = 300;
-        maxHp = 300;
+        setHp(300);
+        setMaxHp(300);
+        damageTakenModifier = 1.0;
         setDmg(5);
         setMoveSpeed(1);
         allyList = new ArrayList<Ally>();
@@ -46,6 +55,38 @@ public class Character extends MovingEntity {
     }
 
     /**
+     * 
+     * @param inventory passes in the characters inventory and attempts to use a health potion. If a potion is used it is deleted from the characters inventory
+     */
+    public void useHealthPotion(ArrayList<Item> inventory){
+        for (Item i : this.getInventory()) {
+            if(i instanceof HealthPotion){
+                this.setHp(this.getMaxHp());
+                // this.hp = maxHp;
+                inventory.remove(i);
+                break;
+            }
+        }
+    }
+    
+    public void updateEquippedArmors(){
+        List<Armor> temp = new ArrayList<>();
+        if(equippedChestArmor != null){
+            temp.add(equippedChestArmor);
+        }
+        if(equippedHelmet != null){
+            temp.add(equippedHelmet);
+        }
+
+        if(equippedShield != null){
+            temp.add(equippedShield);
+        }
+
+        eqiuppedArmors = temp;
+        setDamageTakenModifier();
+    }
+    
+    /**
      * @returns the Helmet that is currently equiped by the character
      */
     public Helmet getHelmet(){
@@ -57,8 +98,26 @@ public class Character extends MovingEntity {
      * @param newHelmet
      */
     public void setHelmet(Helmet newHelmet){
-        addToInventory(equippedHelmet);
+        if(equippedHelmet != null){
+            addToInventory(equippedHelmet); 
+        }
+        // addToInventory(equippedHelmet);
         equippedHelmet = newHelmet;
+        updateEquippedArmors();
+
+    }
+
+    public Shield getShield(){
+        return equippedShield;
+    }
+
+    public void setShield(Shield newshield){
+        if(equippedShield != null){
+            addToInventory(equippedShield);
+        }
+        // addToInventory(equippedShield);
+        equippedShield = newshield;
+        updateEquippedArmors();
     }
 
     /**
@@ -75,6 +134,7 @@ public class Character extends MovingEntity {
     public void setChestArmor(ChestArmor newChestArmor){
         addToInventory(equippedChestArmor);
         equippedChestArmor = newChestArmor;
+        updateEquippedArmors();
     }
 
     /**
@@ -83,7 +143,19 @@ public class Character extends MovingEntity {
     public ArrayList<Item> getInventory(){
         return inventory;
     }
+    public void setDamageTakenModifier(){
+        Double temp = 1.0;
+        // List<Double> values = new ArrayList<>();
+        for(Armor i: eqiuppedArmors){
 
+            temp = temp * (1.0 - i.getDamageBlockModifier());
+
+        }
+        damageTakenModifier = 1.0 - temp;
+    }
+    public double getDamageTakenModifier(){
+        return damageTakenModifier;
+    }
     /**
      * @return a list of buildings that the character is currently in range of/getting support
      * and buffs from
@@ -127,15 +199,11 @@ public class Character extends MovingEntity {
      * @param newWeapon
      */
     public void setWeapon(Weapon newWeapon){
-        addToInventory(equippedWeapon);
+        if(equippedWeapon != null){
+            addToInventory(equippedWeapon);
+        }
+        // addToInventory(equippedWeapon);
         this.equippedWeapon = newWeapon;
-    }
-
-    /**
-     * @return the max hp of teh character
-     */
-    public int getMaxHp() {
-        return maxHp;
     }
 
     /**
@@ -144,11 +212,11 @@ public class Character extends MovingEntity {
      * @param health
      */
     public void regen(int health) {
-        if (health + hp > maxHp) {
-            hp = maxHp;
+        if (health + getHp() > getMaxHp()) {
+            setHp(getMaxHp());
         }
         else {
-            hp += health;
+            setHp(getHp() + health);
         }
     }
 
@@ -183,6 +251,15 @@ public class Character extends MovingEntity {
     }
 
     /**
+     * sells item to shop, gets gold and removes item from inventory
+     * @param item
+     */
+    public void sell(Item item) {
+        gold += item.getGoldValue()/2;
+        inventory.remove(item);
+    }
+
+    /**
      * add an item to the characters inventory
      * @param item
      */
@@ -193,6 +270,16 @@ public class Character extends MovingEntity {
             gold += 5;
             xp += 5;
         }
+    }
+
+    public boolean hasOneRing(){
+        for(Item i: inventory){
+            if(i instanceof OneRing){
+                return true;
+            
+            }
+        }
+        return false;
     }
 
     /**
@@ -259,19 +346,60 @@ public class Character extends MovingEntity {
     }
 
     /**
-     * @return current hp of the character
+     * Getter for isStunned
+     * @return whether character is stunned or not
      */
-    @Override
-    public int getHp() {
-        return hp;
+    public boolean isStunned() {
+        return isStunned;
     }
 
     /**
-     * sets the hp of the character
-     * @param health
+     * Setter for isStunned
+     * @param isStunned whether character is to be stunned or not
      */
-    @Override
-    public void setHp(int health) {
-        hp = health;
+    public void setStunned(boolean isStunned) {
+        this.isStunned = isStunned;
+    }
+
+    /**
+     * Attacks player using player + weapon damage
+     * @param enemy enemy to be attacked
+     */
+    public void attack(BasicEnemy enemy) {
+        
+        // Character has an equipped weapon
+        if (equippedWeapon != null) {
+            equippedWeapon.attack(enemy);
+
+            // Attack again if buffed
+            if (buffed) {
+                equippedWeapon.attack(enemy);
+            }
+
+        // No weapon, deal base damage instead
+        } else {
+            int damage = getDmg() * 4;
+
+            // If character is buffed, multiply damage by 2
+            if (buffed) {
+                damage *= 2;
+            }
+            enemy.setHp(enemy.getHp() - damage);
+        }
+    }
+
+    /**
+     * Attacks using a crit attack
+     * @param player player's character to be attacked 
+     * @param battleEnemies list of all enemies currently in battle
+     */
+    public BasicEnemy critAttack(List<BasicEnemy> battleEnemies) {
+        
+        // If buffed, attack without crit effects
+        if (buffed && !(equippedWeapon instanceof Staff)) {
+            equippedWeapon.critAttack(battleEnemies);
+        }
+
+        return equippedWeapon.critAttack(battleEnemies);
     }
 }

@@ -2,11 +2,12 @@ package unsw.loopmania.enemies;
 
 import unsw.loopmania.PathPosition;
 
+import java.util.List;
+
 import unsw.loopmania.Character;
 import unsw.loopmania.movement.MoveAntiClockwise;
 import unsw.loopmania.movement.MoveClockwise;
 import unsw.loopmania.movement.MoveRandomly;
-import unsw.loopmania.enemies.crits.CritConvertToEnemy;
 
 public class Zombie extends BasicEnemy {
     private Character targetCharacter;
@@ -23,17 +24,18 @@ public class Zombie extends BasicEnemy {
 
         // Zombie stats
         setMoveSpeed(0.5);
-        setCritChance(0.1);
+        setCritChance(0.3);
         setBattleRadius(1);
         setSupportRadius(2);
         setHp(200);
+        setMaxHp(200);
         setDmg(5);
+        setWeight(2);
         detectionRadius = 5;
         countdown = 1;
 
         // Behaviours
         setMoveBehaviour(new MoveRandomly());
-        setCritBehaviour(new CritConvertToEnemy());
     }
 
     /**
@@ -90,5 +92,21 @@ public class Zombie extends BasicEnemy {
             countdown = 1;
             super.performMove();
         }
+    }
+
+    /**
+     * Overidden implementation of abstract method critAttack that converts ally
+     * to zombie if there is one
+     */
+    @Override
+    public void critAttack(Character player, List<BasicEnemy> battleEnemies) {
+        int damage = (int) (getDmg() * 4 * 2 * player.getDamageTakenModifier());
+
+        if (player.getAllyList().size() > 0) {
+            player.getAllyList().remove(0);
+            battleEnemies.add(new Zombie(getPosition(), player));
+        }
+
+        player.setHp(player.getHp() - damage);
     }
 }

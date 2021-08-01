@@ -2,7 +2,10 @@ package unsw.loopmania.enemies;
 
 import unsw.loopmania.MovingEntity;
 import unsw.loopmania.PathPosition;
-import unsw.loopmania.enemies.crits.CritBehaviour;
+
+import java.util.List;
+
+import unsw.loopmania.Character;
 
 /**
  * a basic form of enemy in the world
@@ -19,9 +22,9 @@ public abstract class BasicEnemy extends MovingEntity {
     private int supportRadius;
 
     /**
-     * enemy's crit behaviour
+     * enemy's's support radius
      */
-    private CritBehaviour critBehaviour;
+    private int weight;
 
     /**
      * Create a basic enemy
@@ -64,17 +67,44 @@ public abstract class BasicEnemy extends MovingEntity {
     }
 
     /**
-     * Setter for critical strikes
-     * @param critBehaviour move behaviour we want to implement
+     * Getter for enemy's weight
+     * @return the weight
      */
-    public void setCritBehaviour(CritBehaviour critBehaviour) {
-        this.critBehaviour = critBehaviour;
+    public int getWeight() {
+        return weight;
     }
 
     /**
-     * Make enemy do crit effects
+     * Setter for enemy's weight
+     * @param supportRadius new weight to be set
      */
-    public void performCritEffects() {
-        critBehaviour.critEffects();
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
+
+    /**
+     * Attacks player using enemy's damage
+     * @param player player's character to be attacked
+     */
+    public void attack(Character player) {
+        int damage = (int) (getDmg() * 4 * player.getDamageTakenModifier());
+        player.setHp(player.getHp() - damage);
+    }
+
+    /**
+     * Attacks player using enemy's support damage (1/2)
+     * @param player player's character to be attacked
+     */
+    public void supportAttack(Character player) {
+        int damage = (int) (getDmg() * 2 * player.getDamageTakenModifier());
+        player.setHp(player.getHp() - damage);
+    }
+
+    /**
+     * Abstract method for crit attacks
+     * @param player player's character to be attacked 
+     * @param battleEnemies list of all enemies currently in battle
+     */
+    public abstract void critAttack(Character player,
+            List<BasicEnemy> battleEnemies);
 }
