@@ -57,7 +57,7 @@
    </HBox>
    <!-- equippedItems contains the equipment equipped by the character in special slots -->
    <!-- TODO = extend this to have slots for equipping armour, shields, helmets, and any other equippable items -->
-   <GridPane fx:id="equippedItems" layoutX="819.0" layoutY="99.0" prefHeight="50.0" prefWidth="196.0">
+   <GridPane fx:id="equippedItems" layoutX="819.0" layoutY="95.0" prefHeight="50.0" prefWidth="196.0">
       <columnConstraints>
          <ColumnConstraints />
          <ColumnConstraints />
@@ -106,7 +106,7 @@
          <Font size="36.0" />
       </font>
    </Text>
-   <GridPane fx:id="unequippedInventory" layoutX="819.0" layoutY="155.0" prefHeight="196.0" prefWidth="196.0">
+   <GridPane fx:id="unequippedInventory" layoutX="819.0" layoutY="152.0" prefHeight="196.0" prefWidth="196.0">
      <columnConstraints>
        <ColumnConstraints hgrow="SOMETIMES" maxWidth="49.0" minWidth="10.0" prefWidth="49.0" />
        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="49.0" />
@@ -120,7 +120,7 @@
          <RowConstraints minHeight="10.0" prefHeight="49.0" vgrow="SOMETIMES" />
      </rowConstraints>
    </GridPane>
-   <Text fill="#767d7f" layoutX="700.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Loops: ">
+   <Text fill="#767d7f" layoutX="700.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Loops: ">
       <font>
          <Font size="26.0" />
       </font>
@@ -170,12 +170,12 @@
          <Font size="26.0" />
       </font>
    </Text>
-   <Text fx:id="goals" fill="#767d7f" layoutX="59.0" layoutY="283.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="188.208984375">
+   <Text fx:id="goals" fill="#767d7f" layoutX="59.0" layoutY="352.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="188.208984375">
       <font>
          <Font size="26.0" />
       </font>
    </Text>
-   <Text fx:id="text_box_text" fill="WHITE" layoutX="270.0" layoutY="604.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="503.7839660644531">
+   <Text fx:id="battleLog" fill="WHITE" layoutX="270.0" layoutY="604.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="503.7839660644531">
       <font>
          <Font size="22.0" />
       </font>
@@ -185,9 +185,24 @@
          <Image url="@../../images/story_box.png" />
       </image>
    </ImageView>
-   <ImageView fitHeight="35.0" fitWidth="33.0" layoutX="20.0" layoutY="256.0" pickOnBounds="true" preserveRatio="true">
+   <ImageView fitHeight="35.0" fitWidth="33.0" layoutX="20.0" layoutY="325.0" pickOnBounds="true" preserveRatio="true">
       <image>
          <Image url="@../../images/Icon05.png" />
       </image>
    </ImageView>
+   <ImageView fitHeight="35.0" fitWidth="43.0" layoutX="19.0" layoutY="266.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../../images/doggiecoin.png" />
+      </image>
+   </ImageView>
+   <Text fill="#ffd37e" layoutX="60.0" layoutY="293.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Value: $">
+      <font>
+         <Font size="26.0" />
+      </font>
+   </Text>
+   <Text fx:id="dogeCoinValue" fill="#ffd37e" layoutX="154.0" layoutY="293.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+      <font>
+         <Font size="26.0" />
+      </font>
+   </Text>
 </AnchorPane>
