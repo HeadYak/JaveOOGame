@@ -14,6 +14,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.Buildings.HeroCastle;
+import unsw.loopmania.Items.Weapons.FOTW;
+import unsw.loopmania.battles.BattleManager;
 import unsw.loopmania.enemies.BasicEnemy;
 import unsw.loopmania.enemies.Doggie;
 import unsw.loopmania.enemies.ElanMuske;
@@ -150,5 +152,67 @@ public class BossTest {
 
         assertTrue(elanSpawned);
         assertEquals(noElans, 1);
+    }
+
+    @Test
+    public void testFOTWAgainstDoggie() {
+        // Create a character and place him at (0, 1)
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
+        // Disable crits
+        BattleManager bm = world.getBattleManager();
+        bm.setCritMode(1);
+
+        // Add FOTW as weapon
+        SimpleIntegerProperty x = new SimpleIntegerProperty();
+        SimpleIntegerProperty y = new SimpleIntegerProperty();
+
+        FOTW fotw = new FOTW(x, y);
+        playerChar.setWeapon(fotw);
+
+        // Spawn Doggie on character
+        Doggie doggie = new Doggie(charP);
+        world.addEnemy(doggie);
+
+        bm.update(world);
+
+        // Test that after one tick battle FOTW will deal x3 dmg to doggie
+        bm.runTickBattle();
+
+        int doggieHp = doggie.getMaxHp() - (fotw.getDamageValue() * 4 * 3);
+        assertEquals(doggieHp, doggie.getHp());
+    }
+
+    @Test
+    public void testFOTWAgainstElan() {
+        // Create a character and place him at (0, 1)
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
+        // Disable crits
+        BattleManager bm = world.getBattleManager();
+        bm.setCritMode(1);
+
+        // Add FOTW as weapon
+        SimpleIntegerProperty x = new SimpleIntegerProperty();
+        SimpleIntegerProperty y = new SimpleIntegerProperty();
+
+        FOTW fotw = new FOTW(x, y);
+        playerChar.setWeapon(fotw);
+
+        // Spawn Doggie on character
+        ElanMuske elan = new ElanMuske(charP);
+        world.addEnemy(elan);
+
+        bm.update(world);
+
+        // Test that after one tick battle FOTW will deal x3 dmg to elan
+        bm.runTickBattle();
+
+        int elanHp = elan.getMaxHp() - (fotw.getDamageValue() * 4 * 3);
+        assertEquals(elanHp, elan.getHp());
     }
 }

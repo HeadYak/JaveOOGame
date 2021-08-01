@@ -21,6 +21,7 @@ import unsw.loopmania.Items.HealthPotion;
 import unsw.loopmania.Items.Armor.ChestArmor;
 import unsw.loopmania.Items.Armor.basicChestArmor;
 import unsw.loopmania.Items.Ring.OneRing;
+import unsw.loopmania.Items.Weapons.FOTW;
 import unsw.loopmania.Items.Weapons.Stake;
 import unsw.loopmania.Items.Weapons.Sword;
 import unsw.loopmania.battles.BattleManager;
@@ -704,9 +705,46 @@ public class CombatTest {
         bm.update(world);
         bm.battle();
 
-        // Test that character is now dead
+        // Test that character is alive
         System.out.println(playerChar.getHp());
         assertTrue(playerChar.getHp() > 0);
 
+    }
+
+    @Test
+    public void testAndurilDmgNoCrit() {
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
+        // Set crits to 0%
+        BattleManager bm = world.getBattleManager();
+        bm.setCritMode(1);
+
+        // Create FOTW
+        SimpleIntegerProperty x = new SimpleIntegerProperty();
+        SimpleIntegerProperty y = new SimpleIntegerProperty();
+
+        FOTW fotw = new FOTW(x, y);
+        playerChar.setWeapon(fotw);
+
+        // Create vampire to fight
+        Vampire vampire = new Vampire(charP, world);
+        world.addEnemy(vampire);
+
+        bm.update(world);
+
+        // Exchange a set of blows and observe FOTW damage
+        bm.runTickBattle();
+        int newVampireHp = vampire.getMaxHp() - (fotw.getDamageValue() * 4);
+        assertEquals(vampire.getHp(), newVampireHp);
+
+        // Regen vampire and crit it this time
+        vampire.setHp(vampire.getMaxHp());
+        bm.setCritMode(2);
+
+        bm.runTickBattle();
+        newVampireHp = vampire.getMaxHp() - (fotw.getDamageValue() * 8);
+        assertEquals(vampire.getHp(), newVampireHp);
     }
 }

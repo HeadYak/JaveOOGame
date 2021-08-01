@@ -10,6 +10,7 @@ import unsw.loopmania.Items.Armor.ChestArmor;
 import unsw.loopmania.Items.Armor.Helmet;
 import unsw.loopmania.Items.Armor.Shield;
 import unsw.loopmania.Items.Ring.OneRing;
+import unsw.loopmania.Items.Weapons.Staff;
 import unsw.loopmania.Items.Weapons.Weapon;
 import unsw.loopmania.enemies.BasicEnemy;
 import unsw.loopmania.movement.MoveClockwise;
@@ -393,11 +394,10 @@ public class Character extends MovingEntity {
      * @param battleEnemies list of all enemies currently in battle
      */
     public BasicEnemy critAttack(List<BasicEnemy> battleEnemies) {
-        BasicEnemy target = battleEnemies.get(0);
         
         // If buffed, attack without crit effects
-        if (buffed) {
-            equippedWeapon.rawCritAttack(target);
+        if (buffed && !(equippedWeapon instanceof Staff)) {
+            equippedWeapon.critAttack(battleEnemies);
         }
 
         return equippedWeapon.critAttack(battleEnemies);

@@ -12,7 +12,7 @@ public class FOTW extends Weapon{
         super(x, y);
         setItemValue(50);
         setDamageValue(30);
-        setCritChance(0.2);
+        setCritChance(0.1);
         //TODO Auto-generated constructor stub
     }
 

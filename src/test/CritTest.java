@@ -15,6 +15,7 @@ import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.TrancedAlly;
 import unsw.loopmania.Buildings.HeroCastle;
+import unsw.loopmania.Items.Weapons.FOTW;
 import unsw.loopmania.Items.Weapons.Staff;
 import unsw.loopmania.Items.Weapons.Stake;
 import unsw.loopmania.Items.Weapons.Sword;
@@ -113,6 +114,16 @@ public class CritTest {
         dummyHp -= (stake.getDamageValue() * 8);
         assertEquals(trainingDummy.getHp(), dummyHp);
 
+        // Anduril:
+        FOTW fotw = new FOTW(x, y);
+        playerChar.setWeapon(fotw);
+
+        System.out.println(bm.getBattleEnemies().size());
+        bm.runTickBattle();
+
+        dummyHp -= (fotw.getDamageValue() * 8);
+        assertEquals(trainingDummy.getHp(), dummyHp);
+
         // Staff (does no damage):
         Staff staff = new Staff(x, y);
         playerChar.setWeapon(staff);
@@ -120,10 +131,7 @@ public class CritTest {
         bm.runTickBattle();
 
         assertEquals(trainingDummy.getHp(), dummyHp);
-
-
-        // Anduril:
-        // TODO:
+        assertEquals(bm.getBattleEnemies().size(), 0);
     }
 
     @Test
