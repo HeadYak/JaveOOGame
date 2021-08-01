@@ -257,6 +257,88 @@ public class CombatTest {
     }
 
     @Test
+    public void testBattleWithDoggie() {
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
+        // Equip character with sword
+        SimpleIntegerProperty x = new SimpleIntegerProperty();
+        SimpleIntegerProperty y = new SimpleIntegerProperty();
+
+        Sword sword = new Sword(x, y);
+        playerChar.setWeapon(sword);
+
+        // Create new doggie on same tile as player
+        Doggie doggie = new Doggie(charP);
+        world.addEnemy(doggie);
+
+        // Simulating battle manually to test each component of battle is
+        // working correctly
+        BattleManager bm = world.getBattleManager();
+        bm.setCritMode(1);
+
+        // Update battle manager with potential enemy and character
+        bm.update(world);
+        assertEquals(bm.getAllies().size(), 0);
+        assertEquals(bm.getSupportEnemies().size(), 0);
+
+        assertEquals(bm.getBattleEnemies().size(), 1);
+        assertTrue(bm.getBattleEnemies().get(0) instanceof Doggie);
+
+        // Do a single tick of battle
+        bm.runTickBattle();
+
+        // Check that the damage done by character and doggie are the correct
+        // behaviour
+        int newCharHp = playerChar.getMaxHp() - (doggie.getDmg() * 4);
+        assertEquals(playerChar.getHp(), newCharHp);
+        int newDoggieHp = doggie.getMaxHp() - (sword.getDamageValue() * 4);
+        assertEquals(doggie.getHp(), newDoggieHp);
+    }
+
+    @Test
+    public void testBattleWithElan() {
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
+        // Equip character with sword
+        SimpleIntegerProperty x = new SimpleIntegerProperty();
+        SimpleIntegerProperty y = new SimpleIntegerProperty();
+
+        Sword sword = new Sword(x, y);
+        playerChar.setWeapon(sword);
+
+        // Create new elan on same tile as player
+        ElanMuske elan = new ElanMuske(charP);
+        world.addEnemy(elan);
+
+        // Simulating battle manually to test each component of battle is
+        // working correctly
+        BattleManager bm = world.getBattleManager();
+        bm.setCritMode(1);
+
+        // Update battle manager with potential enemy and character
+        bm.update(world);
+        assertEquals(bm.getAllies().size(), 0);
+        assertEquals(bm.getSupportEnemies().size(), 0);
+
+        assertEquals(bm.getBattleEnemies().size(), 1);
+        assertTrue(bm.getBattleEnemies().get(0) instanceof ElanMuske);
+
+        // Do a single tick of battle
+        bm.runTickBattle();
+
+        // Check that the damage done by character and doggie are the correct
+        // behaviour
+        int newCharHp = playerChar.getMaxHp() - (elan.getDmg() * 4);
+        assertEquals(playerChar.getHp(), newCharHp);
+        int newElanHp = elan.getMaxHp() - (sword.getDamageValue() * 4);
+        assertEquals(elan.getHp(), newElanHp);
+    }
+
+    @Test
     public void testTower() {
         PathPosition charP = new PathPosition(31, path);
         Character playerChar = new Character(charP);
