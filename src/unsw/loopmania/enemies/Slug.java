@@ -24,6 +24,7 @@ public class Slug extends BasicEnemy {
         setHp(100);
         setMaxHp(100);
         setDmg(1);
+        setWeight(1);
 
         // Slug behaviours
         setMoveBehaviour(new MoveRandomly());
@@ -35,8 +36,7 @@ public class Slug extends BasicEnemy {
      */
     @Override
     public void critAttack(Character player, List<BasicEnemy> battleEnemies) {
-        int damage = (int) ((getDmg() * 4) * 2*player.getDamageTakenModifier());
-        System.out.println(damage);
+        int damage = (int) (getDmg() * 4 * 2 * player.getDamageTakenModifier());
         player.setHp(player.getHp() - damage);
     }
 }
