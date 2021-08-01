@@ -205,4 +205,9 @@
          <Font size="26.0" />
       </font>
    </Text>
+   <ImageView fitHeight="29.0" fitWidth="135.0" layoutX="860.0" layoutY="360.0" onMouseClicked="#useHPot" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../../images/hp_button.png" />
+      </image>
+   </ImageView>
 </AnchorPane>

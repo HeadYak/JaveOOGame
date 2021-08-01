@@ -28,6 +28,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.control.Button;
 import javafx.util.Duration;
 import unsw.loopmania.Buildings.Barracks;
 import unsw.loopmania.Buildings.Building;
@@ -167,6 +168,7 @@ public class LoopManiaWorldController {
     @FXML
     private Text dogeCoinValue;
 
+
     // all image views including tiles, character, enemies, cards... even though cards in separate gridpane...
     private List<ImageView> entityImages;
 
@@ -290,7 +292,7 @@ public class LoopManiaWorldController {
         shieldImage = new Image((new File("src/images/shield.png")).toURI().toString());
         helmetImage = new Image((new File("src/images/helmet.png")).toURI().toString());
         goldImage = new Image((new File("src/imagess/gold.png")).toURI().toString());
-        healthPotionImage = new Image((new File("src/images/healthPotion.png")).toURI().toString());
+        healthPotionImage = new Image((new File("src/images/health_potion.png")).toURI().toString());
         doggieCoinImage = new Image((new File("src/images/doggiecoin.png")).toURI().toString());
 
         // Rare Items Images
@@ -668,6 +670,7 @@ public class LoopManiaWorldController {
                 loadStaff();
             }
                 loadVillageCard();
+                loadHealthPotion();
         } else {
             Random rand = new Random();
             if (rand.nextInt(2) == 0) {
@@ -970,6 +973,17 @@ public class LoopManiaWorldController {
     }
 
     /**
+     * load a health potion into the GUI
+     * @param healthPotion
+     */
+    private void onLoad(HealthPotion healthPotion){
+        ImageView view = new ImageView(healthPotionImage);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
+        addEntity(healthPotion, view);
+        unequippedInventory.getChildren().add(view);
+    }
+
+    /**
      * load an enemy into the GUI
      * @param enemy
      */
@@ -1141,15 +1155,7 @@ public class LoopManiaWorldController {
         squares.getChildren().add(view);
     }
 
-    /**
-     * load a health potion into the GUI
-     * @param healthPotion
-     */
-    private void onLoad(HealthPotion healthPotion){
-        ImageView view = new ImageView(healthPotionImage);
-        addEntity(healthPotion, view);
-        squares.getChildren().add(view);
-    }
+    
 
     /**
      * add drag event handlers for dropping into gridpanes, dragging over the background, dropping over the background.
@@ -1475,6 +1481,11 @@ public class LoopManiaWorldController {
     private void switchLoseScreen() throws IOException {
         pause();
         loseScreenSwitcher.switchMenu();
+    }
+
+    @FXML
+    private void useHPot() {
+        world.useHPotion();
     }
 
 
