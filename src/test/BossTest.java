@@ -72,20 +72,13 @@ public class BossTest {
                     noDoggies++;
                 }
             }
-        }
-
-        assertEquals(noDoggies, 0);
-
-        // Check that only one Doggie has spawned
-        boolean doggieSpawned = false;
-        for (BasicEnemy enemy : world.getEnemies()) {
-            if (enemy instanceof Doggie) {
-                doggieSpawned = true;
-                noDoggies++;
+            
+            if (world.getLoops() != 20) {
+                assertEquals(noDoggies, 0);
             }
         }
 
-        assertTrue(doggieSpawned);
+        // Check that only one Doggie has spawned
         assertEquals(noDoggies, 1);
         
     }
@@ -131,7 +124,7 @@ public class BossTest {
 
         assertEquals(noElans, 0);
 
-        // Check that only one Doggie has spawned
+        // Check that only one Elan Muske has spawned
         boolean elanSpawned = false;
         for (BasicEnemy enemy : world.getEnemies()) {
             if (enemy instanceof ElanMuske) {

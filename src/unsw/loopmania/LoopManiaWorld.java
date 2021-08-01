@@ -10,6 +10,7 @@ import unsw.loopmania.battles.Summary;
 import unsw.loopmania.Items.Weapons.Staff;
 import unsw.loopmania.enemies.BasicEnemy;
 import unsw.loopmania.enemies.Doggie;
+import unsw.loopmania.enemies.ElanMuske;
 import unsw.loopmania.enemies.Slug;
 import unsw.loopmania.Buildings.*;
 import unsw.loopmania.Cards.*;
@@ -120,14 +121,11 @@ public class LoopManiaWorld {
         defeatedEnemies = new ArrayList<BasicEnemy>();
         loops = 0;
         allBossKilled = false;
-<<<<<<< HEAD
+        buildingSpawns = new ArrayList<BasicEnemy>();
         doggieSpawned = false;
         doggieDefeated = false;
         elanMuskeSpawned = false;
         elanMuskeDefeated = false;
-=======
-        buildingSpawns = new ArrayList<BasicEnemy>();
->>>>>>> master
     }
 
     public int getWidth() {
@@ -137,9 +135,11 @@ public class LoopManiaWorld {
     public int getHeight() {
         return height;
     }
+
     public List<BasicEnemy> getBuildingSpawns() {
         return buildingSpawns;
     }
+
     /**
      * set the character. This is necessary because it is loaded as a special entity out of the file
      * @param character the character
@@ -209,28 +209,37 @@ public class LoopManiaWorld {
             enemies.add(enemy);
             spawningEnemies.add(enemy);
         }
-
-        // Possibly spawn bosses
-        // Pair<Integer, Integer> bossPos = getBossEnemySpawnPosition();
-        // if (!doggieSpawned && loops == 20) {
-        //     int indexInPath = orderedPath.indexOf(bossPos);
-        //     PathPosition doggieP = new PathPosition(indexInPath, orderedPath);
-        //     Doggie doggie = new Doggie(doggieP);
-        //     enemies.add(doggie);
-        //     spawningEnemies.add(doggie);
-        //     doggieSpawned = true;
-        // }
-
-        // bossPos = getBossEnemySpawnPosition();
-        // if (!elanMuskeSpawned && loops >= 40 && character.getXp() >= 10000) {
-        //     int indexInPath = orderedPath.indexOf(bossPos);
-        //     PathPosition doggieP = new PathPosition(indexInPath, orderedPath);
-        //     Doggie doggie = new Doggie(doggieP);
-        //     enemies.add(doggie);
-        //     spawningEnemies.add(doggie);
-        //     elanMuskeSpawned = true;
-        // }
         return spawningEnemies;
+    }
+    /**
+     * Spawns bosses if they satisfy spawn conditions
+     */
+    public void possiblySpawnBosses() {
+        Pair<Integer, Integer> pos = getBossEnemySpawnPosition();
+
+        // Spawning Doggie
+        if (!doggieSpawned && loops == 20) {
+            int indexInPath = orderedPath.indexOf(pos);
+            PathPosition doggieP = new PathPosition(indexInPath, orderedPath);
+            Doggie doggie = new Doggie(doggieP);
+            enemies.add(doggie);
+            buildingSpawns.add(doggie);
+
+            doggieSpawned = true;
+        }
+
+        pos = getBossEnemySpawnPosition();
+
+        // Spawning Elan Muske
+        if (!elanMuskeSpawned && loops >= 40 && character.getXp() >= 10000) {
+            int indexInPath = orderedPath.indexOf(pos);
+            PathPosition elanP = new PathPosition(indexInPath, orderedPath);
+            ElanMuske elan = new ElanMuske(elanP);
+            enemies.add(elan);
+            buildingSpawns.add(elan);
+
+            elanMuskeSpawned = true;
+        }
     }
 
     /**
@@ -521,6 +530,7 @@ public class LoopManiaWorld {
         }
 
         moveBasicEnemies();
+        possiblySpawnBosses();
         
         // Checks for trap damage
         for (Building b: buildingEntities) {
@@ -710,6 +720,10 @@ public class LoopManiaWorld {
         return null;
     }
 
+    /**
+     * Method that gets the enemy boss spawn position
+     * @return Position boss can spawn in
+     */
     private Pair<Integer, Integer> getBossEnemySpawnPosition() {
         List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
         int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));

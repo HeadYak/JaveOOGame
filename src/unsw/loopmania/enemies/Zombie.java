@@ -100,7 +100,7 @@ public class Zombie extends BasicEnemy {
      */
     @Override
     public void critAttack(Character player, List<BasicEnemy> battleEnemies) {
-        int damage = (getDmg() * 4) * 2;
+        int damage = (int) (getDmg() * 4 * 2 * player.getDamageTakenModifier());
 
         if (player.getAllyList().size() > 0) {
             player.getAllyList().remove(0);

@@ -10,7 +10,9 @@ import unsw.loopmania.Character;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.TrancedAlly;
+import unsw.loopmania.Items.Item;
 import unsw.loopmania.Items.Weapons.Weapon;
+import unsw.loopmania.Items.Ring.OneRing;
 import unsw.loopmania.enemies.BasicEnemy;
 
 public class BattleManager {
@@ -42,7 +44,7 @@ public class BattleManager {
      * Function that updates what enemies we are battling
      * @param world
      */
-    public synchronized void update(LoopManiaWorld world) {
+    public void update(LoopManiaWorld world) {
         // Loop through enemies in world and add them to lists
         for (BasicEnemy enemy : world.getEnemies()) {
             int br = enemy.getBattleRadius();
@@ -93,7 +95,7 @@ public class BattleManager {
      * Function that runs a single turn of a battle
      * @return the total enemy hp after battle has finished
      */
-    public synchronized void runTickBattle() {
+    public void runTickBattle() {
         Weapon weapon = character.getWeapon();
         BasicEnemy target = battleEnemies.get(0);
         int totalPlayerDmg = 0;
@@ -181,6 +183,17 @@ public class BattleManager {
         }
 
         totalEnemyDmg += characterHpSnapshot - character.getHp();
+
+        if (character.getHp() <= 0 && character.hasOneRing()) {
+            character.setHp(character.getMaxHp());
+
+            for (Item item : character.getInventory()) {
+                if (item instanceof OneRing) {
+                    character.getInventory().remove(item);
+                    break;
+                }
+            }
+        }
 
         // Deal tower damage if in range (-100 to all)
         if (character.getIsSupported()) {

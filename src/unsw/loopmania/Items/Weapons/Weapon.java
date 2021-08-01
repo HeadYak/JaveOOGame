@@ -54,15 +54,6 @@ public abstract class Weapon extends Item {
     }
 
     /**
-     * Raw crit damage (used for buffed status)
-     * @param enemy to be attacked
-     */
-    public void rawCritAttack(BasicEnemy enemy) {
-        int damage = getDamageValue() * 4 * 2;
-        enemy.setHp(enemy.getHp() - damage);
-    }
-
-    /**
      * Abstract method for crit attacks for weapon
      * @param battleEnemies list of all enemies in battle
      * @return enemy if tranced by staff
