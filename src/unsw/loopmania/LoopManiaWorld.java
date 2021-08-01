@@ -642,6 +642,15 @@ public class LoopManiaWorld {
             defeatedEnemies = killList;
 
             for (BasicEnemy enemy : killList) {
+                if (enemy instanceof Doggie) {
+                    doggieDefeated = true;
+                } else if (enemy instanceof ElanMuske) {
+                    elanMuskeDefeated = true;
+                }
+
+                if (doggieDefeated && elanMuskeDefeated) {
+                    allBossKilled = true;
+                }
                 killEnemy(enemy);
             }
         }
