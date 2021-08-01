@@ -478,6 +478,9 @@ public class LoopManiaWorld {
     public void removeUnequippedInventoryItemByCoordinates(int x, int y){
         Item item = getUnequippedInventoryItemEntityByCoordinates(x, y);
         removeUnequippedInventoryItem(item);
+        if (item instanceof Sword) {
+
+        } else if (item instanceof )
         //return item;
     }
     
