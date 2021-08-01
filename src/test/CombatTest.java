@@ -19,6 +19,8 @@ import unsw.loopmania.Buildings.Tower;
 import unsw.loopmania.Ally;
 import unsw.loopmania.BattleManager;
 import unsw.loopmania.Items.HealthPotion;
+import unsw.loopmania.Items.Armor.ChestArmor;
+import unsw.loopmania.Items.Armor.basicChestArmor;
 import unsw.loopmania.Items.Ring.OneRing;
 import unsw.loopmania.Items.Weapons.Stake;
 import unsw.loopmania.Items.Weapons.Sword;
@@ -491,7 +493,29 @@ public class CombatTest {
 
     @Test
     public void testBlockBehaviour() {
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+        
+        // Create new slug on same tile as player
+        Slug slug = new Slug(charP);
+        world.addEnemy(slug);
 
+        SimpleIntegerProperty x = new SimpleIntegerProperty();
+        SimpleIntegerProperty y = new SimpleIntegerProperty();
+
+        ChestArmor newArmor = new basicChestArmor(x,y);
+
+        playerChar.setChestArmor(newArmor);
+
+        // Get BattleManager and run the battle
+        BattleManager bm = world.getBattleManager();
+        bm.update(world);
+        bm.battle();
+
+        // Test that character is now dead
+        System.out.println(playerChar.getHp());
+        // assertTrue(playerChar.getHp() > 0);
     }
 
     @Test

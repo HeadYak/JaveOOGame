@@ -67,9 +67,11 @@ public abstract class BasicEnemy extends MovingEntity {
      * Attacks player using enemy's damage
      * @param player player's character to be attacked
      */
-    public void attack(Character player) {
-        int damage = getDmg() * 4;
-        player.setHp((int) (player.getHp() - damage*player.getDamageTakenModifier()));
+    public synchronized void attack(Character player) {
+        int damage = (int) (getDmg() * 4 * player.getDamageTakenModifier());
+
+        System.out.println(damage);
+        player.setHp((player.getHp() - damage));
 
         if(player.hasOneRing() && (player.getHp() <= 0)){
             player.setHp(player.getMaxHp());
@@ -87,7 +89,7 @@ public abstract class BasicEnemy extends MovingEntity {
      * Attacks player using enemy's support damage (1/2)
      * @param player player's character to be attacked
      */
-    public void supportAttack(Character player) {
+    public synchronized void supportAttack(Character player) {
         int damage = getDmg() * 2;
         player.setHp((int) (player.getHp() - damage*player.getDamageTakenModifier()));
 
