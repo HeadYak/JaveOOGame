@@ -1030,4 +1030,7 @@ public class LoopManiaWorld {
         allBossKilled = true;
     }
     
+    public void useHPotion() {
+        getCharacter().useHealthPotion(unequippedInventoryItems);
+    }
 }

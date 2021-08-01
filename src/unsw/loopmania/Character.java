@@ -28,7 +28,7 @@ public class Character extends MovingEntity {
     private Boolean isSupported;
     private boolean isStunned;
     private Weapon equippedWeapon;
-    private ArrayList<Item> inventory;
+    private List<Item> inventory;
     private int xp;
     private Helmet equippedHelmet;
     private ChestArmor equippedChestArmor;
@@ -58,9 +58,9 @@ public class Character extends MovingEntity {
      * 
      * @param inventory passes in the characters inventory and attempts to use a health potion. If a potion is used it is deleted from the characters inventory
      */
-    public void useHealthPotion(ArrayList<Item> inventory){
-        for (Item i : this.getInventory()) {
-            if(i instanceof HealthPotion){
+    public void useHealthPotion(List<Item> inventory){
+        for (Item i : inventory) {
+            if (i instanceof HealthPotion){
                 this.setHp(this.getMaxHp());
                 // this.hp = maxHp;
                 inventory.remove(i);
@@ -140,7 +140,7 @@ public class Character extends MovingEntity {
     /**
      * @return the character's inventory
      */
-    public ArrayList<Item> getInventory(){
+    public List<Item> getInventory(){
         return inventory;
     }
     public void setDamageTakenModifier(){
