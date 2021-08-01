@@ -155,28 +155,19 @@ public class SummaryBuilder implements LogBuilder {
     }
 
     @Override
-    public void setRewards(List<StaticEntity> rewards, int xp,
-            int gold) {
+    public void setRewards(List<StaticEntity> rewards, int xp, int gold) {
         String rewarded = new String("Rewards: ");
 
         // TODO: Change depending on how to implement generateRewards in BM
-        int pots = 0;
         int i = 0;
         for (StaticEntity reward : rewards) {
             if (i != 0) { rewarded += ", "; }
-
-            if (reward instanceof HealthPotion) {
-                rewarded += reward.getClass().getSimpleName();
-                pots++;
-            } else {
-                rewarded += reward.getClass().getSimpleName();
-            }
+            rewarded += reward.getClass().getSimpleName();
 
             i++;
         }
 
         conclusion.add(rewarded);
-        conclusion.add("    + " + pots + " health potions");
         conclusion.add("    + " + xp + " xp");
         conclusion.add("    + " + gold + " gold");
     }

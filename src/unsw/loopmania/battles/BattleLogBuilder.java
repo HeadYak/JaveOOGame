@@ -111,7 +111,6 @@ public class BattleLogBuilder implements LogBuilder {
     public BattleLog getResult() {
         return new BattleLog(startingHp, initialEnemies, supportingEnemies,
             inCampfireRange, inTowerRange, weapon, helmet, shield, armor,
-            battleTriplets, finalHp, defeated, rewards, earnedXp,
-            earnedGold);
+            battleTriplets, finalHp, defeated, rewards, earnedXp, earnedGold);
     }
 }

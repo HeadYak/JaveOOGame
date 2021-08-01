@@ -28,6 +28,5 @@ public interface LogBuilder {
     // Required for result
     public void setFinalHp(int finalHp);
     public void setDefeated(List<BasicEnemy> defeated);
-    public void setRewards(List<StaticEntity> rewards, int xp,
-            int gold);
+    public void setRewards(List<StaticEntity> rewards, int xp, int gold);
 }
