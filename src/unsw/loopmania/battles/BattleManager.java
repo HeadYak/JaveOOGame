@@ -335,13 +335,10 @@ public class BattleManager {
             i++;
         }
         
-        // Generating chance of extra health potions
-        for (i = 0; i < totalWeight; i++) {
-            int roll = random.nextInt(100);
-
-            if (roll < 30) {
-                rewards.add(new HealthPotion(x, y));
-            }
+        // Generating chance of extra health potion
+        int roll = random.nextInt(100);
+        if (roll < 50) {
+            rewards.add(new HealthPotion(x, y));
         }
 
         return rewards;
