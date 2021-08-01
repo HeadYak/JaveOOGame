@@ -12,8 +12,15 @@ import unsw.loopmania.Cards.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import java.lang.Math; 
+import java.util.regex.Pattern;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.Math;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.javatuples.Pair;
 
@@ -67,6 +74,8 @@ public class LoopManiaWorld {
     private List<Building> buildingEntities;
 
     private BattleManager battleManager;
+    private int dogeValue;
+
 
     private List<BasicEnemy> defeatedEnemies;
     private Boolean allBossKilled;
@@ -97,6 +106,13 @@ public class LoopManiaWorld {
         defeatedEnemies = new ArrayList<BasicEnemy>();
         loops = 0;
         allBossKilled = false;
+
+        try {
+            this.dogeValue = getDogeCoinValue();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     public int getWidth() {
@@ -557,6 +573,28 @@ public class LoopManiaWorld {
         }
     }
 
+    public int getDogeCoinValue() throws IOException{
+        URL u = new URL("https://api.coindesk.com/v1/bpi/currentprice/BTC.json");
+        try (InputStream in = u.openStream()) {
+            String newString = new String(in.readAllBytes(), StandardCharsets.UTF_8);
+
+            String[] arr = newString.split("\"");
+
+            String regex = "(?<=[\\d])(,)(?=[\\d])";
+            Pattern p = Pattern.compile(regex);
+            String str = arr[29];
+            Matcher m = p.matcher(str);
+            str = m.replaceAll("");
+
+            String substr = str.split("\\.")[0];
+
+            int dogeValue = Integer.parseInt(substr);
+
+            return dogeValue;
+        }
+
+       
+    }
     /**
      * get a randomly generated position which could be used to spawn an enemy
      * @return null if random choice is that wont be spawning an enemy or it isn't possible, or random coordinate pair if should go ahead

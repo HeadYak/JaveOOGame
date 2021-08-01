@@ -3,6 +3,10 @@ package test;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -139,7 +143,7 @@ public class ItemTest {
 
 
     @Test
-    public void characterChestArmorBlockTest(){
+    public void characterChestArmorBlockTest() throws IOException{
 
         SimpleIntegerProperty x = new SimpleIntegerProperty();
         SimpleIntegerProperty y = new SimpleIntegerProperty();
@@ -152,7 +156,9 @@ public class ItemTest {
         assertTrue(newSword instanceof Item);
         assertTrue(newSword instanceof Sword);
 
-    }
+
+        // String out = new Scanner(new URL("http://www.google.com").openStream(), "UTF-8").useDelimiter("\\A").next();
+    }   
 
     // @Test
     // public void characterHelmetArmorBlockTest(){
