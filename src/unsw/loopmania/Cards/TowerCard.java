@@ -23,27 +23,24 @@ public class TowerCard extends Card {
     }
 
     @Override
+    public boolean isCardPlaceable(LoopManiaWorld world, SimpleIntegerProperty x, SimpleIntegerProperty y) {
+        List<Pair<Integer, Integer>> validTiles = getValidTilesList(world);
+
+        Pair<Integer, Integer> tempcardCoord = new Pair<>(x.get(), y.get());
+        if (validTiles.contains(tempcardCoord)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
     public void placeCard(LoopManiaWorld world, SimpleIntegerProperty x, SimpleIntegerProperty y) {
         Pair<SimpleIntegerProperty, SimpleIntegerProperty> cardCoord = new Pair<>(x, y);
 
-        List<Pair<Integer, Integer>> validTiles = getValidTilesList(world);
-        
+        Tower newTower = new Tower(x, y);
+        world.addBuilding(newTower);
 
-        // System.out.println(cardCoord);
-
-        int tempx = x.get();
-        int tempy = y.get();
-        
-        Pair<Integer, Integer> tempcardCoord = new Pair<>(tempx, tempy);
-
-        // System.out.println(validTiles);
-
-        if (validTiles.contains(tempcardCoord)) {
-            Tower newTower = new Tower(x, y);
-            world.addBuilding(newTower);
-
-        }
-        
     }
 
     @Override

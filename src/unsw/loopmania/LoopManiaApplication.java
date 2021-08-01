@@ -42,15 +42,38 @@ public class LoopManiaApplication extends Application {
         menuLoader.setController(mainMenuController);
         Parent mainMenuRoot = menuLoader.load();
 
+        // load the victory screen
+        VictoryController victoryController = new VictoryController();
+        FXMLLoader victoryLoader = new FXMLLoader(getClass().getResource("Victory.fxml"));
+        victoryLoader.setController(victoryController);
+        Parent victoryRoot = victoryLoader.load();
+
+        // load the defeat screen
+        DefeatController defeatController = new DefeatController();
+        FXMLLoader defeatLoader = new FXMLLoader(getClass().getResource("Defeat.fxml"));
+        defeatLoader.setController(defeatController);
+        Parent defeatRoot = defeatLoader.load();
+
         // create new scene with the main menu (so we start with the main menu)
         Scene scene = new Scene(mainMenuRoot);
         
         // set functions which are activated when button click to switch menu is pressed
         // e.g. from main menu to start the game, or from the game to return to main menu
         mainController.setMainMenuSwitcher(() -> {switchToRoot(scene, mainMenuRoot, primaryStage);});
+        mainController.setWinScreenSwitcher(() -> {switchToRoot(scene, victoryRoot, primaryStage);});
+        mainController.setLoseScreenSwitcher(() -> {switchToRoot(scene, defeatRoot, primaryStage);});
+
         mainMenuController.setGameSwitcher(() -> {
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();
+        });
+        
+        victoryController.setMainMenuSwitcher(() -> {
+            switchToRoot(scene, mainMenuRoot, primaryStage);
+        });
+
+        defeatController.setMainMenuSwitcher(() -> {
+            switchToRoot(scene, mainMenuRoot, primaryStage);
         });
         
         // deploy the main onto the stage
