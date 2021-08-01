@@ -130,7 +130,7 @@ public class CardTest {
 
         // System.out.println(newTowerCard.getValidTilesList(d));
 
-        assertEquals(newCampfireCard.getValidTilesList(d).size(), 1);
+        assertEquals(newCampfireCard.getValidTilesList(d).size(), 8);
 
         x.set(1);
         y.set(1);

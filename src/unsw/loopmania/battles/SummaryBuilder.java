@@ -3,6 +3,8 @@ package unsw.loopmania.battles;
 import java.util.ArrayList;
 import java.util.List;
 
+import unsw.loopmania.StaticEntity;
+import unsw.loopmania.Items.HealthPotion;
 import unsw.loopmania.Items.Armor.ChestArmor;
 import unsw.loopmania.Items.Armor.Helmet;
 import unsw.loopmania.Items.Armor.Shield;
@@ -153,25 +155,21 @@ public class SummaryBuilder implements LogBuilder {
     }
 
     @Override
-    public void setRewards(List<String> rewards) {
-        String rewarded = new String("Rewards:");
+    public void setRewards(List<StaticEntity> rewards, int xp,
+            int gold) {
+        String rewarded = new String("Rewards: ");
 
         // TODO: Change depending on how to implement generateRewards in BM
-        int i = 0;
         int pots = 0;
-        int xp = 0;
-        int gold = 0;
-        for (String reward : rewards) {
-            if (i != 0) { rewarded += ","; }
+        int i = 0;
+        for (StaticEntity reward : rewards) {
+            if (i != 0) { rewarded += ", "; }
 
-            if (reward.contains("HealthPotion|")) {
-                pots += Integer.parseInt(reward.replace("HealthPotion|", ""));
-            } else if (reward.contains("xp|")) {
-                xp = Integer.parseInt(reward.replace("xp|", ""));
-            } else if (reward.contains("gold|")) {
-                gold = Integer.parseInt(reward.replace("gold|", ""));
+            if (reward instanceof HealthPotion) {
+                rewarded += reward.getClass().getSimpleName();
+                pots++;
             } else {
-                rewarded += reward;
+                rewarded += reward.getClass().getSimpleName();
             }
 
             i++;

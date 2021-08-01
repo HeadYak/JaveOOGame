@@ -2,6 +2,7 @@ package unsw.loopmania.battles;
 
 import java.util.List;
 
+import unsw.loopmania.StaticEntity;
 import unsw.loopmania.Items.Armor.ChestArmor;
 import unsw.loopmania.Items.Armor.Helmet;
 import unsw.loopmania.Items.Armor.Shield;
@@ -27,5 +28,6 @@ public interface LogBuilder {
     // Required for result
     public void setFinalHp(int finalHp);
     public void setDefeated(List<BasicEnemy> defeated);
-    public void setRewards(List<String> rewards);
+    public void setRewards(List<StaticEntity> rewards, int xp,
+            int gold);
 }

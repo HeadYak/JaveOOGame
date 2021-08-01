@@ -20,7 +20,7 @@ public class ElanMuske extends Boss {
         setHp(1000);
         setMaxHp(1000);
         setDmg(20);
-        setWeight(0);
+        setWeight(10);
         healValue = 50;
 
         // Behaviours

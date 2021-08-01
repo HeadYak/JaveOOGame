@@ -631,26 +631,36 @@ public class LoopManiaWorld {
 
         // Fight enemies
         battleManager.update(this);
-        List<BasicEnemy> killList = new ArrayList<BasicEnemy>();
-        killList = battleManager.battle();
-        defeatedEnemies = killList;
-        for (BasicEnemy enemy : killList) {
-            killEnemy(enemy);
-        }
-        /*if (goals != null) {
-            if (goals.update()) {
-                win();
+        if (battleManager.getBattleEnemies().size() != 0) {
+            List<BasicEnemy> killList = new ArrayList<BasicEnemy>();
+            battleManager.battle();
+
+            lastLog = battleManager.getFinalBattleLog();
+            lastSummary = battleManager.getFinalSummaryLog();
+            
+            killList = lastLog.getDefeated();
+            defeatedEnemies = killList;
+
+            for (BasicEnemy enemy : killList) {
+                if (enemy instanceof Doggie) {
+                    doggieDefeated = true;
+                } else if (enemy instanceof ElanMuske) {
+                    elanMuskeDefeated = true;
+                }
+
+                if (doggieDefeated && elanMuskeDefeated) {
+                    allBossKilled = true;
+                }
+                killEnemy(enemy);
             }
         }
-
-        if (character.getHp() <= 0) {
-            lose();
-        }*/
+        
     }
-
     public Boolean goals() {
         return goals.update();
     }
+
+
 
 
 
@@ -673,6 +683,26 @@ public class LoopManiaWorld {
         } */
         
     }
+    
+    /**
+     * remove an item by x,y coordinates
+     * @param x x coordinate from 0 to width-1
+     * @param y y coordinate from 0 to height-1
+     */
+    // public void removeUnequippedInventoryItemByCoordinates(int x, int y){
+    //     Item item = getUnequippedInventoryItemEntityByCoordinates(x, y);
+    //     removeUnequippedInventoryItem(item);
+    //     /*if (item instanceof Sword || item instanceof Stake || item instanceof Staff || item instanceof FOTW) {
+    //         character.setWeapon(item);
+    //     } else if (item instanceof basicChestArmor) {
+    //         character.setChestArmor(item);
+    //     } else if (item instanceof basicHelmet) {
+    //         character.setHelmet(item);
+    //     } else if (item instanceof basicShield) {
+    //         character.setShield(item);
+    //     } */
+        
+    // }
     
     /**
      * remove an item from the unequipped inventory
