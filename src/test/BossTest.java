@@ -15,6 +15,8 @@ import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.Buildings.HeroCastle;
 import unsw.loopmania.enemies.BasicEnemy;
+import unsw.loopmania.enemies.Doggie;
+import unsw.loopmania.enemies.ElanMuske;
 import unsw.loopmania.Character;
 
 public class BossTest {

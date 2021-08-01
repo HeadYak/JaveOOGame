@@ -1,6 +1,7 @@
 package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
@@ -18,6 +19,8 @@ import unsw.loopmania.Items.Weapons.Staff;
 import unsw.loopmania.Items.Weapons.Stake;
 import unsw.loopmania.Items.Weapons.Sword;
 import unsw.loopmania.battles.BattleManager;
+import unsw.loopmania.enemies.Doggie;
+import unsw.loopmania.enemies.ElanMuske;
 import unsw.loopmania.enemies.Slug;
 import unsw.loopmania.enemies.Vampire;
 import unsw.loopmania.enemies.Zombie;
@@ -239,8 +242,6 @@ public class CritTest {
         assertTrue(vampire.getBuffDmg() >= 5 &&
                 vampire.getBuffDuration() <= 15);
 
-        System.out.println(vampire.getBuffDmg());
-
         // Check that the character received expected damage range (extra 2x dmg)
         int newCharHp = playerChar.getMaxHp() - (vampire.getDmg() * 8) -
                 (vampire.getBuffDmg());
@@ -274,7 +275,7 @@ public class CritTest {
             assertTrue(vampire.getBuffDuration() >= 1 &&
                     vampire.getBuffDuration() <= 5);
             assertTrue(vampire.getBuffDmg() >= 5 &&
-                    vampire.getBuffDuration() <= 15);
+                    vampire.getBuffDmg() <= 15);
 
             vampire.setBuffDuration(0);
             vampire.setBuffDmg(0);
@@ -300,12 +301,95 @@ public class CritTest {
 
     @Test
     public void testDoggieCrits() {
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
 
+        // Create new Doggie on same tile as player
+        Doggie doggie = new Doggie(charP);
+        world.addEnemy(doggie);
+
+        // Simulate battle manually to test each component of battle is working
+        // correctly and set crit chance to 100%
+        BattleManager bm = world.getBattleManager();
+        bm.setCritMode(2);
+
+        bm.update(world);
+
+        // Do a single tick of battle
+        bm.runTickBattle();
+
+        // Check that the doggie has stunned character
+        assertTrue(playerChar.isStunned());
+
+        // Check that the character and doggie received expected damage
+        int newCharHp = playerChar.getMaxHp() - (doggie.getDmg() * 4);
+        assertEquals(playerChar.getHp(), newCharHp);
+        int newDoggieHp = doggie.getMaxHp() - (playerChar.getDmg() * 4);
+        assertEquals(doggie.getHp(), newDoggieHp);
+
+        // Set crit rate to 0% and do another a tick of battle and check that
+        // doggie does another 60 dmg but character does not
+        bm.setCritMode(1);
+        bm.runTickBattle();
+
+        assertEquals(doggie.getHp(), newDoggieHp);
+        assertEquals(playerChar.getHp(), newCharHp - (playerChar.getMaxHp() -
+                newCharHp));
+        assertFalse(playerChar.isStunned());
     }
 
     @Test
     public void testElanMuskeCrits() {
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
 
+        // Create new Elan on same tile as player
+        ElanMuske elan = new ElanMuske(charP);
+        world.addEnemy(elan);
+
+        // Create 3 slugs who have missing health
+        Slug slug1 = new Slug(charP);
+        slug1.setHp(1);
+        Slug slug2 = new Slug(charP);
+        slug2.setHp(slug2.getMaxHp()/2);
+        Slug slug3 = new Slug(charP);
+        slug3.setHp(slug3.getMaxHp() - 1);
+        world.addEnemy(slug1);
+        world.addEnemy(slug2);
+        world.addEnemy(slug3);
+
+        // Simulate battle manually to test each component of battle is working
+        // correctly and set crit chance to 100%
+        BattleManager bm = world.getBattleManager();
+        bm.setCritMode(2);
+
+        bm.update(world);
+
+        // Do a single tick of battle
+        bm.runTickBattle();
+
+        // Check that the slugs have healed hp and Elan has not lost any hp
+        // due to immediately healing it back up, and player took expected dmg
+        // from Elan (who does not increase dmg when critting)
+        int newCharHp = playerChar.getMaxHp() - (elan.getDmg() * 4) -
+                (3 * (slug1.getDmg() * 8));
+        assertEquals(playerChar.getHp(), newCharHp);
+        int newElanHp = Math.min(elan.getMaxHp(), elan.getMaxHp() -
+                (playerChar.getDmg() * 4) + elan.getHealValue());
+        assertEquals(elan.getHp(), newElanHp);
+        int newSlug1Hp = Math.min(slug1.getMaxHp(), 1 + elan.getHealValue());
+        int newSlug2Hp = Math.min(slug2.getMaxHp(), slug2.getMaxHp()/2 +
+                elan.getHealValue());
+        int newSlug3Hp = Math.min(slug3.getMaxHp(), slug3.getMaxHp() - 1 +
+                elan.getHealValue());
+        assertEquals(slug1.getHp(), newSlug1Hp);
+        assertEquals(slug2.getHp(), newSlug2Hp);
+        assertEquals(slug3.getHp(), newSlug3Hp);
+
+        // Set crit rate to 0% and do another a tick of battle and check that
+        // doggie does another 60 dmg but character does not
     }
 
     @Test
@@ -436,6 +520,105 @@ public class CritTest {
                 + crit/1000 * 100 + "%");
     }
 
+    @Test
+    public void testDmgFromDoggieConsistency() {
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
+        // Create new doggie on same tile as player
+        Doggie doggie = new Doggie(charP);
+        world.addEnemy(doggie);
+
+        // Simulate battle manually to test each component of battle is working
+        // correctly and allow crit chance to be set to default
+        BattleManager bm = world.getBattleManager();
+        bm.update(world);
+
+        // Loop 1000 times checking both doggie's and character's dmg are
+        // consistent given character is unequipped
+        double crit = 0;
+
+        for (int i = 0; i < 1000; i++) {
+            playerChar.regen(playerChar.getMaxHp());
+            doggie.setHp(doggie.getMaxHp());
+            bm.runTickBattle();
+
+            // Check that the doggie is dealing no extra damage, but character
+            // sometimes is stunned
+            assertTrue(doggie.getHp() == doggie.getMaxHp() -
+                    playerChar.getDmg() * 4 || doggie.getHp() ==
+                    doggie.getMaxHp());
+            assertEquals(playerChar.getHp(), playerChar.getMaxHp() -
+                    doggie.getDmg() * 4);
+
+            
+            if (doggie.getHp() == doggie.getMaxHp()) {
+                crit++;
+            }
+        }
+
+        System.out.println("Doggie critical strike chance: "
+                + crit/1000 * 100 + "%");
+    }
+
+    @Test
+    public void testDmgFromElanConsistency() {
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
+        // Create new Elan on same tile as player
+        ElanMuske elan = new ElanMuske(charP);
+        world.addEnemy(elan);
+
+        // Create a damaged slug with no attack on same tile as player after
+        // Elan
+        Slug slug = new Slug(charP);
+        world.addEnemy(slug);
+        slug.setHp(slug.getMaxHp()/2);
+        slug.setDmg(0);
+
+        // Simulate battle manually to test each component of battle is working
+        // correctly and allow crit chance to be set to default
+        BattleManager bm = world.getBattleManager();
+        bm.update(world);
+
+        // Loop 1000 times checking both elan's and character's dmg are
+        // consistent given character is unequipped
+        double crit = 0;
+
+        for (int i = 0; i < 1000; i++) {
+            playerChar.regen(playerChar.getMaxHp());
+            elan.setHp(elan.getMaxHp());
+            slug.setHp(slug.getMaxHp()/2);
+            bm.runTickBattle();
+
+            // Check that the elan is dealing no extra damage but sometimes
+            // all enemies are healed
+            assertTrue(elan.getHp() == elan.getMaxHp() -
+                    (playerChar.getDmg() * 4) || elan.getHp() ==
+                    Math.min(elan.getMaxHp(), elan.getMaxHp() -
+                    (playerChar.getDmg() * 4) + elan.getHealValue()));
+            assertEquals(playerChar.getHp(), playerChar.getMaxHp() -
+                    elan.getDmg() * 4);
+
+            assertTrue(slug.getHp() == slug.getMaxHp()/2 || slug.getHp() ==
+                    Math.min(slug.getMaxHp(), slug.getMaxHp()/2 +
+                    elan.getHealValue()));
+
+            
+            if (slug.getHp() == Math.min(slug.getMaxHp(), slug.getMaxHp()/2 +
+                    elan.getHealValue())) {
+                crit++;
+            }
+
+        }
+
+        System.out.println("Elan Muske critical strike chance: "
+                + crit/1000 * 100 + "%");
+    }
+
 
     @Test
     public void testTranceExpiry() {
@@ -458,6 +641,7 @@ public class CritTest {
 
         // Create new slug on same tile as player
         Slug slug = new Slug(charP);
+        slug.setHp(slug.getMaxHp() - 1);
         world.addEnemy(slug);
 
         // Create a vampire on same tile as player
@@ -477,6 +661,7 @@ public class CritTest {
         // Assert that both enemies are in bm and there are no support/allies
         assertEquals(bm.getBattleEnemies().size(), 2);
         assertEquals(bm.getBattleEnemies().get(0), slug);
+        assertEquals(bm.getBattleEnemies().get(0).getHp(), slug.getMaxHp() - 1);
         assertEquals(bm.getBattleEnemies().get(1), vampire);
         assertEquals(bm.getSupportEnemies().size(), 0);
         assertEquals(bm.getAllies().size(), 0);
@@ -487,45 +672,39 @@ public class CritTest {
         // Assert that only vampire is in bm battleEnemies and slug has been
         // converted
         assertEquals(bm.getBattleEnemies().size(), 1);
-        assertEquals(bm.getBattleEnemies().get(1), vampire);
+        assertEquals(bm.getBattleEnemies().get(0), vampire);
         assertEquals(bm.getSupportEnemies().size(), 0);
         assertEquals(bm.getAllies().size(), 1);
         assertTrue(bm.getAllies().get(0) instanceof TrancedAlly);
         
-        // Grab reference and check tranced ally statsis correct
+        // Grab reference and check tranced ally status correct
+        // NOTE: trance duration is immediately set from 5 -> 4 as it attacks
+        // straight after being tranced
         TrancedAlly reference = (TrancedAlly) bm.getAllies().get(0);
-        assertEquals(reference.getTranceDuration(), 5);
+        assertEquals(reference.getTranceDuration(), 4);
         assertEquals(reference.getOriginalBody(), slug);
 
         // Set crit rate to 0% and run battle ticks until trance duration ends
         bm.setCritMode(1);
-        int tranceDuration = 4;
+        int tranceDuration = 3;
 
         for (int i = 0; i < 4; i++) {
-            world.runTickMoves();
+            bm.runTickBattle();
             assertEquals(reference.getTranceDuration(), tranceDuration);
             vampire.setHp(vampire.getMaxHp());
             tranceDuration--;
         }
 
         // Check world state again
-        assertEquals(bm.getBattleEnemies().size(), 1);
-        assertEquals(bm.getBattleEnemies().get(1), vampire);
-        assertEquals(bm.getSupportEnemies().size(), 0);
-        assertEquals(bm.getAllies().size(), 1);
-        assertTrue(bm.getAllies().get(0) instanceof TrancedAlly);
-
-        // Run one more move and check everything is back to normal
-        world.runTickMoves();
-
         assertEquals(bm.getBattleEnemies().size(), 2);
-        assertEquals(bm.getBattleEnemies().get(0), slug);
-        assertEquals(bm.getBattleEnemies().get(1), vampire);
+        assertEquals(bm.getBattleEnemies().get(0), vampire);
+        assertEquals(bm.getBattleEnemies().get(1), slug);
+        assertEquals(bm.getBattleEnemies().get(1).getHp(), slug.getMaxHp() - 1);
         assertEquals(bm.getSupportEnemies().size(), 0);
         assertEquals(bm.getAllies().size(), 0);
 
-        // Check that slug's damage has been retained
-        // TODO:
+        // Run one more move and check everything is back to normal
+        world.runTickMoves();
 
         // Set crit rate to 100% and check that battle ends after two
         // consecutive trances

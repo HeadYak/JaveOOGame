@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.javatuples.Septet;
+import org.javatuples.Ennead;
 import org.javatuples.Triplet;
 
-import unsw.loopmania.Items.Armor.Armor;
+import unsw.loopmania.Items.Armor.ChestArmor;
+import unsw.loopmania.Items.Armor.Helmet;
+import unsw.loopmania.Items.Armor.Shield;
 import unsw.loopmania.Items.Weapons.Weapon;
 import unsw.loopmania.enemies.BasicEnemy;
 
@@ -18,7 +20,9 @@ public class BattleLog {
     private boolean inCampfireRange;
     private boolean inTowerRange;
     private Weapon weapon;
-    private Armor armor;
+    private Helmet helmet;
+    private Shield shield;
+    private ChestArmor armor;
     private List<Triplet<Integer, Integer, Integer>> battleTriplets;
     private int finalHp;
     private List<BasicEnemy> defeated;
@@ -26,7 +30,8 @@ public class BattleLog {
 
     public BattleLog(int startingHp, List<BasicEnemy> initialEnemies,
             List<BasicEnemy> supportingEnemies, boolean inCampfireRange,
-            boolean inTowerRange, Weapon weapon, Armor armor,
+            boolean inTowerRange, Weapon weapon, Helmet helmet, Shield shield,
+            ChestArmor armor,
             List<Triplet<Integer, Integer, Integer>> battleTriplets,
             int finalHp, List<BasicEnemy> defeated, List<String> rewards) {
         this.startingHp = startingHp;
@@ -134,7 +139,15 @@ public class BattleLog {
         return weapon;
     }
 
-    public Armor getArmor() {
+    public Helmet getHelmet() {
+        return helmet;
+    }
+
+    public Shield getShield() {
+        return shield;
+    }
+
+    public ChestArmor getArmor() {
         return armor;
     }
 
@@ -158,15 +171,15 @@ public class BattleLog {
      * Gets all necessary values for setup screen
      * @return a septet containing these values
      */
-    public Septet<Integer, List<BasicEnemy>, List<BasicEnemy>, Boolean,
-            Boolean, Weapon, Armor> displaySetup() {
+    public Ennead<Integer, List<BasicEnemy>, List<BasicEnemy>, Boolean,
+            Boolean, Weapon, Helmet, Shield, ChestArmor> displaySetup() {
 
         // Creating septet
-        Septet<Integer, List<BasicEnemy>, List<BasicEnemy>, Boolean,
-                Boolean, Weapon, Armor> initialVals =
+        Ennead<Integer, List<BasicEnemy>, List<BasicEnemy>, Boolean,
+                Boolean, Weapon, Helmet, Shield, ChestArmor> initialVals =
         
-        new Septet<>(startingHp, initialEnemies, supportingEnemies,
-                inCampfireRange, inTowerRange, weapon, armor);
+        new Ennead<>(startingHp, initialEnemies, supportingEnemies,
+                inCampfireRange, inTowerRange, weapon, helmet, shield, armor);
 
         return initialVals;
     }

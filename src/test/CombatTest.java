@@ -88,7 +88,6 @@ public class CombatTest {
         Character playerChar = new Character(charP);
         world.setCharacter(playerChar);
 
-
         // Equip character with sword
         SimpleIntegerProperty x = new SimpleIntegerProperty();
         SimpleIntegerProperty y = new SimpleIntegerProperty();
@@ -336,6 +335,61 @@ public class CombatTest {
         assertEquals(playerChar.getHp(), newCharHp);
         int newElanHp = elan.getMaxHp() - (sword.getDamageValue() * 4);
         assertEquals(elan.getHp(), newElanHp);
+    }
+
+    @Test
+    public void testBattleWithDifferentEnemies() {
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
+        // Equip character with sword
+        SimpleIntegerProperty x = new SimpleIntegerProperty();
+        SimpleIntegerProperty y = new SimpleIntegerProperty();
+
+        Sword sword = new Sword(x, y);
+        playerChar.setWeapon(sword);
+
+        // Create new slug on same tile as player
+        Slug slug = new Slug(charP);
+        world.addEnemy(slug);
+        
+        // Create new zombie on same tile as player
+        Zombie zombie = new Zombie(charP, playerChar);
+        world.addEnemy(zombie);
+
+        // Simulating battle manually to test each component of battle is
+        // working correctly
+        BattleManager bm = world.getBattleManager();
+        bm.setCritMode(1);
+
+        // Update battle manager with potential enemy and character
+        bm.update(world);
+        assertEquals(bm.getAllies().size(), 0);
+        assertEquals(bm.getSupportEnemies().size(), 0);
+
+        assertEquals(bm.getBattleEnemies().size(), 2);
+        assertTrue(bm.getBattleEnemies().get(0) instanceof Slug);
+        assertTrue(bm.getBattleEnemies().get(1) instanceof Zombie);
+
+        // Do a single tick of battle
+        bm.runTickBattle();
+
+        // Check that the damage done by character and slug are the correct
+        // behaviour
+        int newCharHp = 300 - (slug.getDmg() * 4) - (zombie.getDmg() * 4);
+        assertEquals(playerChar.getHp(), newCharHp);
+        int newSlugHp = 100 - (sword.getDamageValue() * 4);
+        assertEquals(slug.getHp(), newSlugHp);
+        int newZombieHp = 200;
+        assertEquals(zombie.getHp(), newZombieHp);
+
+        // Complete battle
+        bm.battle();
+
+        // Test that combat has occurred by checking that the slug is now dead
+        // NOTE: Mathematically impossible for slug to win
+        assertTrue(world.getEnemies().get(0).getHp() <= 0);
     }
 
     @Test

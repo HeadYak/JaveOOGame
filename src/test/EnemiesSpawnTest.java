@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import unsw.loopmania.Character;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
+import unsw.loopmania.enemies.Doggie;
+import unsw.loopmania.enemies.ElanMuske;
 import unsw.loopmania.enemies.Slug;
 import unsw.loopmania.enemies.Vampire;
 import unsw.loopmania.enemies.Zombie;
@@ -46,6 +48,7 @@ public class EnemiesSpawnTest {
         assertEquals(slug.getBattleRadius(), 1);
         assertEquals(slug.getSupportRadius(), 1);
         assertEquals(slug.getHp(), 100);
+        assertEquals(slug.getMaxHp(), 100);
         assertEquals(slug.getDmg(), 1);
     }
 
@@ -78,6 +81,7 @@ public class EnemiesSpawnTest {
         assertEquals(zombie.getDetectionRadius(), 5);
         assertEquals(zombie.getCountdown(), 1);
         assertEquals(zombie.getHp(), 200);
+        assertEquals(zombie.getMaxHp(), 200);
         assertEquals(zombie.getDmg(), 5);
     }
 
@@ -107,6 +111,7 @@ public class EnemiesSpawnTest {
         assertFalse(vampire.isBuffed());
         assertEquals(vampire.getBuffDuration(), 0);
         assertEquals(vampire.getHp(), 300);
+        assertEquals(vampire.getMaxHp(), 300);
         assertEquals(vampire.getDmg(), 8);
     }
 
@@ -129,10 +134,11 @@ public class EnemiesSpawnTest {
 
         // Test that doggie has correct properties
         assertEquals(doggie.getMoveSpeed(), 1);
-        assertEquals(doggie.getCritChance(), 0.2);
+        assertEquals(doggie.getCritChance(), 0.1);
         assertEquals(doggie.getBattleRadius(), 1);
         assertEquals(doggie.getSupportRadius(), 1);
         assertEquals(doggie.getHp(), 600);
+        assertEquals(doggie.getMaxHp(), 600);
         assertEquals(doggie.getDmg(), 15);
     }
 
@@ -155,7 +161,7 @@ public class EnemiesSpawnTest {
 
         // Test that elan has correct properties
         assertEquals(elan.getMoveSpeed(), 1);
-        assertEquals(elan.getCritChance(), 0.2);
+        assertEquals(elan.getCritChance(), 0.1);
         assertEquals(elan.getBattleRadius(), 1);
         assertEquals(elan.getSupportRadius(), 1);
         assertEquals(elan.getHp(), 1000);

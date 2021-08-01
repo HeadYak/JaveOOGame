@@ -1,10 +1,13 @@
 package unsw.loopmania.battles;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.javatuples.Triplet;
 
-import unsw.loopmania.Items.Armor.Armor;
+import unsw.loopmania.Items.Armor.ChestArmor;
+import unsw.loopmania.Items.Armor.Helmet;
+import unsw.loopmania.Items.Armor.Shield;
 import unsw.loopmania.Items.Weapons.Weapon;
 import unsw.loopmania.enemies.BasicEnemy;
 
@@ -15,11 +18,19 @@ public class BattleLogBuilder implements LogBuilder {
     private boolean inCampfireRange;
     private boolean inTowerRange;
     private Weapon weapon;
-    private Armor armor;
+    private Helmet helmet;
+    private Shield shield;
+    private ChestArmor armor;
     private List<Triplet<Integer, Integer, Integer>> battleTriplets;
     private int finalHp;
     private List<BasicEnemy> defeated;
     private List<String> rewards;
+
+    public BattleLogBuilder() {
+        initialEnemies = new ArrayList<>();
+        supportingEnemies = new ArrayList<>();
+        battleTriplets = new ArrayList<>();
+    }
 
     @Override
     public void setStartingHp(int startingHp) {
@@ -52,7 +63,17 @@ public class BattleLogBuilder implements LogBuilder {
     }
 
     @Override
-    public void setArmor(Armor armor) {
+    public void setHelmet(Helmet helmet) {
+        this.helmet = helmet;
+    }
+
+    @Override
+    public void setShield(Shield shield) {
+        this.shield = shield;
+    }
+
+    @Override
+    public void setArmor(ChestArmor armor) {
         this.armor = armor;
     }
 
@@ -80,7 +101,7 @@ public class BattleLogBuilder implements LogBuilder {
 
     public BattleLog getResult() {
         return new BattleLog(startingHp, initialEnemies, supportingEnemies,
-            inCampfireRange, inTowerRange, weapon, armor, battleTriplets,
-            finalHp, defeated, rewards);
+            inCampfireRange, inTowerRange, weapon, helmet, shield, armor,
+            battleTriplets, finalHp, defeated, rewards);
     }
 }

@@ -1,10 +1,15 @@
 package unsw.loopmania.battles;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import unsw.loopmania.Items.Armor.Armor;
+import unsw.loopmania.Items.Armor.ChestArmor;
+import unsw.loopmania.Items.Armor.Helmet;
+import unsw.loopmania.Items.Armor.Shield;
 import unsw.loopmania.Items.Weapons.Weapon;
 import unsw.loopmania.enemies.BasicEnemy;
+import unsw.loopmania.enemies.Doggie;
+import unsw.loopmania.enemies.ElanMuske;
 import unsw.loopmania.enemies.Slug;
 import unsw.loopmania.enemies.Vampire;
 import unsw.loopmania.enemies.Zombie;
@@ -14,6 +19,12 @@ public class SummaryBuilder implements LogBuilder {
     private List<String> body;
     private List<String> conclusion;
     private int hpTracker;
+
+    public SummaryBuilder() {
+        introduction = new ArrayList<>();
+        body = new ArrayList<>();
+        conclusion = new ArrayList<>();
+    }
 
     @Override
     public void setStartingHp(int startingHp) {
@@ -36,6 +47,10 @@ public class SummaryBuilder implements LogBuilder {
                 fighting += " zombie";
             } else if (enemy instanceof Vampire) {
                 fighting += " vampire";
+            } else if (enemy instanceof Doggie) {
+                fighting += " DOGGIE";
+            } else if (enemy instanceof ElanMuske) {
+                fighting += " ELAN MUSKE";
             }
 
             i++;
@@ -58,7 +73,11 @@ public class SummaryBuilder implements LogBuilder {
             } else if (enemy instanceof Zombie) {
                 supporting += " zombie";
             } else if (enemy instanceof Vampire) {
-                supporting+= " vampire";
+                supporting += " vampire";
+            } else if (enemy instanceof Doggie) {
+                supporting += " DOGGIE";
+            } else if (enemy instanceof ElanMuske) {
+                supporting += " ELAN MUSKE";
             }
 
             i++;
@@ -83,21 +102,40 @@ public class SummaryBuilder implements LogBuilder {
 
     @Override
     public void setWeapon(Weapon weapon) {
-        introduction.add("Equipped " + weapon.getClass().getSimpleName());
+        if (weapon != null) {
+            introduction.add("Equipped " + weapon.getClass().getSimpleName());
+        }
+    }
+
+
+    @Override
+    public void setHelmet(Helmet helmet) {
+        if (helmet != null) {
+            introduction.add("Equipped " + helmet.getClass().getSimpleName());
+        }
     }
 
     @Override
-    public void setArmor(Armor armor) {
-        introduction.add("Equipped " + armor.getClass().getSimpleName());
+    public void setShield(Shield shield) {
+        if (shield != null) {
+            introduction.add("Equipped " + shield.getClass().getSimpleName());
+        }
+    }
+
+    @Override
+    public void setArmor(ChestArmor armor) {
+        if (armor != null) {
+            introduction.add("Equipped " + armor.getClass().getSimpleName());
+        }
     }
 
     @Override
     public void setAttackExchange(int playerDmg, int enemyDmg, int targetHp) {
         hpTracker -= enemyDmg;
         body.add("PLAYER party dealt " + playerDmg +
-                " to target: target's hp at " + targetHp);
+                " to enemies: current target's hp at " + targetHp);
         body.add("ENEMY party dealt " + enemyDmg +
-                " to target: character's hp at " + hpTracker);
+                " to player: player's hp at " + hpTracker);
     }
 
     @Override
@@ -148,4 +186,5 @@ public class SummaryBuilder implements LogBuilder {
     public Summary getResult() {
         return new Summary(introduction, body, conclusion);
     }
+
 }

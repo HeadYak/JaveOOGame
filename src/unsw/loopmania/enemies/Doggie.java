@@ -13,10 +13,11 @@ public class Doggie extends Boss {
         
         // Doggie stats
         setMoveSpeed(1);
-        setCritChance(0.2);
+        setCritChance(0.1);
         setBattleRadius(1);
         setSupportRadius(1);
         setHp(600);
+        setMaxHp(600);
         setDmg(15);
         setWeight(0);
 
