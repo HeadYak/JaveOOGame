@@ -590,7 +590,14 @@ public class LoopManiaWorld {
 
             int dogeValue = Integer.parseInt(substr);
 
-            return dogeValue;
+
+            Random random = new Random();
+
+
+            int number = random.nextInt(5000);
+
+
+            return dogeValue+number;
         }
 
        

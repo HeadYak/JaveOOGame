@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.javatuples.Pair;
 import org.junit.jupiter.api.Test;
@@ -144,6 +145,7 @@ public class GoalTest {
             e.printStackTrace();
         }
         
+
     }
 
     @Test
