@@ -654,11 +654,13 @@ public class LoopManiaWorld {
                 killEnemy(enemy);
             }
         }
+        
     }
-
     public Boolean goals() {
         return goals.update();
     }
+
+
 
 
 
@@ -681,6 +683,26 @@ public class LoopManiaWorld {
         } */
         
     }
+    
+    /**
+     * remove an item by x,y coordinates
+     * @param x x coordinate from 0 to width-1
+     * @param y y coordinate from 0 to height-1
+     */
+    // public void removeUnequippedInventoryItemByCoordinates(int x, int y){
+    //     Item item = getUnequippedInventoryItemEntityByCoordinates(x, y);
+    //     removeUnequippedInventoryItem(item);
+    //     /*if (item instanceof Sword || item instanceof Stake || item instanceof Staff || item instanceof FOTW) {
+    //         character.setWeapon(item);
+    //     } else if (item instanceof basicChestArmor) {
+    //         character.setChestArmor(item);
+    //     } else if (item instanceof basicHelmet) {
+    //         character.setHelmet(item);
+    //     } else if (item instanceof basicShield) {
+    //         character.setShield(item);
+    //     } */
+        
+    // }
     
     /**
      * remove an item from the unequipped inventory
