@@ -676,7 +676,7 @@ public class LoopManiaWorld {
 
             int number = random.nextInt(5000);
 
-            if(isElanMuskeDefeated){
+            if(elanMuskeDefeated) {
                 return (dogeValue+number)/3;
             }
 
