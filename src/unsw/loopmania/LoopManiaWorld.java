@@ -4,9 +4,12 @@ import unsw.loopmania.Items.Armor.basicChestArmor;
 import unsw.loopmania.Items.Armor.basicHelmet;
 import unsw.loopmania.Items.Weapons.Stake;
 import unsw.loopmania.Items.Weapons.Sword;
+import unsw.loopmania.battles.BattleLog;
 import unsw.loopmania.battles.BattleManager;
+import unsw.loopmania.battles.Summary;
 import unsw.loopmania.Items.Weapons.Staff;
 import unsw.loopmania.enemies.BasicEnemy;
+import unsw.loopmania.enemies.Doggie;
 import unsw.loopmania.enemies.Slug;
 import unsw.loopmania.Buildings.*;
 import unsw.loopmania.Cards.*;
@@ -72,6 +75,15 @@ public class LoopManiaWorld {
     private List<BasicEnemy> defeatedEnemies;
     private Boolean allBossKilled;
 
+    private Summary lastSummary;
+    private BattleLog lastLog;
+
+    // Boss-related booleans
+    private boolean doggieSpawned;
+    private boolean doggieDefeated;
+    private boolean elanMuskeSpawned;
+    private boolean elanMuskeDefeated;
+
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse them
      */
@@ -98,6 +110,10 @@ public class LoopManiaWorld {
         defeatedEnemies = new ArrayList<BasicEnemy>();
         loops = 0;
         allBossKilled = false;
+        doggieSpawned = false;
+        doggieDefeated = false;
+        elanMuskeSpawned = false;
+        elanMuskeDefeated = false;
     }
 
     public int getWidth() {
@@ -119,6 +135,30 @@ public class LoopManiaWorld {
 
     public void setGoals(GoalManager goals) {
         this.goals = goals;
+    }
+
+    /**
+     * Getter for log containing last battle summary
+     * @return last battle summary
+     */
+    public Summary getLastSummary() {
+        return lastSummary;
+    }
+
+    /**
+     * Getter for log containing last battle log
+     * @return last battle log
+     */
+    public BattleLog getLastLog() {
+        return lastLog;
+    }
+
+    /**
+     * Getter for elanMuskeDefeated boolean
+     * @return whether elan muske has been defeated or not
+     */
+    public boolean isElanMuskeDefeated() {
+        return elanMuskeDefeated;
     }
 
     public String goalString() {
@@ -153,6 +193,27 @@ public class LoopManiaWorld {
             enemies.add(enemy);
             spawningEnemies.add(enemy);
         }
+
+        // Possibly spawn bosses
+        // Pair<Integer, Integer> bossPos = getBossEnemySpawnPosition();
+        // if (!doggieSpawned && loops == 20) {
+        //     int indexInPath = orderedPath.indexOf(bossPos);
+        //     PathPosition doggieP = new PathPosition(indexInPath, orderedPath);
+        //     Doggie doggie = new Doggie(doggieP);
+        //     enemies.add(doggie);
+        //     spawningEnemies.add(doggie);
+        //     doggieSpawned = true;
+        // }
+
+        // bossPos = getBossEnemySpawnPosition();
+        // if (!elanMuskeSpawned && loops >= 40 && character.getXp() >= 10000) {
+        //     int indexInPath = orderedPath.indexOf(bossPos);
+        //     PathPosition doggieP = new PathPosition(indexInPath, orderedPath);
+        //     Doggie doggie = new Doggie(doggieP);
+        //     enemies.add(doggie);
+        //     spawningEnemies.add(doggie);
+        //     elanMuskeSpawned = true;
+        // }
         return spawningEnemies;
     }
 
@@ -462,6 +523,8 @@ public class LoopManiaWorld {
         if (battleManager.getBattleEnemies().size() != 0) {
             List<BasicEnemy> killList = new ArrayList<BasicEnemy>();
             killList = battleManager.battle();
+            lastLog = battleManager.getFinalBattleLog();
+            lastSummary = battleManager.getFinalSummaryLog();
             defeatedEnemies = killList;
             for (BasicEnemy enemy : killList) {
                 killEnemy(enemy);
@@ -588,6 +651,25 @@ public class LoopManiaWorld {
             return spawnPosition;
         }
         return null;
+    }
+
+    private Pair<Integer, Integer> getBossEnemySpawnPosition() {
+        List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
+        int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
+
+        // inclusive start and exclusive end of range set to 5 spaces
+        int startNotAllowed = (indexPosition - 5 + orderedPath.size())%orderedPath.size();
+        int endNotAllowed = (indexPosition + 6)%orderedPath.size();
+
+        // note terminating condition has to be != rather than < since wrap around...
+        for (int i=endNotAllowed; i!=startNotAllowed; i=(i+1)%orderedPath.size()){
+            orderedPathSpawnCandidates.add(orderedPath.get(i));
+        }
+
+        // choose random choice
+        Random rand = new Random();
+        Pair<Integer, Integer> spawnPosition = orderedPathSpawnCandidates.get(rand.nextInt(orderedPathSpawnCandidates.size()));
+        return spawnPosition;
     }
 
     /**

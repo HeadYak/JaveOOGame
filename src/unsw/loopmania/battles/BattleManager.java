@@ -86,7 +86,6 @@ public class BattleManager {
         }
 
         buildResult(battleLogBuilder, summaryBuilder);
-        System.out.println(summaryBuilder.getResult().printMe());
         return defeated;
     }
     
@@ -339,5 +338,21 @@ public class BattleManager {
         summaryBuilder.setFinalHp(character.getHp());
         summaryBuilder.setDefeated(defeated);
         // summaryBuilder.setRewards();
+    }
+
+    /**
+     * Getter for final battle log (called at end of battle in world)
+     * @return the battle log
+     */
+    public BattleLog getFinalBattleLog() {
+        return battleLogBuilder.getResult();
+    }
+
+    /**
+     * Getter for final summary log (called at end of battle in world)
+     * @return the summary log
+     */
+    public Summary getFinalSummaryLog() {
+        return summaryBuilder.getResult();
     }
 }
