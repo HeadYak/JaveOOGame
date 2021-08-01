@@ -16,7 +16,6 @@ public class BattleManager {
     private List<BasicEnemy> battleEnemies;
     private List<BasicEnemy> supportEnemies;
     private List<BasicEnemy> defeated;
-    private HashMap<TrancedAlly, BasicEnemy> trancedEnemies;
 
     /**
      * Constructor for the Battle Manager
@@ -28,7 +27,6 @@ public class BattleManager {
         battleEnemies = new ArrayList<BasicEnemy>();
         supportEnemies = new ArrayList<BasicEnemy>();
         defeated = new ArrayList<BasicEnemy>();
-        trancedEnemies = new HashMap<>();
         critMode = 0;
     }
 
@@ -69,8 +67,9 @@ public class BattleManager {
             Ally ally = allyIter.next();
 
             if (ally instanceof TrancedAlly) {
-                defeated.add(trancedEnemies.get(ally));
-                allies.remove(ally);
+                TrancedAlly clone = (TrancedAlly) ally;
+                defeated.add(clone.getOriginalBody());
+                allyIter.remove();
             }
         }
         
@@ -93,8 +92,7 @@ public class BattleManager {
             // Add tranced ally if it exists due to staff crit
             if (trancedEnemy != null) {
                 TrancedAlly trancedAlly =
-                        new TrancedAlly(character.getPosition());
-                trancedEnemies.put(trancedAlly, trancedEnemy);
+                        new TrancedAlly(character.getPosition(), trancedEnemy);
                 allies.add(trancedAlly);
             }
         
@@ -128,7 +126,7 @@ public class BattleManager {
                 
                 if (clone.getTranceDuration() == 0) {
                     trancedIter.remove();
-                    battleEnemies.add(trancedEnemies.get(clone));
+                    battleEnemies.add(clone.getOriginalBody());
                 }
             }
         }

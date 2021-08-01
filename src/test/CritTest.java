@@ -12,6 +12,7 @@ import org.junit.Test;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
+import unsw.loopmania.TrancedAlly;
 import unsw.loopmania.Buildings.HeroCastle;
 import unsw.loopmania.Items.Weapons.Staff;
 import unsw.loopmania.Items.Weapons.Stake;
@@ -305,5 +306,102 @@ public class CritTest {
     @Test
     public void testElanMuskeCrits() {
 
+    }
+
+    @Test
+    public void testTranceExpiry() {
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
+        // Set a Hero Castle where character spawns
+        SimpleIntegerProperty cX = new SimpleIntegerProperty(playerChar.getX());
+        SimpleIntegerProperty cY = new SimpleIntegerProperty(playerChar.getY());
+        HeroCastle heroCastle = new HeroCastle(cX, cY);
+        world.addBuilding(heroCastle);
+
+        // Equip character with staff
+        SimpleIntegerProperty x = new SimpleIntegerProperty();
+        SimpleIntegerProperty y = new SimpleIntegerProperty();
+
+        Staff staff = new Staff(x, y);
+        playerChar.setWeapon(staff);
+
+        // Create new slug on same tile as player
+        Slug slug = new Slug(charP);
+        world.addEnemy(slug);
+
+        // Create a vampire on same tile as player
+        Vampire vampire = new Vampire(charP, world);
+        world.addEnemy(vampire);
+
+        // Assert that slug is the first target
+        assertEquals(slug, world.getEnemies().get(0));
+
+        // Simulate battle manually to test each component of battle is working
+        // correctly and set crit chance to 100%
+        BattleManager bm = world.getBattleManager();
+        bm.setCritMode(2);
+
+        bm.update(world);
+
+        // Assert that both enemies are in bm and there are no support/allies
+        assertEquals(bm.getBattleEnemies().size(), 2);
+        assertEquals(bm.getBattleEnemies().get(0), slug);
+        assertEquals(bm.getBattleEnemies().get(1), vampire);
+        assertEquals(bm.getSupportEnemies().size(), 0);
+        assertEquals(bm.getAllies().size(), 0);
+
+        // Do a single tick of damage
+        bm.runTickBattle();
+
+        // Assert that only vampire is in bm battleEnemies and slug has been
+        // converted
+        assertEquals(bm.getBattleEnemies().size(), 1);
+        assertEquals(bm.getBattleEnemies().get(1), vampire);
+        assertEquals(bm.getSupportEnemies().size(), 0);
+        assertEquals(bm.getAllies().size(), 1);
+        assertTrue(bm.getAllies().get(0) instanceof TrancedAlly);
+        
+        // Grab reference and check tranced ally statsis correct
+        TrancedAlly reference = (TrancedAlly) bm.getAllies().get(0);
+        assertEquals(reference.getTranceDuration(), 5);
+        assertEquals(reference.getOriginalBody(), slug);
+
+        // Set crit rate to 0% and run battle ticks until trance duration ends
+        bm.setCritMode(1);
+        int tranceDuration = 4;
+
+        for (int i = 0; i < 4; i++) {
+            world.runTickMoves();
+            assertEquals(reference.getTranceDuration(), tranceDuration);
+            vampire.setHp(vampire.getMaxHp());
+            tranceDuration--;
+        }
+
+        // Check world state again
+        assertEquals(bm.getBattleEnemies().size(), 1);
+        assertEquals(bm.getBattleEnemies().get(1), vampire);
+        assertEquals(bm.getSupportEnemies().size(), 0);
+        assertEquals(bm.getAllies().size(), 1);
+        assertTrue(bm.getAllies().get(0) instanceof TrancedAlly);
+
+        // Run one more move and check everything is back to normal
+        world.runTickMoves();
+
+        assertEquals(bm.getBattleEnemies().size(), 2);
+        assertEquals(bm.getBattleEnemies().get(0), slug);
+        assertEquals(bm.getBattleEnemies().get(1), vampire);
+        assertEquals(bm.getSupportEnemies().size(), 0);
+        assertEquals(bm.getAllies().size(), 0);
+
+        // Check that slug's damage has been retained
+        // TODO:
+
+        // Set crit rate to 100% and check that battle ends after two
+        // consecutive trances
+        bm.setCritMode(1);
+
+        // TODO:
     }
 }

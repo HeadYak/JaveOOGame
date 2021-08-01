@@ -3,11 +3,13 @@ package unsw.loopmania;
 import unsw.loopmania.enemies.BasicEnemy;
 
 public class TrancedAlly extends Ally {
-    int tranceDuration;
+    private int tranceDuration;
+    private BasicEnemy originalBody;
 
-    public TrancedAlly(PathPosition position) {
+    public TrancedAlly(PathPosition position, BasicEnemy originalBody) {
         super(position);
         tranceDuration = 5;
+        this.originalBody = originalBody;
     }
 
     /**
@@ -22,5 +24,14 @@ public class TrancedAlly extends Ally {
     public int getTranceDuration() {
         return tranceDuration;
     }
+
+    /**
+     * Get original body that trancedAlly used to be
+     * @return the original body of tranced ally
+     */
+    public BasicEnemy getOriginalBody() {
+        return originalBody;
+    }
+    
     
 }
