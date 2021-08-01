@@ -19,7 +19,7 @@ public class Doggie extends Boss {
         setHp(600);
         setMaxHp(600);
         setDmg(15);
-        setWeight(0);
+        setWeight(10);
 
         // Behaviours
         setMoveBehaviour(new MoveRandomly());

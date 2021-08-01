@@ -5,12 +5,30 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.Ally;
 import unsw.loopmania.Character;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
+import unsw.loopmania.StaticEntity;
 import unsw.loopmania.TrancedAlly;
+import unsw.loopmania.Buildings.Barracks;
+import unsw.loopmania.Buildings.Campfire;
+import unsw.loopmania.Buildings.Tower;
+import unsw.loopmania.Buildings.Trap;
+import unsw.loopmania.Buildings.VampireCastleBuilding;
+import unsw.loopmania.Buildings.Village;
+import unsw.loopmania.Buildings.ZombiePit;
+import unsw.loopmania.Items.HealthPotion;
 import unsw.loopmania.Items.Item;
+import unsw.loopmania.Items.Armor.Helmet;
+import unsw.loopmania.Items.Armor.TreeStump;
+import unsw.loopmania.Items.Armor.basicChestArmor;
+import unsw.loopmania.Items.Armor.basicHelmet;
+import unsw.loopmania.Items.Weapons.FOTW;
+import unsw.loopmania.Items.Weapons.Staff;
+import unsw.loopmania.Items.Weapons.Stake;
+import unsw.loopmania.Items.Weapons.Sword;
 import unsw.loopmania.Items.Weapons.Weapon;
 import unsw.loopmania.Items.Ring.OneRing;
 import unsw.loopmania.enemies.BasicEnemy;
@@ -24,6 +42,8 @@ public class BattleManager {
     private List<BasicEnemy> defeated;
     private BattleLogBuilder battleLogBuilder;
     private SummaryBuilder summaryBuilder;
+    private int xpSnapshot;
+    private int goldSnapshot;
 
     /**
      * Constructor for the Battle Manager
@@ -38,6 +58,8 @@ public class BattleManager {
         battleLogBuilder = new BattleLogBuilder();
         summaryBuilder = new SummaryBuilder();
         critMode = 0;
+        xpSnapshot = character.getXp();
+        goldSnapshot = character.getGold();
     }
 
     /**
@@ -65,7 +87,7 @@ public class BattleManager {
      * Function that runs battles
      * @return
      */
-    public List<BasicEnemy> battle() {
+    public void battle() {
         battleLogBuilder = new BattleLogBuilder();
         summaryBuilder = new SummaryBuilder();
 
@@ -88,7 +110,6 @@ public class BattleManager {
         }
 
         buildResult(battleLogBuilder, summaryBuilder);
-        return defeated;
     }
     
     /**
@@ -240,6 +261,91 @@ public class BattleManager {
                 totalEnemyDmg, targetHpSnapshot);
     }
 
+    public List<StaticEntity> generateRewards(int totalWeight) {
+        SimpleIntegerProperty x = new SimpleIntegerProperty();
+        SimpleIntegerProperty y = new SimpleIntegerProperty();
+
+
+        List<StaticEntity> lowWeightRewards = new ArrayList<>();
+        lowWeightRewards.add(new Trap(x, y));
+        lowWeightRewards.add(new ZombiePit(x, y));
+        lowWeightRewards.add(new Staff(x, y));
+        lowWeightRewards.add(new HealthPotion(x, y));
+
+        List<StaticEntity> midWeightRewards = new ArrayList<>();
+        midWeightRewards.add(new VampireCastleBuilding(x, y));
+        midWeightRewards.add(new Barracks(x, y));
+        midWeightRewards.add(new basicHelmet(x, y));
+        midWeightRewards.add(new Village(x, y));
+        midWeightRewards.add(new Sword(x, y));
+
+        List<StaticEntity> highWeightRewards = new ArrayList<>();
+        highWeightRewards.add(new Campfire(x, y));
+        highWeightRewards.add(new Tower(x, y));
+        highWeightRewards.add(new basicChestArmor(x, y));
+        highWeightRewards.add(new Stake(x, y));
+
+        List<StaticEntity> legendaryRewards = new ArrayList<>();
+        legendaryRewards.add(new FOTW(x, y));
+        legendaryRewards.add(new OneRing(x, y));
+        legendaryRewards.add(new TreeStump(x, y));
+
+        List<StaticEntity> rewards = new ArrayList<>();
+
+        // Generating random rewards
+        Random random = new Random();
+        int i = 0;
+
+        while (totalWeight != 0 || i < 3) {
+            int bound = Math.min(totalWeight, 3);
+            
+            // Generating random number between 1-3
+            int rewardRarity = random.nextInt(bound) + 1;
+
+            if (totalWeight >= 10) {
+                int index = random.nextInt(legendaryRewards.size());
+                rewards.add(legendaryRewards.get(index));
+                break;
+            }
+
+            // Generating low-weight reward
+            if (rewardRarity == 1) {
+                int index = random.nextInt(lowWeightRewards.size());
+                rewards.add(lowWeightRewards.get(index));
+
+            // Generating mid-weight reward
+            } else if (rewardRarity == 2) {
+                int index = random.nextInt(midWeightRewards.size());
+                rewards.add(midWeightRewards.get(index));
+
+            // Generating high-weight reward
+            } else {
+                int index = random.nextInt(highWeightRewards.size());
+                rewards.add(highWeightRewards.get(index));
+            }
+
+            totalWeight -= bound;
+            i++;
+        }
+        
+        // Generating chance of extra health potions
+        for (i = 0; i < totalWeight; i++) {
+            int roll = random.nextInt(100);
+
+            if (roll < 30) {
+                rewards.add(new HealthPotion(x, y));
+            }
+        }
+
+        // Generate set amount of xp and gold
+        int xpGained = totalWeight * 10;
+        int gold = totalWeight;
+        character.addXp(xpGained);
+        character.addGold(gold);
+
+        return rewards;
+    }
+
     public List<Ally> getAllies() {
         return allies;
     }
@@ -342,15 +448,27 @@ public class BattleManager {
     public void buildResult(BattleLogBuilder battleLogBuilder,
             SummaryBuilder summaryBuilder) {
 
+        // get xp and gold gained
+        int xpGained = character.getXp() - xpSnapshot;
+        int goldGained = character.getGold() - goldSnapshot;
+
+        // Generate weight
+        int totalWeight = 0;
+        for (BasicEnemy enemy : defeated) {
+            totalWeight += enemy.getWeight();
+        }
+
+        List<StaticEntity> rewards = generateRewards(totalWeight);
+
         // Adding result as stated in LogBuilder for BattleLog
         battleLogBuilder.setFinalHp(character.getHp());
         battleLogBuilder.setDefeated(defeated);
-        // battleLogBuilder.setRewards();
+        battleLogBuilder.setRewards(rewards, xpGained, goldGained);
 
         // Adding result as stated in LogBuilder for Summary
         summaryBuilder.setFinalHp(character.getHp());
         summaryBuilder.setDefeated(defeated);
-        // summaryBuilder.setRewards();
+        summaryBuilder.setRewards(rewards, xpGained, goldGained);
     }
 
     /**

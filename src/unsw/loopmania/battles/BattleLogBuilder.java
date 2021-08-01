@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.javatuples.Triplet;
 
+import unsw.loopmania.StaticEntity;
 import unsw.loopmania.Items.Armor.ChestArmor;
 import unsw.loopmania.Items.Armor.Helmet;
 import unsw.loopmania.Items.Armor.Shield;
@@ -24,7 +25,9 @@ public class BattleLogBuilder implements LogBuilder {
     private List<Triplet<Integer, Integer, Integer>> battleTriplets;
     private int finalHp;
     private List<BasicEnemy> defeated;
-    private List<String> rewards;
+    private List<StaticEntity> rewards;
+    private int earnedXp;
+    private int earnedGold;
 
     public BattleLogBuilder() {
         initialEnemies = new ArrayList<>();
@@ -93,17 +96,22 @@ public class BattleLogBuilder implements LogBuilder {
 
     @Override
     public void setDefeated(List<BasicEnemy> defeated) {
-        this.defeated = defeated;
+        List<BasicEnemy> clone = new ArrayList<>(defeated);
+        this.defeated = clone;
     }
 
     @Override
-    public void setRewards(List<String> rewards) {
-        this.rewards = rewards;
+    public void setRewards(List<StaticEntity> rewards, int xp, int gold) {
+        List<StaticEntity> clone = new ArrayList<>(rewards);
+        this.rewards = clone;
+        this.earnedXp = xp;
+        this.earnedGold = gold;
     }
 
     public BattleLog getResult() {
         return new BattleLog(startingHp, initialEnemies, supportingEnemies,
             inCampfireRange, inTowerRange, weapon, helmet, shield, armor,
-            battleTriplets, finalHp, defeated, rewards);
+            battleTriplets, finalHp, defeated, rewards, earnedXp,
+            earnedGold);
     }
 }

@@ -552,9 +552,10 @@ public class LoopManiaWorld {
         battleManager.update(this);
         if (battleManager.getBattleEnemies().size() != 0) {
             List<BasicEnemy> killList = new ArrayList<BasicEnemy>();
-            killList = battleManager.battle();
+            battleManager.battle();
             lastLog = battleManager.getFinalBattleLog();
             lastSummary = battleManager.getFinalSummaryLog();
+            killList = lastLog.getDefeated();
             defeatedEnemies = killList;
             for (BasicEnemy enemy : killList) {
                 killEnemy(enemy);
