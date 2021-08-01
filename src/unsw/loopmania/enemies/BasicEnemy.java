@@ -2,6 +2,8 @@ package unsw.loopmania.enemies;
 
 import unsw.loopmania.MovingEntity;
 import unsw.loopmania.PathPosition;
+import unsw.loopmania.Items.Item;
+import unsw.loopmania.Items.Ring.OneRing;
 
 import java.util.List;
 
@@ -67,7 +69,18 @@ public abstract class BasicEnemy extends MovingEntity {
      */
     public void attack(Character player) {
         int damage = getDmg() * 4;
-        player.setHp(player.getHp() - damage);
+        player.setHp((int) (player.getHp() - damage*player.getDamageTakenModifier()));
+
+        if(player.hasOneRing() && (player.getHp() <= 0)){
+            player.setHp(player.getMaxHp());
+            for(Item i : player.getInventory()){
+                if(i instanceof OneRing){
+                    player.getInventory().remove(i);
+                    break;
+                }
+            }
+
+        }
     }
 
     /**
@@ -76,7 +89,19 @@ public abstract class BasicEnemy extends MovingEntity {
      */
     public void supportAttack(Character player) {
         int damage = getDmg() * 2;
-        player.setHp(player.getHp() - damage);
+        player.setHp((int) (player.getHp() - damage*player.getDamageTakenModifier()));
+
+
+        if (player.hasOneRing() && (player.getHp() <= 0)) {
+            player.setHp(player.getMaxHp());
+            for (Item i : player.getInventory()) {
+                if (i instanceof OneRing) {
+                    player.getInventory().remove(i);
+                    break;
+                }
+            }
+
+        }
     }
 
     /**

@@ -19,6 +19,7 @@ import unsw.loopmania.Buildings.Tower;
 import unsw.loopmania.Ally;
 import unsw.loopmania.BattleManager;
 import unsw.loopmania.Items.HealthPotion;
+import unsw.loopmania.Items.Ring.OneRing;
 import unsw.loopmania.Items.Weapons.Stake;
 import unsw.loopmania.Items.Weapons.Sword;
 import unsw.loopmania.enemies.*;
@@ -180,6 +181,8 @@ public class CombatTest {
         // NOTE: Mathematically impossible for zombie to win
         assertTrue(world.getEnemies().get(0).getHp() <= 0);
 
+
+        //Test health potions after combat
         HealthPotion potion = new HealthPotion(x, y);
 
 
@@ -509,6 +512,41 @@ public class CombatTest {
 
         // Test that character is now dead
         assertTrue(playerChar.getHp() <= 0);
+
+    }
+
+
+
+    @Test
+    public void testPlayerDefeatWithRing() {
+
+        PathPosition charP = new PathPosition(0, path);
+        Character playerChar = new Character(charP);
+        world.setCharacter(playerChar);
+
+
+        playerChar.setHp(10);
+        // Create new slug on same tile as player
+        Slug slug = new Slug(charP);
+        world.addEnemy(slug);
+
+        SimpleIntegerProperty x = new SimpleIntegerProperty();
+        SimpleIntegerProperty y = new SimpleIntegerProperty();
+
+        OneRing newring = new OneRing(x, y);
+
+        playerChar.addToInventory(newring);
+
+        System.out.println(playerChar.getInventory());
+
+        // Get BattleManager and run the battle
+        BattleManager bm = world.getBattleManager();
+        bm.update(world);
+        bm.battle();
+
+        // Test that character is now dead
+        System.out.println(playerChar.getHp());
+        assertTrue(playerChar.getHp() > 0);
 
     }
 }
