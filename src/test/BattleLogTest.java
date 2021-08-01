@@ -181,12 +181,12 @@ public class BattleLogTest {
         basicChestArmor armor = new basicChestArmor(x, y);
         playerChar.setChestArmor(armor);
 
-        // Spawn 2 high health slug to fight
-        PathPosition slugP = new PathPosition(0, path);
-        Slug slug = new Slug(slugP);
-        slug.setHp(1000);
-        world.addEnemy(slug);
-        world.addEnemy(slug);
+        // Spawn a zombie and a vampire to fight
+        PathPosition battleP = new PathPosition(1, path);
+        Vampire vampire1 = new Vampire(battleP, world);
+        Zombie zombie1 = new Zombie(battleP, playerChar);
+        world.addEnemy(vampire1);
+        world.addEnemy(zombie1);
 
         // Spawn a zombie and vampire to support the battle
         PathPosition zombieP = new PathPosition(3, path);

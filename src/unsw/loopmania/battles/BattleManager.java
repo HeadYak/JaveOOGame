@@ -110,6 +110,7 @@ public class BattleManager {
         }
 
         buildResult(battleLogBuilder, summaryBuilder);
+        defeated.clear();
     }
     
     /**
@@ -292,11 +293,17 @@ public class BattleManager {
 
         List<StaticEntity> rewards = new ArrayList<>();
 
+        // Generate set amount of xp and gold
+        int xpGained = totalWeight * 10;
+        int gold = totalWeight;
+        character.addXp(xpGained);
+        character.addGold(gold);
+
         // Generating random rewards
         Random random = new Random();
         int i = 0;
 
-        while (totalWeight != 0 || i < 3) {
+        while (totalWeight != 0 && i < 3) {
             int bound = Math.min(totalWeight, 3);
             
             // Generating random number between 1-3
@@ -336,12 +343,6 @@ public class BattleManager {
                 rewards.add(new HealthPotion(x, y));
             }
         }
-
-        // Generate set amount of xp and gold
-        int xpGained = totalWeight * 10;
-        int gold = totalWeight;
-        character.addXp(xpGained);
-        character.addGold(gold);
 
         return rewards;
     }
@@ -448,10 +449,6 @@ public class BattleManager {
     public void buildResult(BattleLogBuilder battleLogBuilder,
             SummaryBuilder summaryBuilder) {
 
-        // get xp and gold gained
-        int xpGained = character.getXp() - xpSnapshot;
-        int goldGained = character.getGold() - goldSnapshot;
-
         // Generate weight
         int totalWeight = 0;
         for (BasicEnemy enemy : defeated) {
@@ -459,6 +456,10 @@ public class BattleManager {
         }
 
         List<StaticEntity> rewards = generateRewards(totalWeight);
+
+        // get xp and gold gained
+        int xpGained = character.getXp() - xpSnapshot;
+        int goldGained = character.getGold() - goldSnapshot;
 
         // Adding result as stated in LogBuilder for BattleLog
         battleLogBuilder.setFinalHp(character.getHp());

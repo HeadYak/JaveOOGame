@@ -166,6 +166,7 @@ public class SummaryBuilder implements LogBuilder {
             if (i != 0) { rewarded += ", "; }
 
             if (reward instanceof HealthPotion) {
+                rewarded += reward.getClass().getSimpleName();
                 pots++;
             } else {
                 rewarded += reward.getClass().getSimpleName();
