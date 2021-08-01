@@ -601,7 +601,15 @@ public class LoopManiaWorld {
             return dogeValue+number;
         }
 
-       
+    }
+
+    public void setDogeCoinValue(){
+        try {
+            dogeValue = getDogeCoinValue();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
     /**
      * get a randomly generated position which could be used to spawn an enemy
