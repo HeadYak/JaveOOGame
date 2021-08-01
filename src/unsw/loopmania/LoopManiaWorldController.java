@@ -42,6 +42,8 @@ import unsw.loopmania.enemies.BasicEnemy;
 import unsw.loopmania.enemies.Slug;
 import unsw.loopmania.enemies.Vampire;
 import unsw.loopmania.enemies.Zombie;
+import unsw.loopmania.enemies.Doggie;
+import unsw.loopmania.enemies.ElanMuske;
 import unsw.loopmania.Cards.BarracksCard;
 import unsw.loopmania.Cards.CampfireCard;
 import unsw.loopmania.Cards.TowerCard;
@@ -217,6 +219,12 @@ public class LoopManiaWorldController {
     private Image andruilImage;
     private Image treeStumpImage;
 
+    // Equipped Inventory Placeholder Images
+    private Image swordSlotImage;
+    private Image helmetSlotImage;
+    private Image shieldSlotImage;
+    private Image armourSlotImage;
+
     /**
      * the image currently being dragged, if there is one, otherwise null.
      * Holding the ImageView being dragged allows us to spawn it again in the drop location if appropriate.
@@ -347,8 +355,16 @@ public class LoopManiaWorldController {
                 unequippedInventory.add(emptySlotView, x, y);
             }
         }
-        // unequippedInventory.getType()
 
+        // Equipped Item slots
+        ImageView swordSlotView = new ImageView(swordSlotImage);
+        equippedItems.add(swordSlotView, 0, 0);
+        ImageView helmetSlotView = new ImageView(helmetSlotImage);
+        equippedItems.add(helmetSlotView, 1, 0);
+        ImageView shieldSlotView = new ImageView(shieldSlotImage);
+        equippedItems.add(shieldSlotView, 2, 0);
+        ImageView armourSlotView = new ImageView(armourSlotImage);
+        equippedItems.add(armourSlotView, 3, 0);
 
         // create the draggable icon
         draggedEntity = new DragIcon();
@@ -370,9 +386,9 @@ public class LoopManiaWorldController {
             List<BasicEnemy> defeatedEnemies = world.getDefeatedEnemies();
             for (BasicEnemy e: defeatedEnemies){
                 reactToEnemyDefeat(e);
-                /*if (e != null) {
-                    battleLog.setText(world.getLastSummary().printMe());
-                }*/
+                if (e != null) {
+                    battleLog.setText(world.getLastSummary().printConclusion());
+                }
             }
             world.clearDefeatedEnemies();
             List<BasicEnemy> newEnemies = world.possiblySpawnEnemies();
@@ -1000,7 +1016,7 @@ public class LoopManiaWorldController {
             ImageView view = new ImageView(slugImage);
             addEntity(enemy, view);
             squares.getChildren().add(view);
-        }/* else if (enemy instanceof Doggie) {
+        } else if (enemy instanceof Doggie) {
             ImageView view = new ImageView(doggieImage);
             addEntity(enemy, view);
             squares.getChildren().add(view);
@@ -1008,7 +1024,7 @@ public class LoopManiaWorldController {
             ImageView view = new ImageView(elanMuskeImage);
             addEntity(enemy, view);
             squares.getChildren().add(view);
-        }*/ else {
+        } else {
             ImageView view = new ImageView(slugImage);
             addEntity(enemy, view);
             squares.getChildren().add(view);
@@ -1042,6 +1058,26 @@ public class LoopManiaWorldController {
     private void onLoad(Slug slug) {
         ImageView view = new ImageView(slugImage);
         addEntity(slug, view);
+        squares.getChildren().add(view);
+    }
+
+    /**
+     * load a doggie into the GUI
+     * @param doggie
+     */
+    private void onLoad(Doggie doggie) {
+        ImageView view = new ImageView(doggieImage);
+        addEntity(doggie, view);
+        squares.getChildren().add(view);
+    }
+
+    /**
+     * load an Elan Muske into the GUI
+     * @param slug
+     */
+    private void onLoad(ElanMuske elanMuske) {
+        ImageView view = new ImageView(elanMuskeImage);
+        addEntity(elanMuske, view);
         squares.getChildren().add(view);
     }
 
