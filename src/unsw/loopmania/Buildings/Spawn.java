@@ -1,7 +1,8 @@
 package unsw.loopmania.Buildings;
 
 import unsw.loopmania.LoopManiaWorld;
+import unsw.loopmania.enemies.BasicEnemy;
 
 public interface Spawn {
-    public void spawn(LoopManiaWorld world);
+    public BasicEnemy spawn(LoopManiaWorld world);
 }

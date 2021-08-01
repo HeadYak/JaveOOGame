@@ -9,6 +9,7 @@ import unsw.loopmania.Items.Armor.Armor;
 import unsw.loopmania.Items.Armor.ChestArmor;
 import unsw.loopmania.Items.Armor.Helmet;
 import unsw.loopmania.Items.Armor.Shield;
+import unsw.loopmania.Items.Ring.OneRing;
 import unsw.loopmania.Items.Weapons.Weapon;
 import unsw.loopmania.enemies.BasicEnemy;
 import unsw.loopmania.movement.MoveClockwise;
@@ -66,9 +67,7 @@ public class Character extends MovingEntity {
             }
         }
     }
-    /**
-     * @returns the Helmet that is currently equiped by the character
-     */
+    
     public void updateEquippedArmors(){
         List<Armor> temp = new ArrayList<>();
         if(equippedChestArmor != null){
@@ -85,8 +84,10 @@ public class Character extends MovingEntity {
         eqiuppedArmors = temp;
         setDamageTakenModifier();
     }
-
-
+    
+    /**
+     * @returns the Helmet that is currently equiped by the character
+     */
     public Helmet getHelmet(){
         return equippedHelmet;
     }
@@ -143,7 +144,7 @@ public class Character extends MovingEntity {
     }
     public void setDamageTakenModifier(){
         Double temp = 1.0;
-        List<Double> values = new ArrayList<>();
+        // List<Double> values = new ArrayList<>();
         for(Armor i: eqiuppedArmors){
 
             temp = temp * (1.0 - i.getDamageBlockModifier());
@@ -268,6 +269,16 @@ public class Character extends MovingEntity {
             gold += 5;
             xp += 5;
         }
+    }
+
+    public boolean hasOneRing(){
+        for(Item i: inventory){
+            if(i instanceof OneRing){
+                return true;
+            
+            }
+        }
+        return false;
     }
 
     /**

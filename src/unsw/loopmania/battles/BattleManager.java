@@ -42,7 +42,7 @@ public class BattleManager {
      * Function that updates what enemies we are battling
      * @param world
      */
-    public void update(LoopManiaWorld world) {
+    public synchronized void update(LoopManiaWorld world) {
         // Loop through enemies in world and add them to lists
         for (BasicEnemy enemy : world.getEnemies()) {
             int br = enemy.getBattleRadius();
@@ -93,7 +93,7 @@ public class BattleManager {
      * Function that runs a single turn of a battle
      * @return the total enemy hp after battle has finished
      */
-    public void runTickBattle() {
+    public synchronized void runTickBattle() {
         Weapon weapon = character.getWeapon();
         BasicEnemy target = battleEnemies.get(0);
         int totalPlayerDmg = 0;

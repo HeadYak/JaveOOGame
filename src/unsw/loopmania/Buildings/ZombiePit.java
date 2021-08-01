@@ -15,12 +15,14 @@ public class ZombiePit extends Building implements Spawn{
     /**
      * @param loops
      * @param world
+     * @return enemy being spawned or null
      * spawns a mob on nearest tile to building depending on amount of loops
      */
     @Override
-    public void spawn(LoopManiaWorld world) {
+    public BasicEnemy spawn(LoopManiaWorld world) {
         Zombie newZombie = new Zombie(world.findClosestPathTile(getX(), getY()), world.getCharacter());
         world.addEnemy(newZombie);
+        return newZombie;
     }
 
     /**
@@ -78,7 +80,7 @@ public class ZombiePit extends Building implements Spawn{
      * performs the buildings action on every new loop
      */
     @Override
-    public void newLoop(LoopManiaWorld world) {
-        spawn(world);
+    public BasicEnemy newLoop(LoopManiaWorld world) {
+        return spawn(world);
     }
 }

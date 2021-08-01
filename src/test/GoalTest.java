@@ -2,8 +2,10 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.javatuples.Pair;
 import org.junit.jupiter.api.Test;
@@ -136,7 +138,14 @@ public class GoalTest {
         d.allBossKilled();
         assertTrue(goalManager.update());
         assertEquals("Goals: (Kill All Bosses)", goalManager.toString());
+
+        try {
+            System.out.println(d.getDogeCoinValue());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         
+
     }
 
     @Test

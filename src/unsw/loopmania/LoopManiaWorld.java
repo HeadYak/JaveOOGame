@@ -16,8 +16,15 @@ import unsw.loopmania.Cards.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import java.lang.Math; 
+import java.util.regex.Pattern;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.Math;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.javatuples.Pair;
 
@@ -71,8 +78,11 @@ public class LoopManiaWorld {
     private List<Building> buildingEntities;
 
     private BattleManager battleManager;
+    private int dogeValue;
+
 
     private List<BasicEnemy> defeatedEnemies;
+    private List<BasicEnemy> buildingSpawns;
     private Boolean allBossKilled;
 
     private Summary lastSummary;
@@ -110,10 +120,14 @@ public class LoopManiaWorld {
         defeatedEnemies = new ArrayList<BasicEnemy>();
         loops = 0;
         allBossKilled = false;
+<<<<<<< HEAD
         doggieSpawned = false;
         doggieDefeated = false;
         elanMuskeSpawned = false;
         elanMuskeDefeated = false;
+=======
+        buildingSpawns = new ArrayList<BasicEnemy>();
+>>>>>>> master
     }
 
     public int getWidth() {
@@ -123,7 +137,9 @@ public class LoopManiaWorld {
     public int getHeight() {
         return height;
     }
-
+    public List<BasicEnemy> getBuildingSpawns() {
+        return buildingSpawns;
+    }
     /**
      * set the character. This is necessary because it is loaded as a special entity out of the file
      * @param character the character
@@ -481,6 +497,7 @@ public class LoopManiaWorld {
      * run moves which occur with every tick without needing to spawn anything immediately
      */
     public void runTickMoves(){
+        buildingSpawns = new ArrayList<BasicEnemy>();
         defeatedEnemies.clear();
         character.performMove();
 
@@ -496,7 +513,10 @@ public class LoopManiaWorld {
         if (heroCastle.getX() == character.getX() && heroCastle.getY() == character.getY()) {
             newLoop();
             for (Building b: buildingEntities) {
-                b.newLoop(this);
+                BasicEnemy newEnemy = b.newLoop(this);
+                if (newEnemy != null) {
+                    buildingSpawns.add(newEnemy);
+                }
             }
         }
 
@@ -623,6 +643,43 @@ public class LoopManiaWorld {
         }
     }
 
+    public int getDogeCoinValue() throws IOException{
+        URL u = new URL("https://api.coindesk.com/v1/bpi/currentprice/BTC.json");
+        try (InputStream in = u.openStream()) {
+            String newString = new String(in.readAllBytes(), StandardCharsets.UTF_8);
+
+            String[] arr = newString.split("\"");
+
+            String regex = "(?<=[\\d])(,)(?=[\\d])";
+            Pattern p = Pattern.compile(regex);
+            String str = arr[29];
+            Matcher m = p.matcher(str);
+            str = m.replaceAll("");
+
+            String substr = str.split("\\.")[0];
+
+            int dogeValue = Integer.parseInt(substr);
+
+
+            Random random = new Random();
+
+
+            int number = random.nextInt(5000);
+
+
+            return dogeValue+number;
+        }
+
+    }
+
+    public void setDogeCoinValue(){
+        try {
+            dogeValue = getDogeCoinValue();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
     /**
      * get a randomly generated position which could be used to spawn an enemy
      * @return null if random choice is that wont be spawning an enemy or it isn't possible, or random coordinate pair if should go ahead
