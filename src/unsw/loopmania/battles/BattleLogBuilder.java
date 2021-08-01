@@ -39,12 +39,14 @@ public class BattleLogBuilder implements LogBuilder {
 
     @Override
     public void setInitialEnemies(List<BasicEnemy> initialEnemies) {
-        this.initialEnemies = initialEnemies;
+        List<BasicEnemy> clone = new ArrayList<>(initialEnemies);
+        this.initialEnemies = clone;
     }
 
     @Override
     public void setSupportingEnemies(List<BasicEnemy> supportingEnemies) {
-        this.supportingEnemies = supportingEnemies;
+        List<BasicEnemy> clone = new ArrayList<>(supportingEnemies);
+        this.supportingEnemies = clone;
     }
 
     @Override

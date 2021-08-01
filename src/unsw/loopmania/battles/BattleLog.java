@@ -40,6 +40,8 @@ public class BattleLog {
         this.inCampfireRange = inCampfireRange;
         this.inTowerRange = inTowerRange;
         this.weapon = weapon;
+        this.helmet = helmet;
+        this.shield = shield;
         this.armor = armor;
         this.battleTriplets = battleTriplets;
         this.finalHp = finalHp;
